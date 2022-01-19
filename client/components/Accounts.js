@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getTransactions, addAccount, deleteAccount } from '../store/plaid';
 import { logout } from '../store';
-// import MaterialTable from 'material-table'
+import MaterialTable from 'material-table'
 import Link from './Link';
-import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 
 class Accounts extends Component {
 	componentDidMount() {
@@ -77,7 +76,6 @@ class Accounts extends Component {
 					name: transaction.name,
 					amount: transaction.amount,
 				});
-				console.log(transactionsData);
 			});
 		});
 
@@ -121,7 +119,13 @@ class Accounts extends Component {
 								from the past 30 days
 							</div>
 
-							<table>
+              <MaterialTable
+                  columns={transactionsColumns}
+                  data={transactionsData}
+                  title='Search Transactions'
+                />
+
+							{/* <table>
 								<thead>
 									<tr>
 										<th scope="col">Account</th>
@@ -136,7 +140,7 @@ class Accounts extends Component {
 										{transactionsData.map((data) => {
 											return (
                         <>
-                          <tr>
+                          <tr key={data.id}>
                       <td>{data.account}</td>
                       <td>{data.name}</td>
                       <td>{data.date}</td>
@@ -148,7 +152,7 @@ class Accounts extends Component {
                       );
 										})}
 								</tbody>
-							</table>
+							</table> */}
 
 							<table
 								columns={transactionsColumns}
