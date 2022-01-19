@@ -45,6 +45,8 @@ const mapDispatch = (dispatch) => {
 			const formName = evt.target.name;
 			const username = evt.target.username.value;
 			const password = evt.target.password.value;
+
+			// o: why is this check here?
 			if (formName === 'signup') {
 				const formName = evt.target.name;
 				const username = evt.target.username.value;

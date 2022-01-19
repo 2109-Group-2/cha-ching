@@ -13,6 +13,7 @@ router.post('/login', async (req, res) => {
 		const username = req.body.username;
 		const password = req.body.password;
 
+		// o: async await
 		// If valid, use MongoDB's User.findOne() to see if user exists
 		User.findOne({ username }).then((user) => {
 			// If does not exist
@@ -20,6 +21,7 @@ router.post('/login', async (req, res) => {
 				return res.status(404).json({ usernamenotfound: 'Username not found' });
 			}
 
+			// o: async await below
 			// If does exist, use bcryptjs to compare submitted password with hashed password in DB
 			bcrypt.compare(password, user.password).then((isMatch) => {
 				if (isMatch) {
@@ -31,6 +33,8 @@ router.post('/login', async (req, res) => {
 					req.user = user;
           console.log(req.user)
 					// Sign our jwt, including payload, keys.secretOrKey from keys.js and set an expiresIn time(in seconds)
+					
+					// o: async await as well here
 					jwt.sign(
 						payload,
 						keys.SECRET,

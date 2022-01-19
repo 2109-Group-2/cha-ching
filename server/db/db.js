@@ -1,3 +1,4 @@
+// o: is this file being used?
 const Sequelize = require('sequelize')
 const pkg = require('../../package.json')
 

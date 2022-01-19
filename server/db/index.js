@@ -1,5 +1,5 @@
 //this is the access point for all things database related!
-
+// o: is this file being used?
 const db = require('./db');
 
 const User = require('./models/User');

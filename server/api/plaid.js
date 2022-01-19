@@ -46,6 +46,8 @@ const configuration = new Configuration({
 const client = new PlaidApi(configuration);
 
 router.post('/create_link_token/:id', async (req, res, next) => {
+	// o: why are you using Promise.resolve here?
+	// ... also, why not async await?
 	Promise.resolve()
 		.then(async function () {
 			const user = await User.findById(req.params.id);
@@ -93,6 +95,7 @@ router.post('/accounts/add/:id', async (req, res) => {
 	// console.log("server req", req.body)
 	// console.log("public token server side", publicToken)
 	if (publicToken) {
+		// o: async await
 		const response = await client
 			.itemPublicTokenExchange({ public_token: publicToken })
 			.then((exchangeResponse) => {
@@ -132,6 +135,7 @@ router.post('/accounts/add/:id', async (req, res) => {
 });
 
 router.delete('/accounts/:id', (req, res) => {
+	// o: async await
 	Account.findById(req.params.id).then((account) => {
 		// Delete account
 		account.remove().then(() => res.json({ success: true }));
@@ -140,12 +144,15 @@ router.delete('/accounts/:id', (req, res) => {
 
 router.get('/accounts/:id', (req, res) => {
 	console.log(req.params);
+
+	// o: async await
 	Account.find({ userId: req.params.id })
 		.then((accounts) => res.json(accounts))
 		.catch((err) => console.log(err));
 });
 
 router.post('/transactions', async (req, res) => {
+	// o: can someone explain what is happening here?
 	const now = moment();
 	const today = now.format('YYYY-MM-DD');
 	const thirtyDaysAgo = now.subtract(30, 'days').format('YYYY-MM-DD');

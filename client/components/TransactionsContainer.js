@@ -10,6 +10,8 @@ class Transactions extends React.Component {
         this.getTransactions()
     }  
 
+    // o: why define it this way?
+    //  also... thunk?
     getTransactions = async () => {
         const accessToken = this.props.accessToken
         const res = await axios.post('http://localhost:5000/transactions', {accessToken: accessToken})

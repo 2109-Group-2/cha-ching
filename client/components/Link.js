@@ -33,6 +33,7 @@ class Link extends Component {
 		this.getAccessToken(token, metadata);
 	}
 
+	// o: why the lack of consistency in the definition of this function
 	createLinkToken = async () => {
 		const res = await axios.post(
 			`http://localhost:8080/api/plaid/create_link_token/${this.props.currentUser.user.id}`
@@ -45,6 +46,7 @@ class Link extends Component {
 		this.createLinkToken();
 	}
 
+	// o: why the lack of consistency in the definition of this function
 	getAccessToken = async (publicToken, metadata) => {
 		//sends the public token to the app server
 		const res = await axios.post(
