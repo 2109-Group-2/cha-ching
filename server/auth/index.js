@@ -10,25 +10,6 @@ const keys = require('../config/keys');
 
 router.post('/login', async (req, res) => {
 	try {
-		// var user = await User.findOne({ username: req.body.username });
-		// if (!user) {
-		// 	return res.status(400).send({ message: 'The username does not exist' });
-		// }
-		// user.comparePassword(req.body.password, (error, match) => {
-		// 	if (!match) {
-		// 		return res.status(400).send({ message: 'The password is invalid' });
-		// 	}
-		// });
-		// console.log(
-		// 	chalk.bold.green('The username and password combination is correct!')
-		// );
-		// user.generateToken((err, user) => {
-		// 	if (err) return res.status(400).send(err);
-		// 	res
-		// 		.cookie('ths_auth', user.token)
-		// 		.status(200)
-		// 		.json({ 'Login Success': 'True' });
-		// });
 		const username = req.body.username;
 		const password = req.body.password;
 
@@ -47,7 +28,8 @@ router.post('/login', async (req, res) => {
 						id: user.id,
 						name: user.name,
 					};
-
+					req.user = user;
+          console.log(req.user)
 					// Sign our jwt, including payload, keys.secretOrKey from keys.js and set an expiresIn time(in seconds)
 					jwt.sign(
 						payload,

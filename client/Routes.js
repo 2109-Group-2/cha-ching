@@ -14,26 +14,8 @@ import Landing from './components/Landing';
 import store from './store';
 import jwt_decode from 'jwt-decode';
 import { setCurrentUser, logout, setAuthToken } from './store/auth';
-
-// if (localStorage.token) {
-
-//   // Set auth token header auth
-//   const token = localStorage.TOKEN
-//   setAuthToken(token)
-//   // Decode token and get user info and exp
-//   const decoded = jwt_decode(token)
-//   // Set user and isAuthenticated
-//   store.dispatch(setCurrentUser(decoded))
-//   // Check for expired token
-//   const currentTime = Date.now() / 1000 // to get in milliseconds
-
-//   if (decoded.exp < currentTime) {
-//     // Logout user
-//     store.dispatch(logout())
-//     // Redirect to login
-//     window.location.href = './login'
-//   }
-// }
+import Dashboard from './components/Dashboard';
+import Accounts from './components/Accounts';
 
 /**
  * COMPONENT
@@ -47,28 +29,6 @@ class Routes extends Component {
 		};
 	}
 
-	// componentDidMount() {
-	// 	// this.props.loadInitialData();
-	// 	if (localStorage.token) {
-	// 		// Set auth token header auth
-	// 		const token = localStorage.TOKEN;
-	// 		setAuthToken(token);
-	// 		// Decode token and get user info and exp
-	// 		const decoded = jwt_decode(token);
-	// 		// Set user and isAuthenticated
-	// 		store.dispatch(setCurrentUser(decoded));
-	// 		// Check for expired token
-	// 		const currentTime = Date.now() / 1000; // to get in milliseconds
-
-	// 		if (decoded.exp < currentTime) {
-	// 			// Logout user
-	// 			store.dispatch(logout());
-	// 			// Redirect to login
-	// 			window.location.href = './login';
-	// 		}
-	// 	}
-	// }
-
 	render() {
 		const { auth } = this.props;
 
@@ -76,18 +36,11 @@ class Routes extends Component {
 			<div>
 				{auth.isAuthenticated ? (
 					<Switch>
-						<Route path="/home" component={Home} />
+						<Route path="/home" component={Dashboard} />
 						{this.state.access_token === null ? (
-							<Link />
+							<Dashboard />
 						) : (
-							<Route
-								path="/user/:userId"
-								render={(routerprops) => (
-									<TransactionsContainer
-										accessToken={this.state.access_token}
-									/>
-								)}
-							/>
+							<Route path="/accounts" render={Accounts} />
 						)}
 					</Switch>
 				) : (
