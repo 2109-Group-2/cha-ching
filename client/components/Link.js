@@ -34,23 +34,18 @@ class Link extends Component {
 	}
 
 	createLinkToken = async () => {
-		console.log('CREATING LINK TOKEN');
 		const res = await axios.post(
 			`http://localhost:8080/api/plaid/create_link_token/${this.props.currentUser.user.id}`
 		);
 		const data = res.data.link_token;
-		console.log('GOT SOME DATA', res);
 		this.setState({ token: data.link_token });
-		console.log('CREATED LINK TOKEN', this.state.token);
 	};
 
 	componentDidMount() {
 		this.createLinkToken();
-		console.log('current user id: ', this.props.currentUser.user.id);
 	}
 
 	getAccessToken = async (publicToken, metadata) => {
-		console.log('client side public token', publicToken);
 		//sends the public token to the app server
 		const res = await axios.post(
 			`http://localhost:8080/api/plaid/accounts/add/${this.props.currentUser.user.id}`,

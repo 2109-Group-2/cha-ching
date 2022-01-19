@@ -8,7 +8,7 @@ const { Configuration, PlaidApi, PlaidEnvironments } = require('plaid');
 const moment = require('moment');
 router.use(cors());
 router.use(bodyParser.json());
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const Account = require('../db/models/Account');
 const User = require('../db/models/User');
@@ -94,17 +94,20 @@ router.post('/accounts/add/:id', async (req, res) => {
 	// console.log("public token server side", publicToken)
 	if (publicToken) {
 		const response = await client
-			.itemPublicTokenExchange({ public_token: publicToken, })
+			.itemPublicTokenExchange({ public_token: publicToken })
 			.then((exchangeResponse) => {
-        console.log('======exchangeResponse.data=======', exchangeResponse.data)
+				console.log(
+					'======exchangeResponse.data=======',
+					exchangeResponse.data
+				);
 
 				ACCESS_TOKEN = exchangeResponse.data.access_token;
 				ITEM_ID = exchangeResponse.data.item_id;
-        console.log('======AccessToken=======', ACCESS_TOKEN)
+				console.log('======AccessToken=======', ACCESS_TOKEN);
 
 				// Check if account already exists for that specific user using the userId and institutionId
 				Account.findOne({
-          userId: req.params.id,
+					userId: req.params.id,
 					institutionId: institution_id,
 				})
 					.then((account) => {
@@ -122,9 +125,9 @@ router.post('/accounts/add/:id', async (req, res) => {
 							newAccount.save().then((account) => res.json(account));
 						}
 					})
-					.catch((err) => console.log('===Mongo Error===',err)); // Mongo Error
+					.catch((err) => console.log('===Mongo Error===', err)); // Mongo Error
 			})
-			.catch((err) => console.log('===Plaid Error===',err)); // Plaid Error
+			.catch((err) => console.log('===Plaid Error===', err)); // Plaid Error
 	}
 });
 
@@ -135,8 +138,9 @@ router.delete('/accounts/:id', (req, res) => {
 	});
 });
 
-router.get('/accounts', (req, res) => {
-	Account.find({ userId: req.user.id })
+router.get('/accounts/:id', (req, res) => {
+	console.log(req.params);
+	Account.find({ userId: req.params.id })
 		.then((accounts) => res.json(accounts))
 		.catch((err) => console.log(err));
 });
@@ -150,23 +154,46 @@ router.post('/transactions', async (req, res) => {
 	const accounts = req.body;
 
 	if (accounts) {
-		accounts.forEach(function (account) {
-			accessToken = account.accessToken;
+		accounts.forEach(async function (account) {
+			// let accessToken = JSON.stringify({ accessToken: account.accessToken })
+			// console.log(
+			// 	'+++++=========THIS IS THE ACCESS TOKEN============+++++++',
+			// 	accessToken
+			// );
 			const institutionName = account.institutionName;
-			client
-				.getTransactions(accessToken, thirtyDaysAgo, today)
-				.then((response) => {
-					// Push object onto an array containing the institutionName and all transactions
-					transactions.push({
-						accountName: institutionName,
-						transactions: response.transactions,
-					});
-					// Don't send back response till all transactions have been added
-					if (transactions.length === accounts.length) {
-						res.json(transactions);
-					}
-				})
-				.catch((err) => console.log(err));
+			const configs = {
+				access_token: String(account.accessToken),
+				start_date: thirtyDaysAgo,
+				end_date: today,
+				options: {
+					count: 250,
+					offset: 0,
+				},
+			};
+			const transactionsResponse = await client.transactionsGet(configs);
+			// console.log("transactionsResponse:", transactionsResponse)
+			transactions.push({
+				accountName: institutionName,
+				transactions: transactionsResponse.data.transactions,
+			});
+			// res.json(transactions);
+			if (transactions.length === accounts.length) {
+				res.json(transactions);
+			}
+			// client
+			// 	.transactionsGet(configs)
+			// 	.then((response) => {
+			// 		// Push object onto an array containing the institutionName and all transactions
+			// 		transactions.push({
+			// 			accountName: institutionName,
+			// 			transactions: response.transactions,
+			// 		});
+			// 		// Don't send back response till all transactions have been added
+			// 		if (transactions.length === accounts.length) {
+			// 			res.json(transactions);
+			// 		}
+			// 	})
+			// 	.catch((err) => console.log(err));
 		});
 	}
 });
