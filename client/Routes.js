@@ -5,7 +5,6 @@ import { Login, Signup } from './components/AuthForm';
 import Home from './components/Home';
 import { me } from './store';
 import Link from './components/Link';
-import TransactionsContainer from './components/TransactionsContainer';
 import axios from 'axios';
 
 import PropTypes from 'prop-types';
@@ -40,7 +39,7 @@ class Routes extends Component {
 						{this.state.access_token === null ? (
 							<Dashboard />
 						) : (
-							<Route path="/accounts" render={Accounts} />
+							<></>
 						)}
 					</Switch>
 				) : (
