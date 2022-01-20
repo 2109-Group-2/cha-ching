@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getAccounts, addAccount } from '../store/plaid';
 import Accounts from './Accounts';
 import Link from './Link';
+import Transactions from './Transactions';
 
 class Dashboard extends Component {
 	componentDidMount() {
@@ -24,11 +25,16 @@ class Dashboard extends Component {
 		const { accounts, accountsLoading } = this.props.plaid;
 		let dashboardContent;
 
-		if (accounts === null || accountsLoading) {
-      // this.props.getAccounts()
+		if (accounts === null) {
+			// this.props.getAccounts()
 		} else if (accounts.length > 0) {
 			// User has accounts linked
-			dashboardContent = <Accounts user={user} accounts={accounts} />;
+			dashboardContent = (
+				<>
+					<Accounts user={user} accounts={accounts} />
+					<Transactions />
+				</>
+			);
 		} else {
 			// User has no accounts linked
 			dashboardContent = (

@@ -2,7 +2,7 @@ import React, { useEffect, Component } from 'react';
 import { PlaidLink } from 'react-plaid-link';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import TransactionsContainer from './TransactionsContainer';
+import { getAccounts } from '../store/plaid';
 
 class Link extends Component {
 	constructor(props) {
@@ -24,13 +24,14 @@ class Link extends Component {
 	onEvent(eventName, metadata) {
 		console.log('onEvent', eventName, metadata);
 		if (eventName === 'HANDOFF') {
-			return <TransactionsContainer />;
+			this.props.getAccounts(this.props.currentUser.user)
 		}
 	}
 
 	onSuccess(token, metadata) {
 		console.log('onSuccess', token, metadata);
 		this.getAccessToken(token, metadata);
+		
 	}
 
 	createLinkToken = async () => {
@@ -71,7 +72,7 @@ class Link extends Component {
 					onSuccess={this.onSuccess}
 					onEvent={this.onEvent}
 				>
-					Open Link and connect your bank!
+					Connect an Account!
 				</PlaidLink>
 			</div>
 		);
@@ -85,4 +86,10 @@ const mapState = (state) => {
 	};
 };
 
-export default connect(mapState)(Link);
+const mapDispatch = (dispatch) => {
+	return {
+		getAccounts: (userData) => dispatch(getAccounts(userData)),
+	};
+};
+
+export default connect(mapState, mapDispatch)(Link);

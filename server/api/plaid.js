@@ -85,49 +85,49 @@ router.post('/get_link_token', async (req, res) => {
 });
 
 router.post('/accounts/add/:id', async (req, res) => {
-	// console.log('req.body first', req.body);
-	const { publicToken } = req.body;
-	const userId = req.params.id;
-	const institution = req.body.metadata.institution;
-	const { name, institution_id } = institution;
-	// console.log("server req", req.body)
-	// console.log("public token server side", publicToken)
-	if (publicToken) {
-		const response = await client
-			.itemPublicTokenExchange({ public_token: publicToken })
-			.then((exchangeResponse) => {
-				console.log(
-					'======exchangeResponse.data=======',
-					exchangeResponse.data
-				);
+	try {
+		const { publicToken } = req.body;
+		const userId = req.params.id;
+		const user = await User.findById(req.params.id);
+		const institution = req.body.metadata.institution;
+		const { name, institution_id } = institution;
+		if (publicToken) {
+			const response = await client.itemPublicTokenExchange({
+				public_token: publicToken,
+			});
+			const ACCESS_TOKEN = response.data.access_token;
+			const ITEM_ID = response.data.item_id;
+			// Check if account already exists for that specific user using the userId and institutionId
+			try {
+				const account = await User.find({
+					_id: userId,
+					'accounts.institutionId': institution_id,
+				});
 
-				ACCESS_TOKEN = exchangeResponse.data.access_token;
-				ITEM_ID = exchangeResponse.data.item_id;
-				console.log('======AccessToken=======', ACCESS_TOKEN);
-
-				// Check if account already exists for that specific user using the userId and institutionId
-				Account.findOne({
-					userId: req.params.id,
-					institutionId: institution_id,
-				})
-					.then((account) => {
-						if (account) {
-							console.log('Account already exists');
-						} else {
-							// If account does not exist, save it to DB
-							const newAccount = new Account({
-								userId: userId,
-								accessToken: ACCESS_TOKEN,
-								itemId: ITEM_ID,
-								institutionId: institution_id,
-								institutionName: name,
-							});
-							newAccount.save().then((account) => res.json(account));
-						}
-					})
-					.catch((err) => console.log('===Mongo Error===', err)); // Mongo Error
-			})
-			.catch((err) => console.log('===Plaid Error===', err)); // Plaid Error
+				// if (account) {
+				// 	console.log('Account already exists');
+				// 	return res.json(account);
+				// } else {
+					// If account does not exist, save it to DB
+					const newAccount = {
+						userId: userId,
+						accessToken: ACCESS_TOKEN,
+						itemId: ITEM_ID,
+						institutionId: institution_id,
+						institutionName: name,
+					}
+					user.accounts.push(newAccount);
+					user.save(function (err) {
+						if (!err) console.log('Successfully added account!');
+					});
+					return res.json(newAccount);
+				// }
+			} catch (err) {
+				console.log('===Mongo Error===', err);
+			}
+		}
+	} catch (err) {
+		console.log('===Plaid Error===', err);
 	}
 });
 
@@ -138,11 +138,18 @@ router.delete('/accounts/:id', (req, res) => {
 	});
 });
 
-router.get('/accounts/:id', (req, res) => {
-	console.log(req.params);
-	Account.find({ userId: req.params.id })
-		.then((accounts) => res.json(accounts))
-		.catch((err) => console.log(err));
+router.get('/accounts/:id', async (req, res) => {
+	try {
+		const user = await User.findById(req.params.id)
+		let accounts = []
+		user.accounts.map((account) => {
+			accounts.push(account)
+		})
+		console.log("++++++++++THIS IS THE RETURNED ACCOUNTS+++++", accounts)
+		return res.json(accounts);
+	} catch (err) {
+		console.log(err);
+	}
 });
 
 router.post('/transactions', async (req, res) => {
@@ -155,11 +162,6 @@ router.post('/transactions', async (req, res) => {
 
 	if (accounts) {
 		accounts.forEach(async function (account) {
-			// let accessToken = JSON.stringify({ accessToken: account.accessToken })
-			// console.log(
-			// 	'+++++=========THIS IS THE ACCESS TOKEN============+++++++',
-			// 	accessToken
-			// );
 			const institutionName = account.institutionName;
 			const configs = {
 				access_token: String(account.accessToken),
@@ -171,29 +173,13 @@ router.post('/transactions', async (req, res) => {
 				},
 			};
 			const transactionsResponse = await client.transactionsGet(configs);
-			// console.log("transactionsResponse:", transactionsResponse)
 			transactions.push({
 				accountName: institutionName,
 				transactions: transactionsResponse.data.transactions,
 			});
-			// res.json(transactions);
 			if (transactions.length === accounts.length) {
 				res.json(transactions);
 			}
-			// client
-			// 	.transactionsGet(configs)
-			// 	.then((response) => {
-			// 		// Push object onto an array containing the institutionName and all transactions
-			// 		transactions.push({
-			// 			accountName: institutionName,
-			// 			transactions: response.transactions,
-			// 		});
-			// 		// Don't send back response till all transactions have been added
-			// 		if (transactions.length === accounts.length) {
-			// 			res.json(transactions);
-			// 		}
-			// 	})
-			// 	.catch((err) => console.log(err));
 		});
 	}
 });
