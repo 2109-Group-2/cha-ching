@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from '../store/auth';
 
-const Navbar = ({ handleClick, currentUser }) => (
+const Navbar = ({ handleClick, auth }) => (
 	<div>
 		<h1>cha-ching</h1>
 		<nav>
-			{currentUser.user ? (
+			{auth.isAuthenticated ? (
 				<div>
 					{/* The navbar will show these links after you log in */}
 					<Link to="/dashboard">Dashboard</Link>
@@ -33,7 +33,7 @@ const Navbar = ({ handleClick, currentUser }) => (
  */
 const mapState = (state) => {
 	return {
-		currentUser: state.currentUser,
+		auth: state.auth,
 	};
 };
 

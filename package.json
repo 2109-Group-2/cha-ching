@@ -50,6 +50,7 @@
 		"pg": "^8.5.1",
 		"plaid": "^9.10.0",
 		"react-chartjs-2": "^4.0.1",
+		"react-charts": "^3.0.0-beta.34",
 		"react-plaid-link": "^3.2.1",
 		"reactstrap": "^9.0.1",
 		"sequelize": "^6.3.5"

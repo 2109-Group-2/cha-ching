@@ -3,10 +3,9 @@ import {createLogger} from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import auth from './auth'
-import currentUser from './auth';
 import plaid  from './plaid'
 
-const reducer = combineReducers({ auth, currentUser, plaid })
+const reducer = combineReducers({ auth, plaid })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )

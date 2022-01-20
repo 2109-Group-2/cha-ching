@@ -79,13 +79,4 @@ router.get('/me', auth, (req, res) => {
 	});
 });
 
-// router.get('/me', async (req, res, next) => {
-// 	try {
-// 		var result = await User.find().exec();
-// 		res.send(result);
-// 	} catch (error) {
-// 		res.status(500).send(error);
-// 	}
-// });
-
 module.exports = router;

@@ -56,9 +56,12 @@ UserSchema.methods.generateToken = function(cb){
   })
 };
 
-UserSchema.methods.comparePassword = function(plaintext, callback) {
-  return callback(null, bcrypt.compareSync(plaintext, this.password));
-};
+UserSchema.methods.comparePassword = function(candidatePassword,cb){
+  bcrypt.compare(candidatePassword,this.password, function(err,isMatch){
+      if(err) return cb(err);
+      cb(null,isMatch);
+  })
+}
 
 /**
  * classMethods
@@ -85,16 +88,6 @@ UserSchema.statics.findByToken = function(token,cb){
 };
 
 
-/**
- * hooks
- */
-const hashPassword = async (user) => {
-	//in case the password has been changed, we want to encrypt it with bcrypt
-	if (user.changed('password')) {
-		user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
-	}
-};
-
 
 UserSchema.pre("save",function(next){
   var user = this;
@@ -117,12 +110,6 @@ UserSchema.pre("save",function(next){
   }
 });
 
-UserSchema.methods.comparePassword = function(candidatePassword,cb){
-  bcrypt.compare(candidatePassword,this.password, function(err,isMatch){
-      if(err) return cb(err);
-      cb(null,isMatch);
-  })
-}
 
 // Export the model so we can access outside of this file
 const User = mongoose.model('users', UserSchema);

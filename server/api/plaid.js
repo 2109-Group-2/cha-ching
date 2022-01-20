@@ -145,7 +145,6 @@ router.get('/accounts/:id', async (req, res) => {
 		user.accounts.map((account) => {
 			accounts.push(account)
 		})
-		console.log("++++++++++THIS IS THE RETURNED ACCOUNTS+++++", accounts)
 		return res.json(accounts);
 	} catch (err) {
 		console.log(err);
@@ -165,10 +164,10 @@ router.post('/transactions', async (req, res) => {
 			const institutionName = account.institutionName;
 			const configs = {
 				access_token: String(account.accessToken),
-				start_date: thirtyDaysAgo,
+				start_date: '1969-01-01',
 				end_date: today,
 				options: {
-					count: 250,
+					count: 500,
 					offset: 0,
 				},
 			};

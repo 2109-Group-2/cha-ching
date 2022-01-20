@@ -24,7 +24,7 @@ class Link extends Component {
 	onEvent(eventName, metadata) {
 		console.log('onEvent', eventName, metadata);
 		if (eventName === 'HANDOFF') {
-			this.props.getAccounts(this.props.currentUser.user)
+			this.props.getAccounts(this.props.auth.user)
 		}
 	}
 
@@ -36,7 +36,7 @@ class Link extends Component {
 
 	createLinkToken = async () => {
 		const res = await axios.post(
-			`http://localhost:8080/api/plaid/create_link_token/${this.props.currentUser.user.id}`
+			`http://localhost:8080/api/plaid/create_link_token/${this.props.auth.user.id}`
 		);
 		const data = res.data.link_token;
 		this.setState({ token: data.link_token });
@@ -49,7 +49,7 @@ class Link extends Component {
 	getAccessToken = async (publicToken, metadata) => {
 		//sends the public token to the app server
 		const res = await axios.post(
-			`http://localhost:8080/api/plaid/accounts/add/${this.props.currentUser.user.id}`,
+			`http://localhost:8080/api/plaid/accounts/add/${this.props.auth.user.id}`,
 			{
 				publicToken: publicToken,
 				metadata: metadata,
@@ -61,7 +61,7 @@ class Link extends Component {
 	};
 
 	render() {
-		const { id } = this.props.currentUser;
+		const { id } = this.props.auth;
 		return (
 			<div>
 				<PlaidLink
@@ -81,7 +81,7 @@ class Link extends Component {
 
 const mapState = (state) => {
 	return {
-		currentUser: state.currentUser,
+		auth: state.auth,
 		orders: state.orders,
 	};
 };
