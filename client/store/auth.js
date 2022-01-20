@@ -111,7 +111,7 @@ export const authenticate =
 				});
 				history.push('/login');
 			} else {
-				res = await axios.post(`/auth/${method}`, { username, password });
+				res = await axios.post(`/auth/${method}`, { email, password });
 				window.localStorage.setItem(TOKEN, res.data.token);
 				dispatch(me());
 				history.push('/user/:id');

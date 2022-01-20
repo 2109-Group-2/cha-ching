@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import PlaidLinkButton from 'react-plaid-link-button'
 import { connect } from 'react-redux';
 import { getTransactions, addAccount, deleteAccount } from '../store/plaid';
 import { logout } from '../store';
-import MaterialTable from 'material-table'
 import Link from './Link';
+import TransactionsTable from './TransactionsTable';
 
 class Accounts extends Component {
 	componentDidMount() {
@@ -56,29 +55,6 @@ class Accounts extends Component {
 			</p>
 		));
 
-		// Setting up data table
-		const transactionsColumns = [
-			{ title: 'Account', field: 'account' },
-			{ title: 'Date', field: 'date', type: 'date', defaultSort: 'desc' },
-			{ title: 'Name', field: 'name' },
-			{ title: 'Amount', field: 'amount' },
-			{ title: 'Category', field: 'category' },
-		];
-
-		let transactionsData = [];
-
-		transactions.forEach(function (account) {
-			account.transactions.forEach(function (transaction) {
-				transactionsData.push({
-					account: account.accountName,
-					date: transaction.date,
-					category: transaction.category[0],
-					name: transaction.name,
-					amount: transaction.amount,
-				});
-			});
-		});
-
 		return (
 			<div>
 				<div className="col s12 accounts-wrapper">
@@ -100,67 +76,27 @@ class Accounts extends Component {
 
 					<hr />
 
-					<h5>
+					{/* <h5>
 						<b>Transactions</b>
 					</h5>
-
-					{transactionsLoading ? (
-						<p className="grey-text text-darken-1">Fetching transactions...</p>
+					{!transactions ? (
+						<></>
 					) : (
-						<>
-							<div className="grey-text text-darken-1 num-of-transactions">
-								You have <b>{transactionsData.length}</b> transactions from your
-								<b> {accounts.length}</b> linked
-								{accounts.length > 1 ? (
-									<span> accounts </span>
-								) : (
-									<span> account </span>
-								)}
-								from the past 30 days
-							</div>
-
-              <MaterialTable
-                  columns={transactionsColumns}
-                  data={transactionsData}
-                  title='Search Transactions'
-                />
-
-							{/* <table>
-								<thead>
-									<tr>
-										<th scope="col">Account</th>
-										<th scope="col">Transaction</th>
-										<th scope="col">Date of Transaction</th>
-										<th scope="col">Amount</th>
-										<th scope="col">Category</th>
-									</tr>
-								</thead>
-								<tbody>
-										<th scope="row">1</th>
-										{transactionsData.map((data) => {
-											return (
-                        <>
-                          <tr key={data.id}>
-                      <td>{data.account}</td>
-                      <td>{data.name}</td>
-                      <td>{data.date}</td>
-                      <td>${data.amount}</td>
-                      <td>{data.category}</td>
-                      </tr>
-                        </>
-                        
-                      );
-										})}
-								</tbody>
-							</table> */}
-
-							<table
-								columns={transactionsColumns}
-								data={transactionsData}
-								title="Search Transactions"
-							/>
-						</>
+						<p>
+							You have <b>{transactionsData.length}</b> transactions from your
+							<b> {accounts.length}</b> linked
+							{accounts.length > 1 ? (
+								<span> accounts </span>
+							) : (
+								<span> account </span>
+							)}
+							from the past 30 days{' '}
+						</p>
 					)}
+					<TransactionsTable
+						transactions={transactions}
+						transactionsLoading={transactionsLoading}
+					/> */}
 				</div>
 			</div>
 		);

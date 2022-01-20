@@ -31,7 +31,6 @@ const AccountSchema = new Schema({
     type: String
   }
 })
-
-let Account = mongoose.model('account', AccountSchema)
-
+const Account = AccountSchema
 module.exports = Account
+
