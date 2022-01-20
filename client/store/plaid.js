@@ -15,17 +15,15 @@ export const SET_LINK_TOKEN = "SET_LINK_TOKEN"
 // Concatenate the new account to our current accounts array and call getTransactions on the new accounts array
 
 export const setLinkToken = (userId) => async dispatch => {
-  console.log('<----setting link token---->')
   const res = await axios.post(
 			`/api/plaid/create_link_token/${userId}`
 		);
 		const data = res.data.link_token;
-		// this.setState({ token: data.link_token });
     dispatch({
       type: SET_LINK_TOKEN,
       payload: data.link_token
     })
-    console.log('<----just dispatched link token---->', data.link_token)
+
 }
 
 export const setAccessToken = (publicToken, metadata, userId) => async dispatch => {
@@ -37,8 +35,6 @@ export const setAccessToken = (publicToken, metadata, userId) => async dispatch 
 			}
 		);
 		const data = res.data.access_token;
-		//updates state with permanent access token
-		// this.setState({ access_token: data });
     dispatch({
       type: SET_ACCESS_TOKEN,
       payload: data
