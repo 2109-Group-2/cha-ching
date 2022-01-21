@@ -6,10 +6,40 @@ export const GET_ACCOUNTS = "GET_ACCOUNTS"
 export const ACCOUNTS_LOADING = "ACCOUNTS_LOADING"
 export const GET_TRANSACTIONS = "GET_TRANSACTIONS"
 export const TRANSACTIONS_LOADING = "TRANSACTIONS_LOADING"
+export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN"
+export const SET_LINK_TOKEN = "SET_LINK_TOKEN"
+
 
 // Actions
 // Parse accounts from request and send it to /accounts/add endpoint
 // Concatenate the new account to our current accounts array and call getTransactions on the new accounts array
+
+export const setLinkToken = (userId) => async dispatch => {
+  const res = await axios.post(
+			`/api/plaid/create_link_token/${userId}`
+		);
+		const data = res.data.link_token;
+    dispatch({
+      type: SET_LINK_TOKEN,
+      payload: data.link_token
+    })
+
+}
+
+export const setAccessToken = (publicToken, metadata, userId) => async dispatch => {
+  const res = await axios.post(
+			`/api/plaid/accounts/add/${userId}`,
+			{
+				publicToken: publicToken,
+				metadata: metadata,
+			}
+		);
+		const data = res.data.access_token;
+    dispatch({
+      type: SET_ACCESS_TOKEN,
+      payload: data
+    })
+}
 
 // Add Account
 export const addAccount = plaidData => dispatch => {
@@ -102,6 +132,8 @@ export const setTransactionsLoading = () => {
 }
 
 const initialState = {
+  token: '',
+  access_token: '',
   accounts: [],
   transactions: [],
   accountsLoading: false,
@@ -111,6 +143,16 @@ const initialState = {
 // Define how state will change based on which actions are called
 export default function (state = initialState, action) {
   switch (action.type) {
+    case SET_LINK_TOKEN:
+      return {
+        ...state,
+        token: action.payload
+      }
+    case SET_ACCESS_TOKEN:
+      return {
+        ...state,
+        access_token: action.payload
+      }
     case ACCOUNTS_LOADING:
       return {
         ...state,
