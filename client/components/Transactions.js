@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { getTransactions, addAccount, deleteAccount } from '../store/plaid';
 import { logout } from '../store';
 import TransactionsTable from './TransactionsTable';
+import SpendingPieChart from './SpendingPieChart';
+import SpendingBarGraph from './SpendingBarChart';
 
 class Transactions extends Component {
 	componentDidMount() {
@@ -29,7 +31,7 @@ class Transactions extends Component {
 		});
 
 		return (
-			<div>
+			<div className='transactionsComponent'>
 				<h3>
 					<b>Transactions</b>
 				</h3>
@@ -48,11 +50,15 @@ class Transactions extends Component {
 						from the past 30 days{' '}
 					</p>
 				)}
-
+        <div className='chartsAndTables'>
+          <SpendingBarGraph transactionsData={transactionsData} />
+				<SpendingPieChart transactionsData={transactionsData} />
 				<TransactionsTable
 					transactions={transactions}
 					transactionsLoading={transactionsLoading}
 				/>
+        </div>
+				
 			</div>
 		);
 	}

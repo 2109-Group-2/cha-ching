@@ -131,12 +131,15 @@ router.post('/accounts/add/:id', async (req, res) => {
 	}
 });
 
-router.delete('/accounts/:id', (req, res) => {
-	Account.findById(req.params.id).then((account) => {
-		// Delete account
-		account.remove().then(() => res.json({ success: true }));
+router.delete('/accounts/:id', async (req, res) => {
+	console.log("=== THIS IS THE REQ.body ===", req.body)
+	const user = await User.findById(req.params.id)
+	await user.accounts.id(req.body[0]._id).remove()
+	await user.save(function (err) {
+		if (!err) return console.log('the subdocs were removed');
 	});
-});
+	res.json({ success: true })
+	});
 
 router.get('/accounts/:id', async (req, res) => {
 	try {
@@ -145,7 +148,6 @@ router.get('/accounts/:id', async (req, res) => {
 		user.accounts.map((account) => {
 			accounts.push(account)
 		})
-		console.log("++++++++++THIS IS THE RETURNED ACCOUNTS+++++", accounts)
 		return res.json(accounts);
 	} catch (err) {
 		console.log(err);
@@ -165,10 +167,10 @@ router.post('/transactions', async (req, res) => {
 			const institutionName = account.institutionName;
 			const configs = {
 				access_token: String(account.accessToken),
-				start_date: thirtyDaysAgo,
+				start_date: '1969-01-01',
 				end_date: today,
 				options: {
-					count: 250,
+					count: 500,
 					offset: 0,
 				},
 			};

@@ -71,32 +71,8 @@ class Accounts extends Component {
 						<h6>Your Linked Accounts:</h6>
 						<p>{accountItems}</p>
 					</div>
-
 					<Link />
-
 					<hr />
-
-					{/* <h5>
-						<b>Transactions</b>
-					</h5>
-					{!transactions ? (
-						<></>
-					) : (
-						<p>
-							You have <b>{transactionsData.length}</b> transactions from your
-							<b> {accounts.length}</b> linked
-							{accounts.length > 1 ? (
-								<span> accounts </span>
-							) : (
-								<span> account </span>
-							)}
-							from the past 30 days{' '}
-						</p>
-					)}
-					<TransactionsTable
-						transactions={transactions}
-						transactionsLoading={transactionsLoading}
-					/> */}
 				</div>
 			</div>
 		);

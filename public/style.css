@@ -2,33 +2,94 @@
   font-family: sans-serif;
 } */
 body {
-  font-family: Roboto, Helvetica, Arial, sans-serif;
+	font-family: Roboto, Helvetica, Arial, sans-serif;
+	background-color: #327d41;
 }
 
 a {
-  text-decoration: none;
+	text-decoration: none;
 }
 
 label {
-  display: block;
+	display: block;
 }
 
 nav a {
-  display: inline-block;
-  margin: 1em;
+	display: inline-block;
+	margin: 1em;
 }
 
 form div {
-  margin: 1em;
-  display: inline-block;
+	margin: 1em;
+	display: inline-block;
 }
 
 .visually-hidden {
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* === Transactions Component === */
+
+.pieChart {
+	background-color: white;
+	border-radius: 5px;
+	border: 2px solid #7577741c;
+	margin: 5px;
+	padding: 10px;
+	width: 36vw;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.transactionsTable {
+	width: 73vw;
+	border-radius: 5px;
+	border: 2px solid #7577741c;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.chartsAndTables {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	align-content: center;
+	justify-content: center;
+}
+
+.transactionsComponent {
+	text-align: center;
+	margin: 10px;
+	border-radius: 5px;
+	background-color: #c8ad55;
+	left: 150px;
+	/* padding-top: 30px;
+	padding-bottom: 30px; */
+}
+
+/* NavBar Component */
+
+a {
+	color: white;
+}
+
+.navbar {
+	color: white;
+	text-decoration: white;
+	background-color: #c8ad55;
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-start;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+}
+
+.landing {
+	background-image: 'https://www.pinclipart.com/picdir/big/567-5679724_white-blob-transparent-clipart.png';
 }

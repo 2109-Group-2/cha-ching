@@ -1,5 +1,4 @@
-import axios from 'axios'
-
+import axios from 'axios';
 export const ADD_ACCOUNT = "ADD_ACCOUNT"
 export const DELETE_ACCOUNT = "DELETE_ACCOUNT"
 export const GET_ACCOUNTS = "GET_ACCOUNTS"
@@ -10,128 +9,130 @@ export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN"
 export const SET_LINK_TOKEN = "SET_LINK_TOKEN"
 
 
+
 // Actions
 // Parse accounts from request and send it to /accounts/add endpoint
 // Concatenate the new account to our current accounts array and call getTransactions on the new accounts array
 
-export const setLinkToken = (userId) => async dispatch => {
-  const res = await axios.post(
-			`/api/plaid/create_link_token/${userId}`
-		);
-		const data = res.data.link_token;
-    dispatch({
-      type: SET_LINK_TOKEN,
-      payload: data.link_token
-    })
+export const setLinkToken = (userId) => async (dispatch) => {
+	const res = await axios.post(`/api/plaid/create_link_token/${userId}`);
+	const data = res.data.link_token;
+	dispatch({
+		type: SET_LINK_TOKEN,
+		payload: data.link_token,
+	});
+};
 
-}
-
-export const setAccessToken = (publicToken, metadata, userId) => async dispatch => {
-  const res = await axios.post(
-			`/api/plaid/accounts/add/${userId}`,
-			{
-				publicToken: publicToken,
-				metadata: metadata,
-			}
-		);
+export const setAccessToken =
+	(publicToken, metadata, userId) => async (dispatch) => {
+		const res = await axios.post(`/api/plaid/accounts/add/${userId}`, {
+			publicToken: publicToken,
+			metadata: metadata,
+		});
 		const data = res.data.access_token;
-    dispatch({
-      type: SET_ACCESS_TOKEN,
-      payload: data
-    })
-}
+		dispatch({
+			type: SET_ACCESS_TOKEN,
+			payload: data,
+		});
+	};
 
 // Add Account
-export const addAccount = plaidData => dispatch => {
-  const accounts = plaidData.accounts
-  axios
-    .post('/api/plaid/accounts/add', plaidData)
-    .then(res =>
-      dispatch({
-        type: ADD_ACCOUNT,
-        payload: res.data
-      })
-    )
-    .then(data =>
-      accounts ? dispatch(getTransactions(accounts.concat(data.payload))) : null
-    )
-    .catch(err => console.log(err))
-}
-
+export const addAccount = (plaidData) => (dispatch) => {
+	const accounts = plaidData.accounts;
+	axios
+		.post('/api/plaid/accounts/add', plaidData)
+		.then((res) =>
+			dispatch({
+				type: ADD_ACCOUNT,
+				payload: res.data,
+			})
+		)
+		.then((data) =>
+			accounts ? dispatch(getTransactions(accounts.concat(data.payload))) : null
+		)
+		.catch((err) => console.log(err));
+};
 
 // Delete account
 // Filter out the deleted account from the accounts array before calling getTransactions
-export const deleteAccount = plaidData => dispatch => {
-  if (window.confirm('Are you sure you want to remove this account?')) {
-    const id = plaidData.id
-    const newAccounts = plaidData.accounts.filter(
-      account => account._id !== id
-    )
-    axios
-      .delete(`/api/plaid/accounts/${id}`)
-      .then(res =>
-        dispatch({
-          type: DELETE_ACCOUNT,
-          payload: id
-        })
-      )
-      .then(newAccounts ? dispatch(getTransactions(newAccounts)) : null)
-      .catch(err => console.log(err))
-  }
-}
+export const deleteAccount = (plaidData) => async (dispatch) => {
+	try {
+		if (window.confirm('Are you sure you want to remove this account?')) {
+			console.log('=== PLAID DATA TO BE DELETED ===', plaidData);
+
+			const id = plaidData.id;
+			const newAccounts = await plaidData.accounts.filter(
+				(account) => account._id === id
+			);
+			console.log('=== ACCOUNT DATA TO BE DELETED ===', newAccounts);
+			const userId = newAccounts[0].userId;
+			console.log('newAccounts.userId', newAccounts[0].userId);
+
+			axios.delete(`/api/plaid/accounts/${userId}`, { data: newAccounts });
+			dispatch({
+				type: DELETE_ACCOUNT,
+				payload: id,
+			});
+			newAccounts ? dispatch(getTransactions(newAccounts)) : null;
+		}
+	} catch (err) {
+		console.log(err);
+	}
+};
 
 // Get Accounts
 // Get all accounts for specific user
-export const getAccounts = (userData) => dispatch => {
-  dispatch(setAccountsLoading())
-  axios
-    .get(`/api/plaid/accounts/${userData.id}`)
-    .then(res =>
-      dispatch({
-        type: GET_ACCOUNTS,
-        payload: res.data
-      })
-    )
-    .catch(err =>
-      dispatch({
-        type: GET_ACCOUNTS,
-        payload: null
-      })
-    )
-}
+export const getAccounts = (userData) => (dispatch) => {
+	dispatch(setAccountsLoading());
+	axios
+		.get(`/api/plaid/accounts/${userData.id}`)
+		.then((res) =>
+			dispatch({
+				type: GET_ACCOUNTS,
+				payload: res.data,
+			})
+		)
+		.catch((err) =>
+			dispatch({
+				type: GET_ACCOUNTS,
+				payload: null,
+			})
+		);
+};
 // Accounts loading
 export const setAccountsLoading = () => {
-  return {
-    type: ACCOUNTS_LOADING
-  }
-}
+	return {
+		type: ACCOUNTS_LOADING,
+	};
+};
 
 // Get Transactions
-export const getTransactions = plaidData => dispatch => {
-  dispatch(setTransactionsLoading())
-  axios
-    .post('/api/plaid/transactions', plaidData)
-    .then(res =>
-      dispatch({
-        type: GET_TRANSACTIONS,
-        payload: res.data
-      })
-    )
-    .catch(err =>
-      dispatch({
-        type: GET_TRANSACTIONS,
-        payload: null
-      })
-    )
-}
+export const getTransactions = (plaidData) => (dispatch) => {
+	dispatch(setTransactionsLoading());
+	axios
+		.post('/api/plaid/transactions', plaidData)
+		.then((res) =>
+			dispatch({
+				type: GET_TRANSACTIONS,
+				payload: res.data,
+			})
+		)
+		.catch((err) =>
+			dispatch({
+				type: GET_TRANSACTIONS,
+				payload: null,
+			})
+		);
+};
 // Transactions loading
 export const setTransactionsLoading = () => {
-  return {
-    type: TRANSACTIONS_LOADING
-  }
-}
+	return {
+		type: TRANSACTIONS_LOADING,
+	};
+};
 
 const initialState = {
+
   token: '',
   access_token: '',
   accounts: [],
