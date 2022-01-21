@@ -133,8 +133,10 @@ router.post('/accounts/add/:id', async (req, res) => {
 
 // ====== NEEDS TO BE FIXED =======
 router.delete('/accounts/:id', async (req, res) => {
-	await User.accounts.id(req.params.id).remove()
-	await User.save(function (err) {
+	console.log("=== THIS IS THE REQ.body ===", req.body)
+	const user = await User.findById(req.params.id)
+	await user.accounts.id(req.body[0]._id).remove()
+	await user.save(function (err) {
 		if (!err) return console.log('the subdocs were removed');
 	});
 	res.json({ success: true })
