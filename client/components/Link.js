@@ -24,7 +24,9 @@ class Link extends Component {
 
 	onSuccess(token, metadata) {
 		console.log('onSuccess', token, metadata);
+
 		this.props.setAccessToken(token, metadata, this.props.auth.user.id);
+
 
 	}
 
