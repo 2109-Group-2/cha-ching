@@ -26,7 +26,7 @@ class Routes extends Component {
 		const { auth } = this.props;
 
 		return (
-			<div>
+			<div className='routes'>
 				{auth.isAuthenticated ? (
 					<Switch>
 						<Route path="/dashboard" component={Dashboard} />

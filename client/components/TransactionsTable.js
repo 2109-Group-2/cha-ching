@@ -25,7 +25,7 @@ export default function TransactionsTable(props) {
 		});
 	});
 	return (
-		<div>
+		<div className='transactionsTable'>
 			{transactionsLoading ? (
 				<p className="grey-text text-darken-1">Fetching transactions...</p>
 			) : (

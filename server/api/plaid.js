@@ -131,12 +131,14 @@ router.post('/accounts/add/:id', async (req, res) => {
 	}
 });
 
-router.delete('/accounts/:id', (req, res) => {
-	Account.findById(req.params.id).then((account) => {
-		// Delete account
-		account.remove().then(() => res.json({ success: true }));
+// ====== NEEDS TO BE FIXED =======
+router.delete('/accounts/:id', async (req, res) => {
+	await User.accounts.id(req.params.id).remove()
+	await User.save(function (err) {
+		if (!err) return console.log('the subdocs were removed');
 	});
-});
+	res.json({ success: true })
+	});
 
 router.get('/accounts/:id', async (req, res) => {
 	try {
