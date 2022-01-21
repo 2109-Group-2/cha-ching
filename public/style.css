@@ -65,7 +65,7 @@ form div {
 	text-align: center;
 	margin: 10px;
 	border-radius: 5px;
-	background-color: #C8AD55;
+	background-color: #c8ad55;
 	left: 150px;
 	/* padding-top: 30px;
 	padding-bottom: 30px; */
@@ -73,18 +73,23 @@ form div {
 
 /* NavBar Component */
 
-.navbar {
-	color: #f5deb3;
-	/* background-color: #f5deb3; */
-	position: absolute;
-	top: 0px;
-	bottom: 0px;
-	left: 0px;
-	width: 125px;
+a {
+	color: white;
 }
 
-.routes {
+.navbar {
+	color: white;
+	text-decoration: white;
+	background-color: #c8ad55;
 	position: relative;
-	left: 150px;
-	top: 0px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-start;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+}
+
+.landing {
+	background-image: 'https://www.pinclipart.com/picdir/big/567-5679724_white-blob-transparent-clipart.png';
 }

@@ -14,7 +14,8 @@ class Landing extends Component {
 
   render() {
     return (
-      <div className='container valign-wrapper landing-wrapper'>
+      <div className='landing'>
+        <div className='container valign-wrapper landing-wrapper'>
 
         <div className='col s6'>
           <h1 className=''>
@@ -35,6 +36,8 @@ class Landing extends Component {
         </div> */}
 
       </div >
+      </div>
+      
     )
   }
 }

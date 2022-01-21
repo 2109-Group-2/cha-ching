@@ -131,7 +131,6 @@ router.post('/accounts/add/:id', async (req, res) => {
 	}
 });
 
-// ====== NEEDS TO BE FIXED =======
 router.delete('/accounts/:id', async (req, res) => {
 	console.log("=== THIS IS THE REQ.body ===", req.body)
 	const user = await User.findById(req.params.id)
