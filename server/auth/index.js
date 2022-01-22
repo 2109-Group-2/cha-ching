@@ -29,7 +29,7 @@ router.post('/login', async (req, res) => {
 						name: user.name,
 					};
 					req.user = user;
-          console.log(req.user)
+          console.log('this is the user: ', req.user)
 					// Sign our jwt, including payload, keys.secretOrKey from keys.js and set an expiresIn time(in seconds)
 					jwt.sign(
 						payload,

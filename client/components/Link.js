@@ -22,7 +22,7 @@ class Link extends Component {
 	}
 
 	onEvent(eventName, metadata) {
-		console.log('onEvent', eventName, metadata);
+		console.log('onEvent metadata eentname', metadata.link_session_id);
 		if (eventName === 'HANDOFF') {
 			return <TransactionsContainer />;
 		}

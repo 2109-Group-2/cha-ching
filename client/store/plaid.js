@@ -34,6 +34,7 @@ export const addAccount = plaidData => dispatch => {
 export const deleteAccount = plaidData => dispatch => {
   if (window.confirm('Are you sure you want to remove this account?')) {
     const id = plaidData.id
+    console.log('plaidDataid ', plaidData)
     const newAccounts = plaidData.accounts.filter(
       account => account._id !== id
     )

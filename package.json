@@ -9,6 +9,7 @@
 		"seed": "node script/seed.js",
 		"start": "node server",
 		"start:dev": "concurrently \"npm run build:dev\"  \"npm run start-server-windows\"",
+		"start:dev-mac": "concurrently \"npm run build:dev\"  \"npm run start-server\"",
 		"start:dev:logger": "LOGGING=true npm run start:dev",
 		"start:dev:seed": "SEED=true npm run start:dev",
 		"start-server": "JWT=shh nodemon server -e html,js,scss --ignore public --ignore client",
@@ -21,9 +22,9 @@
 	"author": "Fullstack Academy of Code",
 	"license": "MIT",
 	"dependencies": {
+		"@babel/preset-react": "^7.16.7",
 		"axios": "^0.21.1",
 		"babel-preset-env": "^1.7.0",
-		"@babel/preset-react": "^7.16.7",
 		"bcrypt": "^5.0.0",
 		"chalk": "^4.1.0",
 		"classnames": "^2.3.1",
@@ -46,8 +47,10 @@
 		"pg": "^8.5.1",
 		"plaid": "^9.10.0",
 		"react-plaid-link": "^3.2.1",
+		"react-responsive-modal": "^6.2.0",
 		"reactstrap": "^9.0.1",
-		"sequelize": "^6.3.5"
+		"sequelize": "^6.3.5",
+		"sweetalert2": "^11.3.6"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.12.10",

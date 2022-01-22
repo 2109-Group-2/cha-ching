@@ -7,10 +7,11 @@ const Navbar = ({handleClick, currentUser}) => (
   <div>
     <h1>cha-ching</h1>
     <nav>
-      {currentUser.user ? (
+      {currentUser.isAuthenticated ? (
         <div>
           {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
+          <Link to="/home">Home</Link>          
+          <Link to="/savings">Savings</Link>
           <a href="#" onClick={handleClick}>
             Logout
           </a>
@@ -20,6 +21,7 @@ const Navbar = ({handleClick, currentUser}) => (
           {/* The navbar will show these links before you log in */}
           <Link to="/login">Login</Link>
           <Link to="/signup">Sign Up</Link>
+          <Link to="/savings">Savings</Link>
         </div>
       )}
     </nav>

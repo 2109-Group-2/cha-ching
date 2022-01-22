@@ -1,37 +1,36 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const AccountSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
-    ref: 'users'
+    ref: "users",
   },
   accessToken: {
     type: String,
-    required: true
+    required: true,
   },
   itemId: {
     type: String,
-    required: true
+    required: true,
   },
   institutionId: {
     type: String,
-    required: true
+    required: true,
   },
   institutionName: {
-    type: String
+    type: String,
   },
   accountName: {
-    type: String
+    type: String,
   },
   accountType: {
-    type: String
+    type: String,
   },
   accountSubtype: {
-    type: String
-  }
-})
+    type: String,
+  },
+});
 
-let Account = mongoose.model('account', AccountSchema)
-
-module.exports = Account
+let Account = AccountSchema;
+module.exports = Account;

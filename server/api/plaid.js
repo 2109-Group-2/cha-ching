@@ -60,7 +60,6 @@ router.post('/create_link_token/:id', async (req, res, next) => {
 				country_codes: PLAID_COUNTRY_CODES,
 				language: 'en',
 			};
-
 			// if (PLAID_REDIRECT_URI !== '') {
 			// 	configs.redirect_uri = PLAID_REDIRECT_URI;
 			// }
@@ -103,7 +102,7 @@ router.post('/accounts/add/:id', async (req, res) => {
 
 				ACCESS_TOKEN = exchangeResponse.data.access_token;
 				ITEM_ID = exchangeResponse.data.item_id;
-				console.log('======AccessToken=======', ACCESS_TOKEN);
+				// console.log('======AccessToken=======', ACCESS_TOKEN);
 
 				// Check if account already exists for that specific user using the userId and institutionId
 				Account.findOne({
@@ -139,7 +138,7 @@ router.delete('/accounts/:id', (req, res) => {
 });
 
 router.get('/accounts/:id', (req, res) => {
-	console.log(req.params);
+	console.log('this is req.params inside plaid: ',req.params);
 	Account.find({ userId: req.params.id })
 		.then((accounts) => res.json(accounts))
 		.catch((err) => console.log(err));

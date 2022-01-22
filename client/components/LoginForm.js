@@ -59,7 +59,7 @@ class LoginForm extends Component {
           <div className='col s8 offset-s2'>
 
             <Link to='/' className='btn-flat waves-effect'>
-              <i className='material-icons left'>keyboard_backspace</i>
+              <i className='material-icons left'></i>
               Back to home
             </Link>
 
@@ -68,7 +68,7 @@ class LoginForm extends Component {
                 Login
               </h2>
               <p className='grey-text text-darken-1'>
-                Don't have an account? <Link to='/register' className='link'>Register</Link>
+                Don't have an account? <Link to='/signup' className='link'>Register</Link>
               </p>
             </div>
 
