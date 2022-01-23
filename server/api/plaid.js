@@ -1,7 +1,7 @@
 require('dotenv').config();
 const router = require('express').Router();
 const bodyParser = require('body-parser');
-const keys = require('../config/keys');
+// const keys = require('../config/keys');
 const cors = require('cors');
 const { Configuration, PlaidApi, PlaidEnvironments } = require('plaid');
 // const plaid =require('plaid');
@@ -11,8 +11,8 @@ router.use(bodyParser.json());
 const mongoose = require('mongoose');
 const User = require('../db/models/User');
 
-const PLAID_CLIENT_ID = keys.PLAID_CLIENT_ID;
-const PLAID_SECRET = keys.PLAID_SECRET;
+const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
+const PLAID_SECRET = process.env.PLAID_SECRET;
 const PLAID_ENV = process.env.PLAID_ENV || 'sandbox';
 const PLAID_PRODUCTS = process.env.PLAID_PRODUCTS || 	'transactions'.split(',');
 

@@ -15,7 +15,7 @@ app.use(morgan('dev'))
 app.use(express.json())
 
 // Pull in MongoURI from keys.js & connect to DB
-const db = require('./config/keys').mongoURI
+const db = process.env.mongoURI
 
 mongoose
   .connect(
