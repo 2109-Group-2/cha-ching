@@ -7,6 +7,7 @@ import store from './store'
 import App from './App'
 import jwtDecode from 'jwt-decode'
 import { setCurrentUser } from './store'
+import * as serviceWorker from './service-worker';
 
 const token = localStorage.getItem('token');
 if (token) {
@@ -23,3 +24,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('app')
 )
+
+serviceWorker.register();
