@@ -8,7 +8,7 @@ const Accounts = require('./Account')
 const SALT_ROUNDS = 5;
 
 const mongoose = require('mongoose');
-const keys = require('../../config/keys');
+// const keys = require('../../config/keys');
 const Schema = mongoose.Schema;
 
 // Create schema to represent a user, defining fields & types as objects of the schema
@@ -48,7 +48,7 @@ UserSchema.methods.correctPassword = function (candidatePwd) {
 
 UserSchema.methods.generateToken = function(cb){
   var user = this;
-  var token = jwt.sign(user._id.toHexString(),keys.SECRET)
+  var token = jwt.sign(user._id.toHexString(),process.env.SECRET)
   user.token = token;
   user.save(function(err,user){
       if(err) return cb(err);
