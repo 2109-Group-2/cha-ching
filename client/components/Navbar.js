@@ -6,8 +6,8 @@ import { logout } from '../store/auth';
 
 const NavBar = ({ handleClick, auth }) => (
 	<div className="navbar">
-		<img src={require('./cha-ching.png')} />
-		<h1>cha-ching</h1>
+		<img src={'/cha-ching.png'} width={'50px'}/>
+		<h1>   cha-ching</h1>
 		<nav>
 		{auth.isAuthenticated ? (
 			<div>

@@ -91,13 +91,13 @@ form div {
 /* NavBar Component */
 
 a {
-	color: white;
+	color: #c8ad55;
 }
 
 .navbar {
-	color: white;
-	text-decoration: white;
-	background-color: #c8ad55;
+	color: #c8ad55;
+	text-decoration: #c8ad55;
+	background-color: white;
 	position: relative;
 	display: flex;
 	flex-wrap: wrap;
@@ -109,7 +109,8 @@ a {
 
 .landing {
 	display: flex;
-	background-image: url('https://www.pngall.com/wp-content/uploads/4/Falling-Gold-Coin-Transparent.png');
+	background: url('https://www.pngall.com/wp-content/uploads/4/Falling-Gold-Coin-Transparent.png') repeat;
+	background-position: center;
 	color: white;
 	text-align: center;
 	align-items: center;
