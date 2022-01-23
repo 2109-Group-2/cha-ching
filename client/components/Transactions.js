@@ -90,9 +90,10 @@ class Transactions extends Component {
 					onSelect={(eventKey) => {
 						handleClick(eventKey);
 					}}
+					className='transactionsTabs'
 				>
 					<Tab eventKey="monthly" title="Monthly"></Tab>
-					<Tab eventKey="quarterly" title="Quaterly"></Tab>
+					<Tab eventKey="quarterly" title="Quarterly"></Tab>
 					<Tab eventKey="yearly" title="Yearly"></Tab>
 				</Tabs>
 
@@ -101,23 +102,20 @@ class Transactions extends Component {
 					?  this.setState({ transactionsByDate: transactionsData })
 					: "" } */}
 
-				<h1>
-					<b>Transactions Breakdown</b>
-				</h1>
+				<h2>Transactions Breakdown</h2>
 
 				{!transactions ? (
 					<></>
 				) : (
-					<p>
+					<h4>
 						You have <b>{transactionsByDate.length}</b> transactions from your
 						<b> {accounts.length}</b> linked
 						{accounts.length > 1 ? (
-							<span> accounts </span>
+							' accounts'
 						) : (
-							<span> account </span>
+							' account'
 						)}
-						.
-					</p>
+					</h4>
 				)}
 				<div className="chartsAndTables">
 					<SpendingBarGraph

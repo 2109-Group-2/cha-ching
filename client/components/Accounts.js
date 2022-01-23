@@ -5,6 +5,7 @@ import { getTransactions, addAccount, deleteAccount } from '../store/plaid';
 import { logout } from '../store';
 import Link from './Link';
 import TransactionsTable from './TransactionsTable';
+import { Accordion, Card, Button } from 'react-bootstrap';
 
 class Accounts extends Component {
 	componentDidMount() {
@@ -43,36 +44,108 @@ class Accounts extends Component {
 		const { user, accounts } = this.props;
 		const { transactions, transactionsLoading } = this.props.plaid;
 
-		let accountItems = accounts.map((account) => (
-			<p key={account._id}>
-				<button
-					onClick={this.onDeleteClick.bind(this, account._id)}
-					className="btn btn-small btn-floating  btn-delete"
-				>
-					<i className="material-icons">clear</i>
-				</button>
-				<b>{account.institutionName}</b>
-			</p>
-		));
+		let checkingAccountItems = accounts
+			.filter((account, i) => {
+				return account.accountSubtype === 'checking';
+			})
+			.map((account) => (
+				<p key={account._id}>
+					<button
+						onClick={this.onDeleteClick.bind(this, account._id)}
+						className="btn btn-small btn-floating  btn-delete"
+					>
+						<i className="material-icons">clear</i>
+					</button>
+					<inline>
+						{account.institutionName} - {account.accountName}
+					</inline>
+				</p>
+			));
+
+		let creditAccountItems = accounts
+			.filter((account, i) => {
+				return account.accountSubtype === 'credit card';
+			})
+			.map((account) => (
+				<p key={account._id}>
+					<button
+						onClick={this.onDeleteClick.bind(this, account._id)}
+						className="btn btn-small btn-floating  btn-delete"
+					>
+						<i className="material-icons">clear</i>
+					</button>
+					<inline>
+						{account.institutionName} - {account.accountName}
+					</inline>
+				</p>
+			));
+
+		let savingsAccountItems = accounts
+			.filter((account, i) => {
+				return account.accountSubtype === 'savings';
+			})
+			.map((account) => (
+				<p key={account._id}>
+					<button
+						onClick={this.onDeleteClick.bind(this, account._id)}
+						className="btn btn-small btn-floating  btn-delete"
+					>
+						<i className="material-icons">clear</i>
+					</button>
+					<inline>
+						{account.institutionName} - {account.accountName}
+					</inline>
+				</p>
+			));
 
 		return (
 			<div>
 				<div className="col s12 accounts-wrapper">
-					<div>
-						<h2>Linked Accounts</h2>
-
-						<p className="grey-text text-darken-1">
-							Welcome back, <b>{user.name.split(' ')[0]}</b>. Add or remove your
-							bank accounts below.
-						</p>
-					</div>
-
-					<div className="linked-accounts">
-						<h6>Your Linked Accounts:</h6>
-						<p>{accountItems}</p>
-					</div>
-					<Link />
-					<hr />
+					<Card style={{ width: '24rem' }} className="accountsComponent">
+						<Card.Body>
+							<Card.Title>
+								<h2>Accounts</h2>
+							</Card.Title>
+							<Card.Text>
+								<div className="linked-accounts">
+									<h6>Your Linked Accounts:</h6>
+									<Accordion>
+										<Accordion.Item eventKey="0">
+											<Accordion.Header as="p">Checkings</Accordion.Header>
+											<Accordion.Body>
+												{accounts[0].accountSubtype ? (
+													<p>{checkingAccountItems}</p>
+												) : (
+													<Link />
+												)}
+											</Accordion.Body>
+										</Accordion.Item>
+										<Accordion.Item eventKey="1">
+											<Accordion.Header as="p">Credit</Accordion.Header>
+											<Accordion.Body>
+												{accounts[0].accountSubtype ? (
+													<p>{creditAccountItems}</p>
+												) : (
+													<Link />
+												)}
+											</Accordion.Body>
+										</Accordion.Item>
+										<Accordion.Item eventKey="2">
+											<Accordion.Header as="p">Savings</Accordion.Header>
+											<Accordion.Body>
+												{accounts[0].accountSubtype ? (
+													<p>{savingsAccountItems}</p>
+												) : (
+													<Link />
+												)}
+											</Accordion.Body>
+										</Accordion.Item>
+									</Accordion>
+								</div>
+							</Card.Text>
+							<Link />
+						</Card.Body>
+					</Card>
 				</div>
 			</div>
 		);

@@ -8,6 +8,7 @@ export const GET_TRANSACTIONS = 'GET_TRANSACTIONS';
 export const TRANSACTIONS_LOADING = 'TRANSACTIONS_LOADING';
 export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN';
 export const SET_LINK_TOKEN = 'SET_LINK_TOKEN';
+export const GET_BALANCES = 'GET_BALANCES';
 
 // Actions
 // Parse accounts from request and send it to /accounts/add endpoint
@@ -135,6 +136,7 @@ const initialState = {
 	access_token: '',
 	accounts: [],
 	transactions: [],
+	balances: [],
 	accountsLoading: false,
 	transactionsLoading: false,
 };
@@ -186,6 +188,11 @@ export default function (state = initialState, action) {
 				transactions: action.payload,
 				transactionsLoading: false,
 			};
+		case GET_BALANCES:
+			return {
+				...state,
+				balances: action.payload
+			}
 		default:
 			return state;
 	}

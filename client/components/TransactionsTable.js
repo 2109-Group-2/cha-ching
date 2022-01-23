@@ -3,7 +3,7 @@ import MaterialTable from 'material-table';
 
 export default function TransactionsTable(props) {
 	const { transactionsByDate, transactionsLoading } = props;
-	console.log('transactionsByDate passed to table', transactionsByDate);
+	
 	const transactionsColumns = [
 		{ title: 'Account', field: 'account' },
 		{ title: 'Date', field: 'date', type: 'date', defaultSort: 'desc' },
