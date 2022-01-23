@@ -20,7 +20,8 @@ const db = process.env.mongoURI
 mongoose
   .connect(
     db,
-    { useNewUrlParser: true }
+    { useNewUrlParser: true,
+      useUnifiedTopology: false }
   )
   .then(() => console.log(`💸 💸 💸 Success! MongoDB connected...`))
   .catch(err => console.log(err))
