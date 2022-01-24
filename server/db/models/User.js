@@ -57,18 +57,12 @@ UserSchema.methods.generateToken = function (cb) {
   });
 };
 
-<<<<<<< HEAD
-UserSchema.methods.comparePassword = function (plaintext, callback) {
-  return callback(null, bcrypt.compareSync(plaintext, this.password));
-};
-=======
 UserSchema.methods.comparePassword = function(candidatePassword,cb){
   bcrypt.compare(candidatePassword,this.password, function(err,isMatch){
       if(err) return cb(err);
       cb(null,isMatch);
   })
 }
->>>>>>> 96198077d6144a4265ad8a8716e6c4cfe617e1de
 
 /**
  * classMethods
@@ -95,23 +89,9 @@ UserSchema.statics.findByToken = function (token, cb) {
   console.log("from user model ", token, process.env.SECRET);
 };
 
-<<<<<<< HEAD
-/**
- * hooks
- */
-const hashPassword = async (user) => {
-  //in case the password has been changed, we want to encrypt it with bcrypt
-  if (user.changed("password")) {
-    user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
-  }
-};
-
-UserSchema.pre("save", function (next) {
-=======
 
 
 UserSchema.pre("save",function(next){
->>>>>>> 96198077d6144a4265ad8a8716e6c4cfe617e1de
   var user = this;
 
   if (user.isModified("password")) {
@@ -132,15 +112,6 @@ UserSchema.pre("save",function(next){
   }
 });
 
-<<<<<<< HEAD
-UserSchema.methods.comparePassword = function (candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
-    if (err) return cb(err);
-    cb(null, isMatch);
-  });
-};
-=======
->>>>>>> 96198077d6144a4265ad8a8716e6c4cfe617e1de
 
 // Export the model so we can access outside of this file
 const User = mongoose.model("users", UserSchema);

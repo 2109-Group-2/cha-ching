@@ -9,6 +9,7 @@ import store from './store';
 import { setCurrentUser, logout, setAuthToken } from './store/auth';
 import Dashboard from './components/Dashboard';
 import Transactions from './components/Transactions';
+import Savings from './components/Savings';
 
 /**
  * COMPONENT
@@ -31,6 +32,7 @@ class Routes extends Component {
 					<Switch>
 						<Route path="/dashboard" component={Dashboard} />
 						<Route path="/transactions" component={Transactions} />
+						<Route path="/savings" component={Savings} />
 					</Switch>
 				) : (
 					<Switch>
