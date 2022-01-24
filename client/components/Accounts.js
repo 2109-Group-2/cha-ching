@@ -10,11 +10,13 @@ import { Accordion, Card, Button } from 'react-bootstrap';
 class Accounts extends Component {
 	componentDidMount() {
 		const { accounts } = this.props;
+		this.accounts
 		this.props.getTransactions(accounts);
 	}
 
 	// Add account
 	handleOnSuccess = (token, metadata) => {
+		// o: isn't this already done above?
 		const { accounts } = this.props;
 		const plaidData = {
 			public_token: token,
@@ -26,6 +28,7 @@ class Accounts extends Component {
 
 	// Delete account
 	onDeleteClick = (id) => {
+		// o: isn't this already done above?
 		const { accounts } = this.props;
 		const accountData = {
 			id: id,
@@ -41,6 +44,7 @@ class Accounts extends Component {
 	};
 
 	render() {
+		// o: several of these are not being used
 		const { user, accounts } = this.props;
 		const { transactions, transactionsLoading } = this.props.plaid;
 
@@ -98,6 +102,7 @@ class Accounts extends Component {
 				</p>
 			));
 
+		// o: look into splitting this into sub components
 		return (
 			<div>
 				<div className="col s12 accounts-wrapper">

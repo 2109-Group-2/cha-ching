@@ -19,6 +19,8 @@ const PLAID_PRODUCTS = (process.env.PLAID_PRODUCTS || 	'transactions').split(','
 const PLAID_COUNTRY_CODES = (process.env.PLAID_COUNTRY_CODES || 'US').split(
 	','
 );
+
+// o: some of these are currently not being used? is this intended?
 const PLAID_REDIRECT_URI = process.env.PLAID_REDIRECT_URI || '';
 const PLAID_ANDROID_PACKAGE_NAME = process.env.PLAID_ANDROID_PACKAGE_NAME || '';
 let ACCESS_TOKEN = null;
@@ -66,6 +68,7 @@ router.post('/create_link_token/:id', async (req, res, next) => {
 		.catch(next);
 });
 
+// o: remove if not being used
 /*
 router.post('/get_link_token', async (req, res) => {
 	const response = await client.linkTokenGet(linkToken).catch((err) => {
@@ -204,6 +207,7 @@ router.post('/accounts/add', async (req, res, next) => {
 	}
 })
 
+// o: remove if not being used
 /*
 router.post('/accounts/add/:id', async (req, res) => {
 	try {
@@ -327,6 +331,7 @@ router.post('/transactions', async (req, res) => {
 	}
 });
 
+// o: explain
 router.get('/transactions', (req, res) => {
 	res.send('hello world');
 });

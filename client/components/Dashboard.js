@@ -22,9 +22,11 @@ class Dashboard extends Component {
 
 	render() {
 		const { user } = this.props.auth;
+		// o: accountsLoading is not being used
 		const { accounts, accountsLoading } = this.props.plaid;
 		let dashboardContent;
 
+		// o: explain this logic please
 		if (accounts === null) {
 			// this.props.getAccounts()
 		} else if (accounts.length > 0) {

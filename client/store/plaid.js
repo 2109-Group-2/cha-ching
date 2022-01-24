@@ -76,6 +76,8 @@ export const deleteAccount = (plaidData) => async (dispatch) => {
 // Get all accounts for specific user
 export const getAccounts = (userData) => (dispatch) => {
 	dispatch(setAccountsLoading());
+
+  // o: you can use async await here
 	axios
 		.get(`/api/plaid/accounts/${userData.id}`)
 		.then((res) =>

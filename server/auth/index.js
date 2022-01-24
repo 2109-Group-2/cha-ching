@@ -6,6 +6,8 @@ const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const { auth } = require('./middleware/auth');
 const jwt = require('jsonwebtoken');
+
+// o: remove if not needed
 // const keys = require('../config/keys');
 
 router.post('/login', async (req, res) => {
@@ -20,6 +22,7 @@ router.post('/login', async (req, res) => {
 				return res.status(404).json({ emailnotfound: 'Email not found' });
 			}
 
+			// o: you can use async await here...
 			// If does exist, use bcryptjs to compare submitted password with hashed password in DB
 			bcrypt.compare(password, user.password).then((isMatch) => {
 				if (isMatch) {

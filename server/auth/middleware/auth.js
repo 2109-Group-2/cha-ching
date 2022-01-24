@@ -1,5 +1,6 @@
 const {User} = require("../../db/models/User");
 
+// o: do you plan on having more middleware files?
 let auth = (req,res,next)=>{
 
     //Checking if the token is valid

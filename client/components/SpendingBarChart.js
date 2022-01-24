@@ -23,6 +23,8 @@ export default function SpendingBarGraph(props) {
 	const { transactionsByDate, comparisonData } = props;
 	let labels = [];
 
+	// o: why are you using a map here, there is no variable that capturing
+		// 	the return value
 	transactionsByDate.map((item) => {
 		if (!labels.includes(item.category) && item.category !== "Transfer") {
 			labels.push(item.category);
@@ -34,6 +36,9 @@ export default function SpendingBarGraph(props) {
 
 	labels.forEach((category, i) => {
 		dataAmount.push(0);
+
+		// o: why are you using a map here, there is no variable that capturing
+		// 	the return value
 		transactionsByDate.map((item) => {
 			if (category === item.category) {
 				dataAmount[i] += item.amount;
@@ -43,6 +48,9 @@ export default function SpendingBarGraph(props) {
 
 	labels.forEach((category, i) => {
 		comparison.push(0);
+
+		// o: why are you using a map here, there is no variable that capturing
+		// 	the return value
 		comparisonData.map((item) => {
 			if (category === item.category) {
 				comparison[i] += item.amount;

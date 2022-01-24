@@ -41,6 +41,7 @@ class Transactions extends Component {
 			});
 		});
 
+		// o: notice a pattern here?
 		const today = moment().format('YYYY-MM-DD');
 		const monthAgo = moment().subtract(1, 'months').format('YYYY-MM-DD');
 		const twoMonthsAgo = moment().subtract(2, 'months').format('YYYY-MM-DD');
@@ -49,7 +50,35 @@ class Transactions extends Component {
 		const yearAgo = moment().subtract(1, 'years').format('YYYY-MM-DD');
 		const twoYearsAgo = moment().subtract(2, 'years').format('YYYY-MM-DD');
 
+
+		// o: something you can try
+		// const actions = {
+		// 	"monthly": () => {
+		// 		this.setState({
+		// 			transactionsByDate: transactionsData.filter((data) =>
+		// 				moment(data.date).isBetween(monthAgo, today)
+		// 			),
+		// 			comparisonData: transactionsData.filter((data) =>
+		// 				moment(data.date).isBetween(twoMonthsAgo, monthAgo)
+		// 			),
+		// 		});
+		// 	}, 
+		// 	"yearly": () => {
+		// 		this.setState({
+		// 			transactionsByDate: transactionsData.filter((data) =>
+		// 				moment(data.date).isBetween(yearAgo, today)
+		// 			),
+		// 			comparisonData: transactionsData.filter((data) =>
+		// 				moment(data.date).isBetween(twoYearsAgo, yearAgo)
+		// 			),
+		// 		});
+		// 	}
+		// }
+
+		// actions[eventKey]()
+
 		let handleClick = (eventKey) => {
+			// o: why if statements here?
 			if (eventKey === 'monthly') {
 				this.setState({
 					transactionsByDate: transactionsData.filter((data) =>
@@ -104,6 +133,7 @@ class Transactions extends Component {
 				</Tabs>
 
 				{/* I want to render the original data table first so that the charts aren't empty */}
+				{/* o: you can use nullish coalescing here */}
 				{transactionsData.length
 					? transactionsByDate.length === 0
 						? this.setState({

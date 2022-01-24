@@ -15,9 +15,12 @@ export default function SpendingPieChart(props) {
 	});
 
 	let dataAmount = [];
+	// o: these are not being used anywhere
 	const startDate = moment().subtract(30, 'days').format('YYYY-MM-DD');
 	const endDate = moment().format('YYYY-MM-DD');
 
+	// o: why are you using a map here, there is no variable that capturing
+		// 	the return value
 	labels.forEach((category, i) => {
 		dataAmount.push(0);
 		transactionsByDate.map((item) => {

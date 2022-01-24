@@ -46,6 +46,7 @@ UserSchema.methods.correctPassword = function (candidatePwd) {
 	return bcrypt.compare(candidatePwd, this.password);
 };
 
+// o: what does cb stand for? change to "callback"... also below
 UserSchema.methods.generateToken = function(cb){
   var user = this;
   var token = jwt.sign(user._id.toHexString(),process.env.SECRET)
@@ -56,6 +57,7 @@ UserSchema.methods.generateToken = function(cb){
   })
 };
 
+// o: what is the value that this function adds? what does cb stand for?
 UserSchema.methods.comparePassword = function(candidatePassword,cb){
   bcrypt.compare(candidatePassword,this.password, function(err,isMatch){
       if(err) return cb(err);
@@ -77,6 +79,7 @@ UserSchema.statics.authenticate = async function ({ username, password }) {
 	return user.generateToken();
 };
 
+// o: what does cb stand for?
 UserSchema.statics.findByToken = function(token,cb){
   var user = this;
   jwt.verify(token,process.env.SECRET,function(err,decode){
