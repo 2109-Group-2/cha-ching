@@ -29,6 +29,9 @@ const AccountSchema = new Schema({
   },
   accountSubtype: {
     type: String
+  },
+  balance: {
+    type: Number
   }
 })
 const Account = AccountSchema

@@ -8,8 +8,6 @@ export const TRANSACTIONS_LOADING = "TRANSACTIONS_LOADING"
 export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN"
 export const SET_LINK_TOKEN = "SET_LINK_TOKEN"
 
-
-
 // Actions
 // Parse accounts from request and send it to /accounts/add endpoint
 // Concatenate the new account to our current accounts array and call getTransactions on the new accounts array
@@ -132,7 +130,6 @@ export const setTransactionsLoading = () => {
 };
 
 const initialState = {
-
   token: '',
   access_token: '',
   accounts: [],

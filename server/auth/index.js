@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const { auth } = require('./middleware/auth');
 const jwt = require('jsonwebtoken');
-const keys = require('../config/keys');
+// const keys = require('../config/keys');
 
 router.post('/login', async (req, res) => {
 	try {
@@ -35,7 +35,7 @@ router.post('/login', async (req, res) => {
 					// Sign our jwt, including payload, keys.secretOrKey from keys.js and set an expiresIn time(in seconds)
 					jwt.sign(
 						payload,
-						keys.SECRET,
+						process.env.SECRET,
 						{
 							expiresIn: 31556926, // 1 year in seconds
 						},
