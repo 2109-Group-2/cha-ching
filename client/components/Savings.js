@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 // import { Modal } from "react-responsive-modal";
 import Goal from "./EditGoal";
 import Swal from "sweetalert2";
@@ -29,7 +30,11 @@ let goals = [
   },
 ];
 
-export default class Savings extends Component {
+class Savings extends Component {
+  componentDidMount() {
+    console.log('this.props.auth: ',this.props.auth);
+  }
+
   render() {
     let totalAmount = 0;
     goals.forEach((goal) => {
@@ -134,6 +139,17 @@ export default class Savings extends Component {
     );
   }
 }
+const mapState = (state) => ({
+  auth: state.auth,
+  goal: state.goal,
+});
+
+const mapDispatch = (dispatch) => ({
+  // getAccounts: (userData) => dispatch(getAccounts(userData)),
+  // addAccount: (userData) => dispatch(addAccount(userData)),
+});
+
+export default connect(mapState, mapDispatch)(Savings);
 
 // import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
