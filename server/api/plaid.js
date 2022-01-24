@@ -164,7 +164,6 @@ router.post('/budgets/add', async (req, res, next) => {
 router.post('/accounts/add', async (req, res, next) => {
 	try {
 		const user = await User.findById(req.body.userId);
-		console.log('<---in the route--->')
 		const institution = req.body.metadata.institution;
 		const { name, institution_id } = institution;
 		const newAccount = {
@@ -255,17 +254,16 @@ router.get('/accounts/:id', async (req, res) => {
 });
 
 router.post('/transactions', async (req, res) => {
-	/*
+
 	const now = moment();
 	const today = now.format('YYYY-MM-DD');
 	const thirtyDaysAgo = now.subtract(30, 'days').format('YYYY-MM-DD');
-	*/
-	console.log('<---HERE IT IS--->', req.body.period)
+	/*
 	const months = req.body.period;
 	const now = moment();
 	const today = now.format('YYYY-MM-DD');
 	const xMonthsAgo = now.subtract(months, 'months').format('YYYY-MM-DD');
-	console.log('<---HERE IT IS--->', req.body.plaidData)
+	*/
 
 	let transactions = [];
 	const accounts = req.body.plaidData;
@@ -275,7 +273,7 @@ router.post('/transactions', async (req, res) => {
 			const institutionName = account.institutionName;
 			const configs = {
 				access_token: String(account.accessToken),
-				start_date: xMonthsAgo,
+				start_date: thirtyDaysAgo,
 				end_date: today,
 				options: {
 					count: 250,

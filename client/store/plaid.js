@@ -100,13 +100,10 @@ export const setAccountsLoading = () => {
 }
 
 // Get Transactions
-export const getTransactions = (plaidData, period = 3) => dispatch => {
+export const getTransactions = (plaidData) => dispatch => {
   dispatch(setTransactionsLoading())
   axios
-    .post('/api/plaid/transactions', {
-      plaidData,
-      period
-    })
+    .post('/api/plaid/transactions', { plaidData })
     .then(res =>
       dispatch({
         type: GET_TRANSACTIONS,
