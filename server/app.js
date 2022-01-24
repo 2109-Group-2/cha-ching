@@ -5,7 +5,7 @@ const app = express()
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
-
+require('dotenv').config({ path: path.resolve(__dirname, './config/.env') })
 module.exports = app
 
 // logging middleware

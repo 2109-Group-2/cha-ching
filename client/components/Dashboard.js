@@ -38,10 +38,9 @@ class Dashboard extends Component {
 		} else {
 			// User has no accounts linked
 			dashboardContent = (
-				<div className="row dashboard-wrapper">
-					{/* <img src={blob} alt="blob" className="blob" /> */}
-					<div className="col s12 center-align">
-						<div className="dashboard-wrapper">
+				<div>
+					<div>
+						<div>
 							<h4>
 								<b>Welcome,</b> {user.name.split(' ')[0]}
 							</h4>

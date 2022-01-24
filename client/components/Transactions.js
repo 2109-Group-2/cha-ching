@@ -21,7 +21,7 @@ class Transactions extends Component {
 	componentDidMount() {
 		const { accounts } = this.props.plaid;
 		this.props.getTransactions(accounts);
-		this.setState({ transactionsByDate: this.props.plaid.transactions });
+		// this.setState({ transactionsByDate: this.props.plaid.transactions });
 	}
 
 	render() {
@@ -77,30 +77,41 @@ class Transactions extends Component {
 						moment(data.date).isBetween(twoYearsAgo, yearAgo)
 					),
 				});
+			} else if (eventKey === 'allTime') {
+				this.setState({
+					transactionsByDate: transactionsData,
+					comparisonData: transactionsData,
+				});
 			}
 		};
 
 		return (
 			<div className="transactionsComponent">
 				<Tabs
-					defaultActiveKey="monthly"
+					defaultActiveKey="allTime"
 					id="uncontrolled-tab-example"
 					className="mb-3"
-					justify
+					// justify
 					onSelect={(eventKey) => {
 						handleClick(eventKey);
 					}}
-					className='transactionsTabs'
+					className="transactionsTabs"
 				>
+					<Tab eventKey="allTime" title="All Time"></Tab>
 					<Tab eventKey="monthly" title="Monthly"></Tab>
 					<Tab eventKey="quarterly" title="Quarterly"></Tab>
 					<Tab eventKey="yearly" title="Yearly"></Tab>
 				</Tabs>
 
 				{/* I want to render the original data table first so that the charts aren't empty */}
-				{/* {transactionsByDate.length === 0
-					?  this.setState({ transactionsByDate: transactionsData })
-					: "" } */}
+				{transactionsData.length
+					? transactionsByDate.length === 0
+						? this.setState({
+								transactionsByDate: transactionsData,
+								comparisonData: transactionsData,
+						  })
+						: ''
+					: ''}
 
 				<h2>Transactions Breakdown</h2>
 
@@ -110,11 +121,7 @@ class Transactions extends Component {
 					<h4>
 						You have <b>{transactionsByDate.length}</b> transactions from your
 						<b> {accounts.length}</b> linked
-						{accounts.length > 1 ? (
-							' accounts'
-						) : (
-							' account'
-						)}
+						{accounts.length > 1 ? ' accounts' : ' account'}
 					</h4>
 				)}
 				<div className="chartsAndTables">

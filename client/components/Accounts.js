@@ -50,12 +50,12 @@ class Accounts extends Component {
 			})
 			.map((account) => (
 				<p key={account._id}>
-					<button
+					<Button
 						onClick={this.onDeleteClick.bind(this, account._id)}
-						className="btn btn-small btn-floating  btn-delete"
+						variant="danger"
 					>
-						<i className="material-icons">clear</i>
-					</button>
+						X
+					</Button>
 					<inline>
 						{account.institutionName} - {account.accountName}
 					</inline>
@@ -68,12 +68,12 @@ class Accounts extends Component {
 			})
 			.map((account) => (
 				<p key={account._id}>
-					<button
+					<Button
 						onClick={this.onDeleteClick.bind(this, account._id)}
-						className="btn btn-small btn-floating  btn-delete"
+						variant="danger"
 					>
-						<i className="material-icons">clear</i>
-					</button>
+						X
+					</Button>
 					<inline>
 						{account.institutionName} - {account.accountName}
 					</inline>
@@ -86,12 +86,12 @@ class Accounts extends Component {
 			})
 			.map((account) => (
 				<p key={account._id}>
-					<button
+					<Button
 						onClick={this.onDeleteClick.bind(this, account._id)}
-						className="btn btn-small btn-floating  btn-delete"
+						variant="danger"
 					>
-						<i className="material-icons">clear</i>
-					</button>
+						X
+					</Button>
 					<inline>
 						{account.institutionName} - {account.accountName}
 					</inline>
@@ -101,7 +101,7 @@ class Accounts extends Component {
 		return (
 			<div>
 				<div className="col s12 accounts-wrapper">
-					<Card style={{ width: '24rem' }} className="accountsComponent">
+					<Card className="accountsComponent">
 						<Card.Body>
 							<Card.Title>
 								<h2>Accounts</h2>
@@ -109,11 +109,12 @@ class Accounts extends Component {
 							<Card.Text>
 								<div className="linked-accounts">
 									<h6>Your Linked Accounts:</h6>
-									<Accordion>
+									<Accordion className="accountsAccordion">
 										<Accordion.Item eventKey="0">
 											<Accordion.Header as="p">Checkings</Accordion.Header>
 											<Accordion.Body>
-												{accounts[0].accountSubtype ? (
+												{accounts.some(
+													(account) => account.accountSubtype === 'checking') ? (
 													<p>{checkingAccountItems}</p>
 												) : (
 													<Link />
@@ -123,7 +124,8 @@ class Accounts extends Component {
 										<Accordion.Item eventKey="1">
 											<Accordion.Header as="p">Credit</Accordion.Header>
 											<Accordion.Body>
-												{accounts[0].accountSubtype ? (
+												{accounts.some(
+													(account) => account.accountSubtype === 'credit card') ? (
 													<p>{creditAccountItems}</p>
 												) : (
 													<Link />
@@ -133,7 +135,9 @@ class Accounts extends Component {
 										<Accordion.Item eventKey="2">
 											<Accordion.Header as="p">Savings</Accordion.Header>
 											<Accordion.Body>
-												{accounts[0].accountSubtype ? (
+												{accounts.some(
+													(account) => account.accountSubtype === 'savings'
+												) ? (
 													<p>{savingsAccountItems}</p>
 												) : (
 													<Link />
