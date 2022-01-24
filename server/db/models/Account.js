@@ -28,9 +28,9 @@ const AccountSchema = new Schema({
     type: String,
   },
   accountSubtype: {
-    type: String,
-  },
-});
+    type: String
+  }
+})
+const Account = AccountSchema
+module.exports = Account
 
-let Account = AccountSchema;
-module.exports = Account;

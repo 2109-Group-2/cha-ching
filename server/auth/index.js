@@ -10,14 +10,14 @@ const keys = require('../config/keys');
 
 router.post('/login', async (req, res) => {
 	try {
-		const username = req.body.username;
+		const email = req.body.email;
 		const password = req.body.password;
 
 		// If valid, use MongoDB's User.findOne() to see if user exists
-		User.findOne({ username }).then((user) => {
+		User.findOne({ email }).then((user) => {
 			// If does not exist
 			if (!user) {
-				return res.status(404).json({ usernamenotfound: 'Username not found' });
+				return res.status(404).json({ emailnotfound: 'Email not found' });
 			}
 
 			// If does exist, use bcryptjs to compare submitted password with hashed password in DB
@@ -27,6 +27,8 @@ router.post('/login', async (req, res) => {
 					const payload = {
 						id: user.id,
 						name: user.name,
+						email:user.email,
+						accounts: user.accounts
 					};
 					req.user = user;
           console.log('this is the user: ', req.user)
@@ -76,14 +78,5 @@ router.get('/me', auth, (req, res) => {
 		user: req.user,
 	});
 });
-
-// router.get('/me', async (req, res, next) => {
-// 	try {
-// 		var result = await User.find().exec();
-// 		res.send(result);
-// 	} catch (error) {
-// 		res.status(500).send(error);
-// 	}
-// });
 
 module.exports = router;

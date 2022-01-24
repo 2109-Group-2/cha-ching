@@ -1,18 +1,12 @@
 import React, { useEffect, Component } from 'react';
 import { PlaidLink } from 'react-plaid-link';
-import axios from 'axios';
 import { connect } from 'react-redux';
-import TransactionsContainer from './TransactionsContainer';
+import { getAccounts, setLinkToken, setAccessToken } from '../store/plaid';
 
 class Link extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			token: null,
-			access_token: null,
-		};
-		this.createLinkToken = this.createLinkToken.bind(this);
-		this.getAccessToken = this.getAccessToken.bind(this);
+
 		this.onExit = this.onExit.bind(this);
 		this.onEvent = this.onEvent.bind(this);
 		this.onSuccess = this.onSuccess.bind(this);
@@ -24,54 +18,36 @@ class Link extends Component {
 	onEvent(eventName, metadata) {
 		console.log('onEvent metadata eentname', metadata.link_session_id);
 		if (eventName === 'HANDOFF') {
-			return <TransactionsContainer />;
+			this.props.getAccounts(this.props.auth.user)
 		}
 	}
 
 	onSuccess(token, metadata) {
 		console.log('onSuccess', token, metadata);
-		this.getAccessToken(token, metadata);
-	}
 
-	createLinkToken = async () => {
-		const res = await axios.post(
-			`http://localhost:8080/api/plaid/create_link_token/${this.props.currentUser.user.id}`
-		);
-		const data = res.data.link_token;
-		this.setState({ token: data.link_token });
-	};
+		this.props.setAccessToken(token, metadata, this.props.auth.user.id);
+
+
+	}
 
 	componentDidMount() {
-		this.createLinkToken();
+		this.props.setLinkToken(this.props.auth.user.id);
 	}
 
-	getAccessToken = async (publicToken, metadata) => {
-		//sends the public token to the app server
-		const res = await axios.post(
-			`http://localhost:8080/api/plaid/accounts/add/${this.props.currentUser.user.id}`,
-			{
-				publicToken: publicToken,
-				metadata: metadata,
-			}
-		);
-		const data = res.data.access_token;
-		//updates state with permanent access token
-		this.setState({ access_token: data });
-	};
-
 	render() {
-		const { id } = this.props.currentUser;
+		const { id } = this.props.plaid;
+
 		return (
 			<div>
 				<PlaidLink
 					className="CustomButton"
 					style={{ padding: '20px', fontSize: '16px', cursor: 'pointer' }}
-					token={this.state.token ? this.state.token : ''}
+					token={this.props.plaid.token ? this.props.plaid.token : ''}
 					onExit={this.onExit}
 					onSuccess={this.onSuccess}
 					onEvent={this.onEvent}
 				>
-					Open Link and connect your bank!
+					Connect an Account!
 				</PlaidLink>
 			</div>
 		);
@@ -80,9 +56,18 @@ class Link extends Component {
 
 const mapState = (state) => {
 	return {
-		currentUser: state.currentUser,
+		auth: state.auth,
 		orders: state.orders,
+		plaid: state.plaid,
 	};
 };
 
-export default connect(mapState)(Link);
+const mapDispatch = (dispatch) => {
+	return {
+		getAccounts: (userData) => dispatch(getAccounts(userData)),
+		setLinkToken: (userId) => dispatch(setLinkToken(userId)),
+		setAccessToken: (publicToken, metadata, userId) => dispatch(setAccessToken(publicToken, metadata, userId))
+	};
+};
+
+export default connect(mapState, mapDispatch)(Link);
