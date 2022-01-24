@@ -120,7 +120,8 @@ a {
 	text-align: center;
 	align-content: center;
 	justify-content: center;
-	height: 80vw;
+	height: 89vh;
+	text-shadow: 3px 3px 4px #000000;
 }
 
 .landing a {
@@ -129,6 +130,7 @@ a {
 	margin: 10pt;
 	font-size: 15px;
 	flex-direction: row;
+	text-shadow: 3px 3px 4px #000000;
 }
 
 .col-s6 {
@@ -143,7 +145,6 @@ a {
 .authComponent {
 	background: url('https://www.pngall.com/wp-content/uploads/4/Falling-Gold-Coin-Transparent.png')
 		repeat;
-
 	background-size: 700px 700px;
 	height: 89vh;
 	text-align: center;
@@ -152,6 +153,7 @@ a {
 	align-items: flex-start;
 	justify-content: center;
 	font-size: larger;
+	text-shadow: 2px 2px 4px #4e4e4e;
 }
 
 .accountsComponent {
