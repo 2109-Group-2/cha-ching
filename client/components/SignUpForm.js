@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { registerUser } from "../store/auth";
-import classnames from "classnames";
-// import blob from '../../img/blob-register.svg'
+import React, { Component } from 'react'
+import { Link, withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { registerUser } from '../store/auth'
+import classnames from 'classnames'
+import { Button } from 'react-bootstrap'
 
 class SignUpForm extends Component {
   constructor() {
@@ -52,7 +52,7 @@ class SignUpForm extends Component {
   render() {
     const { errors } = this.state;
     return (
-      <div className="container register-wrapper">
+      <div className='authComponent'>
         {/* <img src={blob} alt='blob' className='blob' /> */}
         <div className="row">
           <div className="col s8 offset-s2">
@@ -131,13 +131,8 @@ class SignUpForm extends Component {
                 <span className="red-text">{errors.password2}</span>
               </div>
 
-              <div className="col s12">
-                <button
-                  type="submit"
-                  className="btn btn-large waves-effect waves-light hoverable accent-3"
-                >
-                  Let's Go
-                </button>
+              <div className='col s12'>
+              <Button variant="warning" type='submit'>Let's Go</Button>
               </div>
             </form>
           </div>

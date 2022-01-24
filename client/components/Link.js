@@ -18,16 +18,13 @@ class Link extends Component {
 	onEvent(eventName, metadata) {
 		console.log('onEvent metadata eentname', metadata.link_session_id);
 		if (eventName === 'HANDOFF') {
-			this.props.getAccounts(this.props.auth.user)
+			this.props.getAccounts(this.props.auth.user);
 		}
 	}
 
 	onSuccess(token, metadata) {
 		console.log('onSuccess', token, metadata);
-
 		this.props.setAccessToken(token, metadata, this.props.auth.user.id);
-
-
 	}
 
 	componentDidMount() {
@@ -66,7 +63,8 @@ const mapDispatch = (dispatch) => {
 	return {
 		getAccounts: (userData) => dispatch(getAccounts(userData)),
 		setLinkToken: (userId) => dispatch(setLinkToken(userId)),
-		setAccessToken: (publicToken, metadata, userId) => dispatch(setAccessToken(publicToken, metadata, userId))
+		setAccessToken: (publicToken, metadata, userId) =>
+			dispatch(setAccessToken(publicToken, metadata, userId)),
 	};
 };
 

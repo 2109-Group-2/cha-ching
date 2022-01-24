@@ -4,8 +4,17 @@ import {Provider} from 'react-redux'
 import {Router} from 'react-router-dom'
 import history from './history'
 import store from './store'
-// import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 import App from './App'
+import jwtDecode from 'jwt-decode'
+import { setCurrentUser } from './store'
+import * as serviceWorker from './service-worker';
+
+const token = localStorage.getItem('token');
+if (token) {
+	const decoded = jwtDecode(token);
+			// Set current user
+			store.dispatch(setCurrentUser(decoded));
+}
 
 ReactDOM.render(
   <Provider store={store}>
@@ -15,3 +24,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('app')
 )
+
+serviceWorker.register();

@@ -1,40 +1,40 @@
 // const Sequelize = require('sequelize')
 // const db = require('../db')
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const axios = require('axios');
-const Accounts = require('./Account')
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const axios = require("axios");
+const Accounts = require("./Account");
 
 const SALT_ROUNDS = 5;
 
 const mongoose = require("mongoose");
-const keys = require("../../config/keys");
+// const keys = require('../../config/keys');
 const Schema = mongoose.Schema;
 
 // Create schema to represent a user, defining fields & types as objects of the schema
 const UserSchema = new Schema({
-	name: {
-		type: String,
-		required: true,
-	},
-	email: {
-		type: String,
-		required: true,
-		unique: 1,
-	},
-	password: {
-		type: String,
-		required: true,
-		minlength: 5,
-	},
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: 1,
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 5,
+  },
   accounts: [Accounts],
-	date: {
-		type: Date,
-		default: Date.now,
-	},
-  token : {
-      type : String
-  }
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+  token: {
+    type: String,
+  },
 });
 
 // /**
@@ -48,7 +48,7 @@ UserSchema.methods.correctPassword = function (candidatePwd) {
 
 UserSchema.methods.generateToken = function (cb) {
   var user = this;
-  var token = jwt.sign(user._id.toHexString(), keys.SECRET);
+  var token = jwt.sign(user._id.toHexString(), process.env.SECRET);
   user.token = token;
   console.log("from user model ", user.token);
   user.save(function (err, user) {
@@ -57,12 +57,12 @@ UserSchema.methods.generateToken = function (cb) {
   });
 };
 
-UserSchema.methods.comparePassword = function(candidatePassword,cb){
-  bcrypt.compare(candidatePassword,this.password, function(err,isMatch){
-      if(err) return cb(err);
-      cb(null,isMatch);
-  })
-}
+UserSchema.methods.comparePassword = function (candidatePassword, cb) {
+  bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+    if (err) return cb(err);
+    cb(null, isMatch);
+  });
+};
 
 /**
  * classMethods
@@ -89,9 +89,7 @@ UserSchema.statics.findByToken = function (token, cb) {
   console.log("from user model ", token, process.env.SECRET);
 };
 
-
-
-UserSchema.pre("save",function(next){
+UserSchema.pre("save", function (next) {
   var user = this;
 
   if (user.isModified("password")) {
@@ -111,7 +109,6 @@ UserSchema.pre("save",function(next){
     next();
   }
 });
-
 
 // Export the model so we can access outside of this file
 const User = mongoose.model("users", UserSchema);

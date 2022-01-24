@@ -5,11 +5,11 @@ import moment from 'moment';
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
 export default function SpendingPieChart(props) {
-	const { transactionsData } = props;
+	const { transactionsByDate } = props;
 	let labels = [];
 
-	transactionsData.map((item) => {
-		if (!labels.includes(item.category)) {
+	transactionsByDate.map((item) => {
+		if (!labels.includes(item.category) && item.category !== "Transfer") {
 			labels.push(item.category);
 		}
 	});
@@ -20,10 +20,9 @@ export default function SpendingPieChart(props) {
 
 	labels.forEach((category, i) => {
 		dataAmount.push(0);
-		transactionsData.map((item) => {
+		transactionsByDate.map((item) => {
 			if (
-				category === item.category &&
-				moment(item.date).isBetween(startDate, endDate)
+				category === item.category
 			) {
 				dataAmount[i] += item.amount;
 			}
@@ -62,7 +61,7 @@ export default function SpendingPieChart(props) {
 			title: {
 				display: true,
 				position: 'top',
-				text: 'Spending by Category for Last 30 Days',
+				text: 'Spending by Category',
 				fontSize: 50,
 			},
 		},
@@ -85,6 +84,7 @@ export default function SpendingPieChart(props) {
 	return (
 		<div className="pieChart">
 			<Pie options={options} data={data} />
+			<small>*chart does not include transfers</small>
 		</div>
 	);
 }

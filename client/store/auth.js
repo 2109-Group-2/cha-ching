@@ -9,7 +9,6 @@ const TOKEN = 'token';
 /**
  * ACTION TYPES
  */
-
 const SET_AUTH = 'SET_AUTH';
 export const GET_ERRORS = 'GET_ERRORS';
 export const USER_LOADING = 'USER_LOADING';
@@ -24,7 +23,6 @@ const setAuth = (auth) => ({ type: SET_AUTH, auth });
  * THUNK CREATORS
  */
 export const me = () => async (dispatch) => {
-
 	const token = window.localStorage.getItem(TOKEN);
 	if (token) {
 		const res = await axios.get('/auth/me', {
@@ -87,12 +85,11 @@ export const loginUser = (userData) => (dispatch) => {
 
 // Set logged in user
 export const setCurrentUser = (decoded) => {
-
 	return {
 		type: SET_CURRENT_USER,
 		payload: decoded,
 	};
-}
+};
 
 // User loading
 export const setUserLoading = () => {

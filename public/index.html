@@ -2,7 +2,11 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width initial-scale=1.0" />
+		<link rel="shortcut icon" href="/favicon.ico" />
+		<link rel="apple-touch-icon" href="/images/icons-192.png">
+		<meta name="viewport" content="width=device-width initial-scale=1, shrink-to-fit=no" />
+		<meta name="theme-color" content="#c8ad55" />
+		<link rel="manifest" href="/manifest.json" />
 		<title>cha-ching</title>
 		<link
 			rel="stylesheet"
@@ -19,9 +23,59 @@
 			crossorigin="anonymous"
 		/>
 		<link rel="stylesheet" href="/style.css" />
+		<style type="text/css">
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+				background-color: #327D41;
+      }
+      .navbar {
+        background-color: white;
+      }
+      .navbar h3 {
+        display: inline-block;
+        text-align: left;
+        padding: 10px;
+        color: #C8AD55;
+        text-decoration: none;
+      }
+      .navbar a {
+        display: inline-block;
+        padding: 10px;
+        color: #C8AD55;
+        text-decoration: none;
+      }
+    </style>
 		<script defer src="/bundle.js"></script>
 	</head>
 	<body>
-		<div id="app"></div>
+		<noscript>You need to enable JavaScript to run this app.</noscript>
+		<div id="app">
+			<div class="navbar">
+        <h3>cha-ching</h3>
+        <a href="/login">Login</a>
+        <a href="/signup">Sign Up</a>
+      </div>
+      <p class="page-info">
+        Please Connect to Internet
+      </p>
+    </div>
+		</div>
+		<script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('worker.js').then(function(registration) {
+            console.log('Worker registration successful', registration.scope);
+          }, function(err) {
+            console.log('Worker registration failed', err);
+          }).catch(function(err) {
+            console.log(err);
+          });
+        });
+      } else {
+        console.log('Service Worker is not supported by browser.');
+      }
+    </script>
 	</body>
 </html>
