@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getAccounts, addAccount } from '../store/plaid';
+import { getAccounts, setItem } from '../store/plaid';
 import Accounts from './Accounts';
 import Link from './Link';
 import Transactions from './Transactions';
@@ -17,7 +17,7 @@ class Dashboard extends Component {
 			public_token: token,
 			metadata: metadata,
 		};
-		this.props.addAccount(plaidData);
+		this.props.setItem(plaidData);
 	};
 
 	render() {
@@ -62,7 +62,7 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
 	getAccounts: PropTypes.func.isRequired,
-	addAccount: PropTypes.func.isRequired,
+	setItem: PropTypes.func.isRequired,
 	auth: PropTypes.object.isRequired,
 	plaid: PropTypes.object.isRequired,
 };
@@ -74,7 +74,7 @@ const mapState = (state) => ({
 
 const mapDispatch = (dispatch) => ({
 	getAccounts: (userData) => dispatch(getAccounts(userData)),
-	addAccount: (userData) => dispatch(addAccount(userData)),
+	setItem: (userData) => dispatch(setItem(userData)),
 });
 
 export default connect(mapState, mapDispatch)(Dashboard);

@@ -24,7 +24,7 @@ class Link extends Component {
 
 	onSuccess(token, metadata) {
 		console.log('onSuccess', token, metadata);
-		this.props.setItem(token, metadata, this.props.auth.user.id);
+		this.props.setItem(token, this.props.auth.user.id, metadata);
 	}
 
 	componentDidMount() {
@@ -63,7 +63,8 @@ const mapDispatch = (dispatch) => {
 	return {
 		getAccounts: (userData) => dispatch(getAccounts(userData)),
 		setLinkToken: (userId) => dispatch(setLinkToken(userId)),
-		setItem: (token, userId, metadata) => dispatch(setItem(token, userId, metadata))
+		setItem: (token, userId, metadata) =>
+			dispatch(setItem(token, userId, metadata)),
 	};
 };
 

@@ -150,9 +150,12 @@ router.post('/budgets/add', async (req, res, next) => {
 	}
 })
 
-router.post('/accounts/add', async (req, res, next) => {
+router.post('/accounts/add/:id', async (req, res, next) => {
 	try {
-		const user = await User.findById(req.body.userId);
+		const userId = req.params.id
+		const user = await User.findById(userId);
+		const institution = req.body.metadata.institution;
+		const { name, institution_id } = institution;
 		console.log('<---in the route--->')
     let accountsToAdd = await req.body.metadata.accounts.filter((account) => {
 				return (
@@ -162,7 +165,6 @@ router.post('/accounts/add', async (req, res, next) => {
 				);
 			});
 			// Check if account already exists for that specific user using the userId and institutionId
-			try {
 				const account = await User.find({
 					_id: userId,
 					'accounts.institutionId': institution_id,
@@ -292,15 +294,15 @@ router.post('/transactions', async (req, res) => {
 	const today = now.format('YYYY-MM-DD');
 	const thirtyDaysAgo = now.subtract(30, 'days').format('YYYY-MM-DD');
 	*/
-	console.log('<---HERE IT IS--->', req.body.period)
-	const months = req.body.period;
+	// console.log('<---HERE IT IS--->', req.body.period)
+	// const months = req.body.period;
 	const now = moment();
 	const today = now.format('YYYY-MM-DD');
 // 	const xMonthsAgo = now.subtract(months, 'months').format('YYYY-MM-DD');
-	console.log('<---HERE IT IS--->', req.body.plaidData)
+	console.log('<---HERE IT IS--->', req.body)
 
 	let transactions = [];
-	const accounts = req.body.plaidData;
+	const accounts = req.body;
 
 	if (accounts) {
 		accounts.forEach(async function (account) {

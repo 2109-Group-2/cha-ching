@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getTransactions, addAccount, deleteAccount } from '../store/plaid';
+import { getTransactions, deleteAccount } from '../store/plaid';
 import { logout } from '../store';
 import TransactionsTable from './TransactionsTable';
 import SpendingPieChart from './SpendingPieChart';
@@ -143,7 +143,6 @@ class Transactions extends Component {
 Transactions.propTypes = {
 	logout: PropTypes.func.isRequired,
 	getTransactions: PropTypes.func.isRequired,
-	addAccount: PropTypes.func.isRequired,
 	deleteAccount: PropTypes.func.isRequired,
 	accounts: PropTypes.array.isRequired,
 	plaid: PropTypes.object.isRequired,
@@ -158,7 +157,6 @@ const mapState = (state) => ({
 const mapDispatch = (dispatch) => ({
 	logout: (userData) => dispatch(logout(userData)),
 	getTransactions: (userData) => dispatch(getTransactions(userData)),
-	addAccount: (userData) => dispatch(addAccount(userData)),
 	deleteAccount: (userData) => dispatch(deleteAccount(userData)),
 });
 
