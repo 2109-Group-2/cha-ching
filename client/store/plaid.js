@@ -8,6 +8,9 @@ export const GET_TRANSACTIONS = "GET_TRANSACTIONS"
 export const TRANSACTIONS_LOADING = "TRANSACTIONS_LOADING"
 export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN"
 export const SET_LINK_TOKEN = "SET_LINK_TOKEN"
+export const GET_BUDGETS = "GET_BUDGETS"
+export const SET_BUDGETS = "SET_BUDGETS"
+export const ADD_BUDGET = "ADD_BUDGET"
 
 
 // Actions
@@ -26,38 +29,28 @@ export const setLinkToken = (userId) => async dispatch => {
 
 }
 
-export const setAccessToken = (publicToken, metadata, userId) => async dispatch => {
-  const res = await axios.post(
-			`/api/plaid/accounts/add/${userId}`,
-			{
-				publicToken: publicToken,
-				metadata: metadata,
-			}
-		);
-		const data = res.data.access_token;
+// Create Plaid Item: Request Access Token and Account - add to store
+export const setItem = (token, userId, metadata) => async dispatch => {
+  try {
+    // Request Access Token
+    const res = await axios.post('/api/plaid/set_item', { token });
+    // Add Acount
+    const res2 = await axios.post('/api/plaid/accounts/add', {userId, metadata});
+
     dispatch({
       type: SET_ACCESS_TOKEN,
-      payload: data
+      payload: res.data.token
     })
-}
+    dispatch({
+      type: ADD_ACCOUNT,
+      payload: res2.data
+    })
+  } catch (error) {
+    console.log('<---setAccessToken Thunk ERROR--->')
+  }
 
-// Add Account
-export const addAccount = plaidData => dispatch => {
-  const accounts = plaidData.accounts
-  axios
-    .post('/api/plaid/accounts/add', plaidData)
-    .then(res =>
-      dispatch({
-        type: ADD_ACCOUNT,
-        payload: res.data
-      })
-    )
-    .then(data =>
-      accounts ? dispatch(getTransactions(accounts.concat(data.payload))) : null
-    )
-    .catch(err => console.log(err))
-}
 
+}
 
 // Delete account
 // Filter out the deleted account from the accounts array before calling getTransactions
@@ -107,10 +100,13 @@ export const setAccountsLoading = () => {
 }
 
 // Get Transactions
-export const getTransactions = plaidData => dispatch => {
+export const getTransactions = (plaidData, period = 3) => dispatch => {
   dispatch(setTransactionsLoading())
   axios
-    .post('/api/plaid/transactions', plaidData)
+    .post('/api/plaid/transactions', {
+      plaidData,
+      period
+    })
     .then(res =>
       dispatch({
         type: GET_TRANSACTIONS,
@@ -124,6 +120,36 @@ export const getTransactions = plaidData => dispatch => {
       })
     )
 }
+
+// BUDGETS
+export const setBudgets = (user) => async dispatch => {
+  const res = await axios.get(`/api/plaid/budgets/${user.id}`)
+  dispatch({
+    type: SET_BUDGETS,
+    payload: res.data
+  })
+}
+
+// Add Budget
+export const addBudget = (userId, category, amount) => async dispatch => {
+  try {
+    const res = await axios.post('/api/plaid/budgets/add', {
+      userId,
+      category,
+      amount
+    })
+    dispatch({
+      type: ADD_BUDGET,
+      payload: res.data
+    })
+  } catch(error) {
+    console.log('Error in the addBudget thunk')
+    console.log(error)
+
+  }
+
+}
+
 // Transactions loading
 export const setTransactionsLoading = () => {
   return {
@@ -134,6 +160,7 @@ export const setTransactionsLoading = () => {
 const initialState = {
   token: '',
   access_token: '',
+  budgets: [],
   accounts: [],
   transactions: [],
   accountsLoading: false,
@@ -152,6 +179,16 @@ export default function (state = initialState, action) {
       return {
         ...state,
         access_token: action.payload
+      }
+    case SET_BUDGETS:
+      return {
+        ...state,
+        budgets: action.payload
+      }
+    case ADD_BUDGET:
+      return {
+        ...state,
+        budgets: [action.payload, ...state.budgets]
       }
     case ACCOUNTS_LOADING:
       return {
