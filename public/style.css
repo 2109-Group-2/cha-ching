@@ -165,6 +165,16 @@ a {
 	color: white;
 }
 
+.accordion-body {
+	padding-left: 0vh;
+	padding-right: 0vh;
+}
+
+.accordion-body > p {
+	margin-bottom: 0vw;
+	color: black;
+}
+
 @media screen and (max-width: 850px) {
 	/* transactions component */
 	.pieChart {
@@ -217,7 +227,7 @@ a {
 		padding-right: 0vh;
 	}
 
-	.accordion-body > p {
+	.accordion-body > p > p > inline {
 		margin-bottom: 0vw;
 		color: black;
 	}
