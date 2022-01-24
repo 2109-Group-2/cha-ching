@@ -18,17 +18,17 @@ class Link extends Component {
 	onEvent(eventName, metadata) {
 		console.log('onEvent', eventName, metadata);
 		if (eventName === 'HANDOFF') {
-			this.props.getAccounts(this.props.currentUser.user)
+			this.props.getAccounts(this.props.auth.user);
 		}
 	}
 
 	onSuccess(token, metadata) {
 		console.log('onSuccess', token, metadata);
-		this.props.setItem(token, this.props.currentUser.user.id, metadata);
+		this.props.setItem(token, metadata, this.props.auth.user.id);
 	}
 
 	componentDidMount() {
-		this.props.setLinkToken(this.props.currentUser.user.id);
+		this.props.setLinkToken(this.props.auth.user.id);
 	}
 
 	render() {
@@ -53,7 +53,7 @@ class Link extends Component {
 
 const mapState = (state) => {
 	return {
-		currentUser: state.currentUser,
+		auth: state.auth,
 		orders: state.orders,
 		plaid: state.plaid,
 	};

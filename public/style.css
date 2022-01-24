@@ -2,33 +2,258 @@
   font-family: sans-serif;
 } */
 body {
-  font-family: Roboto, Helvetica, Arial, sans-serif;
+	font-family: Roboto, Helvetica, Arial, sans-serif;
+	background-color: #327d41;
 }
 
 a {
-  text-decoration: none;
+	text-decoration: none;
 }
 
 label {
-  display: block;
+	display: block;
 }
 
 nav a {
-  display: inline-block;
-  margin: 1em;
+	display: inline-block;
+	margin: 1em;
 }
 
 form div {
-  margin: 1em;
-  display: inline-block;
+	margin: 1em;
+	display: inline-block;
 }
 
 .visually-hidden {
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+/* === Transactions Component === */
+
+.pieChart {
+	background-color: white;
+	border-radius: 5px;
+	border: 2px solid #7577741c;
+	margin: 5px;
+	padding: 10px;
+	width: 42.5vw;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	color: black;
+}
+
+.transactionsTable {
+	width: 86vw;
+	border-radius: 5px;
+	border: 2px solid #7577741c;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.chartsAndTables {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	align-content: center;
+	justify-content: center;
+}
+
+.transactionsComponent {
+	text-align: center;
+	margin: 10px;
+	border-radius: 5px;
+	background-color: #c8ad55;
+	left: 150px;
+	padding-bottom: 30px;
+	color: white;
+}
+
+/* Inactive tab */
+.transactionsTabs {
+	background-color: white;
+	color: #c8ad55;
+}
+.transactionsTabs li.nav-item > button.nav-link:hover {
+	background-color: #c8ad558a;
+}
+
+/* Active tab */
+.transactionsTabs li.nav-item > button.nav-link.active,
+.transactionsTabs li.nav-item > button.nav-link.active:hover,
+.transactionsTabs li.nav-item > button.nav-link.active:focus {
+	background-color: #c8ad55;
+	color: white;
+}
+
+/* NavBar Component */
+
+a {
+	color: #c8ad55;
+}
+
+.navbar {
+	color: #c8ad55;
+	text-decoration: #c8ad55;
+	background-color: white;
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-start;
+	padding-top: 0.5vw;
+	padding-bottom: 0.5vw;
+	width: 100vw;
+	font-size: 8vw;
+}
+
+.landing {
+	display: flex;
+	background: url('https://www.pngall.com/wp-content/uploads/4/Falling-Gold-Coin-Transparent.png')
+		repeat;
+	background-position: center;
+	background-size: 700px 700px;
+	color: white;
+	text-align: center;
+	align-content: center;
+	justify-content: center;
+	height: 89vh;
+	text-shadow: 3px 3px 4px #000000;
+}
+
+.landing a {
+	color: white;
+	background-color: #c8ad55;
+	margin: 10pt;
+	font-size: 15px;
+	flex-direction: row;
+	text-shadow: 3px 3px 4px #000000;
+}
+
+.col-s6 {
+	display: flex;
+	flex-direction: column;
+	height: 40vw;
+	align-items: center;
+	justify-content: center;
+	font-size: 20px;
+}
+
+.authComponent {
+	background: url('https://www.pngall.com/wp-content/uploads/4/Falling-Gold-Coin-Transparent.png')
+		repeat;
+	background-size: 700px 700px;
+	height: 89vh;
+	text-align: center;
+	font-weight: bolder;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	font-size: larger;
+	text-shadow: 2px 2px 4px #4e4e4e;
+}
+
+.accountsComponent {
+	text-align: center;
+	margin: 10px;
+	border-radius: 5px;
+	width: 24rem;
+	background-color: #c8ad55;
+	color: white;
+}
+
+.accordion-body {
+	padding-left: 0vh;
+	padding-right: 0vh;
+}
+
+.accordion-body > p {
+	margin-bottom: 0vw;
+	color: black;
+}
+
+@media screen and (max-width: 850px) {
+	/* transactions component */
+	.pieChart {
+		background-color: white;
+		border-radius: 5px;
+		border: 2px solid #7577741c;
+		margin: 5px;
+		padding: 10px;
+		width: 85vw;
+		box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	}
+
+	.transactionsTable {
+		width: 85vw;
+		border-radius: 5px;
+		border: 2px solid #7577741c;
+		box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	}
+
+	.chartsAndTables {
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		align-content: center;
+		justify-content: center;
+	}
+
+	.transactionsComponent {
+		text-align: center;
+		margin: 10px;
+		border-radius: 5px;
+		background-color: #c8ad55;
+		left: 150px;
+		font-size: 4vw;
+	}
+
+	/* accounts component */
+	.accountsComponent {
+		text-align: center;
+		margin: 10px;
+		border-radius: 5px;
+		width: 90vw;
+		background-color: #c8ad55;
+		color: white;
+		font-size: 4vw;
+	}
+
+	.accordion-body {
+		padding-left: 0vh;
+		padding-right: 0vh;
+	}
+
+	.accordion-body > p > p > inline {
+		margin-bottom: 0vw;
+		color: black;
+	}
+
+	.material-icons {
+		margin: 0px;
+	}
+
+	/* landing component */
+	.landing {
+		background-size: 325px 325px;
+		height: 70vh;
+	}
+
+	/* authComponent */
+	.authComponent {
+		background: url('https://www.pngall.com/wp-content/uploads/4/Falling-Gold-Coin-Transparent.png')
+			repeat;
+		background-size: 222px 222px;
+		height: 70vh;
+		flex-direction: column;
+		text-align: center;
+		font-weight: bolder;
+		display: flex;
+		align-content: flex-start;
+		justify-content: flex-start;
+		font-size: larger;
+	}
 }

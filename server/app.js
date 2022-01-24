@@ -5,7 +5,7 @@ const app = express()
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
-
+require('dotenv').config({ path: path.resolve(__dirname, './config/.env') })
 module.exports = app
 
 // logging middleware
@@ -15,12 +15,13 @@ app.use(morgan('dev'))
 app.use(express.json())
 
 // Pull in MongoURI from keys.js & connect to DB
-const db = require('./config/keys').mongoURI
+const db = process.env.mongoURI
 
 mongoose
   .connect(
     db,
-    { useNewUrlParser: true }
+    { useNewUrlParser: true,
+      useUnifiedTopology: false }
   )
   .then(() => console.log(`💸 💸 💸 Success! MongoDB connected...`))
   .catch(err => console.log(err))

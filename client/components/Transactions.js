@@ -4,16 +4,29 @@ import { connect } from 'react-redux';
 import { getTransactions, addAccount, deleteAccount } from '../store/plaid';
 import { logout } from '../store';
 import TransactionsTable from './TransactionsTable';
+import SpendingPieChart from './SpendingPieChart';
+import SpendingBarGraph from './SpendingBarChart';
+import { Tabs, Tab } from 'react-bootstrap';
+import moment from 'moment';
 
 class Transactions extends Component {
+	constructor() {
+		super();
+		this.state = {
+			transactionsByDate: [],
+			comparisonData: [],
+		};
+	}
+
 	componentDidMount() {
 		const { accounts } = this.props.plaid;
 		this.props.getTransactions(accounts);
+		// this.setState({ transactionsByDate: this.props.plaid.transactions });
 	}
 
 	render() {
 		const { transactions, transactionsLoading, accounts } = this.props.plaid;
-
+		const { transactionsByDate, comparisonData } = this.state;
 		let transactionsData = [];
 
 		transactions.forEach(function (account) {
@@ -28,31 +41,100 @@ class Transactions extends Component {
 			});
 		});
 
+		const today = moment().format('YYYY-MM-DD');
+		const monthAgo = moment().subtract(1, 'months').format('YYYY-MM-DD');
+		const twoMonthsAgo = moment().subtract(2, 'months').format('YYYY-MM-DD');
+		const quarterAgo = moment().subtract(4, 'months').format('YYYY-MM-DD');
+		const twoQuartersAgo = moment().subtract(8, 'months').format('YYYY-MM-DD');
+		const yearAgo = moment().subtract(1, 'years').format('YYYY-MM-DD');
+		const twoYearsAgo = moment().subtract(2, 'years').format('YYYY-MM-DD');
+
+		let handleClick = (eventKey) => {
+			if (eventKey === 'monthly') {
+				this.setState({
+					transactionsByDate: transactionsData.filter((data) =>
+						moment(data.date).isBetween(monthAgo, today)
+					),
+					comparisonData: transactionsData.filter((data) =>
+						moment(data.date).isBetween(twoMonthsAgo, monthAgo)
+					),
+				});
+			} else if (eventKey === 'quarterly') {
+				this.setState({
+					transactionsByDate: transactionsData.filter((data) =>
+						moment(data.date).isBetween(quarterAgo, today)
+					),
+					comparisonData: transactionsData.filter((data) =>
+						moment(data.date).isBetween(twoQuartersAgo, quarterAgo)
+					),
+				});
+			} else if (eventKey === 'yearly') {
+				this.setState({
+					transactionsByDate: transactionsData.filter((data) =>
+						moment(data.date).isBetween(yearAgo, today)
+					),
+					comparisonData: transactionsData.filter((data) =>
+						moment(data.date).isBetween(twoYearsAgo, yearAgo)
+					),
+				});
+			} else if (eventKey === 'allTime') {
+				this.setState({
+					transactionsByDate: transactionsData,
+					comparisonData: transactionsData,
+				});
+			}
+		};
+
 		return (
-			<div>
-				<h3>
-					<b>Transactions</b>
-				</h3>
+			<div className="transactionsComponent">
+				<Tabs
+					defaultActiveKey="allTime"
+					id="uncontrolled-tab-example"
+					className="mb-3"
+					// justify
+					onSelect={(eventKey) => {
+						handleClick(eventKey);
+					}}
+					className="transactionsTabs"
+				>
+					<Tab eventKey="allTime" title="All Time"></Tab>
+					<Tab eventKey="monthly" title="Monthly"></Tab>
+					<Tab eventKey="quarterly" title="Quarterly"></Tab>
+					<Tab eventKey="yearly" title="Yearly"></Tab>
+				</Tabs>
+
+				{/* I want to render the original data table first so that the charts aren't empty */}
+				{transactionsData.length
+					? transactionsByDate.length === 0
+						? this.setState({
+								transactionsByDate: transactionsData,
+								comparisonData: transactionsData,
+						  })
+						: ''
+					: ''}
+
+				<h2>Transactions Breakdown</h2>
 
 				{!transactions ? (
 					<></>
 				) : (
-					<p>
-						You have <b>{transactionsData.length}</b> transactions from your
+					<h4>
+						You have <b>{transactionsByDate.length}</b> transactions from your
 						<b> {accounts.length}</b> linked
-						{accounts.length > 1 ? (
-							<span> accounts </span>
-						) : (
-							<span> account </span>
-						)}
-						from the past 30 days{' '}
-					</p>
+						{accounts.length > 1 ? ' accounts' : ' account'}
+					</h4>
 				)}
-
-				<TransactionsTable
-					transactions={transactions}
-					transactionsLoading={transactionsLoading}
-				/>
+				<div className="chartsAndTables">
+					<SpendingBarGraph
+						transactionsByDate={transactionsByDate}
+						comparisonData={comparisonData}
+					/>
+					<SpendingPieChart transactionsByDate={transactionsByDate} />
+					<TransactionsTable
+						transactionsByDate={transactionsByDate}
+						transactionsLoading={transactionsLoading}
+					/>
+				</div>
 			</div>
 		);
 	}

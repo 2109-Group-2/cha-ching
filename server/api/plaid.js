@@ -1,7 +1,7 @@
 require('dotenv').config();
 const router = require('express').Router();
 const bodyParser = require('body-parser');
-const keys = require('../config/keys');
+// const keys = require('../config/keys');
 const cors = require('cors');
 const { Configuration, PlaidApi, PlaidEnvironments } = require('plaid');
 // const plaid =require('plaid');
@@ -9,17 +9,13 @@ const moment = require('moment');
 router.use(cors());
 router.use(bodyParser.json());
 const mongoose = require('mongoose');
-
-const Account = require('../db/models/Account');
 const User = require('../db/models/User');
-// const { PlaidApi } = require('plaid');
 
-const PLAID_CLIENT_ID = keys.PLAID_CLIENT_ID;
-const PLAID_SECRET = keys.PLAID_SECRET;
+const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
+const PLAID_SECRET = process.env.PLAID_SECRET;
 const PLAID_ENV = process.env.PLAID_ENV || 'sandbox';
-const PLAID_PRODUCTS = (process.env.PLAID_PRODUCTS || 'transactions').split(
-	','
-);
+const PLAID_PRODUCTS = (process.env.PLAID_PRODUCTS || 	'transactions').split(',');
+
 const PLAID_COUNTRY_CODES = (process.env.PLAID_COUNTRY_CODES || 'US').split(
 	','
 );
@@ -61,17 +57,10 @@ router.post('/create_link_token/:id', async (req, res, next) => {
 				language: 'en',
 			};
 
-			// if (PLAID_REDIRECT_URI !== '') {
-			// 	configs.redirect_uri = PLAID_REDIRECT_URI;
-			// }
-
 			if (PLAID_ANDROID_PACKAGE_NAME !== '') {
 				configs.android_package_name = PLAID_ANDROID_PACKAGE_NAME;
 			}
 			const createTokenResponse = await client.linkTokenCreate(configs);
-			// prettyPrintResponse(createTokenResponse);
-			console.log('THIS IS THE RESONSE LINK TOKEN', createTokenResponse.data);
-			PUBLIC_TOKEN = createTokenResponse.data;
 			return res.json({ link_token: createTokenResponse.data });
 		})
 		.catch(next);
@@ -165,20 +154,51 @@ router.post('/accounts/add', async (req, res, next) => {
 	try {
 		const user = await User.findById(req.body.userId);
 		console.log('<---in the route--->')
-		const institution = req.body.metadata.institution;
-		const { name, institution_id } = institution;
-		const newAccount = {
-			userId: req.body.userId,
-			accessToken: ACCESS_TOKEN,
-			itemId: ITEM_ID,
-			institutionId: institution_id,
-			institutionName: name,
-		}
-		user.accounts.push(newAccount);
-		user.save(function (err) {
-			if (!err) console.log('Successfully added account!');
-		});
-		return res.json(newAccount);
+    let accountsToAdd = await req.body.metadata.accounts.filter((account) => {
+				return (
+					account.subtype === 'checking' ||
+					account.subtype === 'savings' ||
+					account.subtype === 'credit card'
+				);
+			});
+			// Check if account already exists for that specific user using the userId and institutionId
+			try {
+				const account = await User.find({
+					_id: userId,
+					'accounts.institutionId': institution_id,
+				});
+				const newAccounts = accountsToAdd.map((account) => {
+					return {
+						userId: userId,
+						accessToken: ACCESS_TOKEN,
+						itemId: ITEM_ID,
+						institutionId: institution_id,
+						institutionName: name,
+						accountName: account.name,
+						accountType: account.type,
+						accountSubtype: account.subtype,
+					};
+				});
+				console.log('+++++ newAccounts =====', newAccounts);
+				await newAccounts.map((account) => user.accounts.push(account));
+				user.save(function (err) {
+					if (!err) console.log('Successfully added account!');
+				});
+				return res.json(newAccounts);
+// 		const institution = req.body.metadata.institution;
+// 		const { name, institution_id } = institution;
+// 		const newAccount = {
+// 			userId: req.body.userId,
+// 			accessToken: ACCESS_TOKEN,
+// 			itemId: ITEM_ID,
+// 			institutionId: institution_id,
+// 			institutionName: name,
+// 		}
+// 		user.accounts.push(newAccount);
+// 		user.save(function (err) {
+// 			if (!err) console.log('Successfully added account!');
+// 		});
+// 		return res.json(newAccount);
 	} catch(error) {
 		console.log('<---/accounts/add POST route ERROR--->')
 	}
@@ -196,33 +216,43 @@ router.post('/accounts/add/:id', async (req, res) => {
 			const response = await client.itemPublicTokenExchange({
 				public_token: publicToken,
 			});
-			ACCESS_TOKEN = response.data.access_token;
-			ITEM_ID = response.data.item_id;
+			const ACCESS_TOKEN = response.data.access_token;
+			const ITEM_ID = response.data.item_id;
+			console.log(
+				' === req.body.metadata.accounts === ',
+				req.body.metadata.accounts
+			);
+			let accountsToAdd = await req.body.metadata.accounts.filter((account) => {
+				return (
+					account.subtype === 'checking' ||
+					account.subtype === 'savings' ||
+					account.subtype === 'credit card'
+				);
+			});
 			// Check if account already exists for that specific user using the userId and institutionId
 			try {
 				const account = await User.find({
 					_id: userId,
 					'accounts.institutionId': institution_id,
 				});
-
-				// if (account) {
-				// 	console.log('Account already exists');
-				// 	return res.json(account);
-				// } else {
-					// If account does not exist, save it to DB
-					const newAccount = {
+				const newAccounts = accountsToAdd.map((account) => {
+					return {
 						userId: userId,
 						accessToken: ACCESS_TOKEN,
 						itemId: ITEM_ID,
 						institutionId: institution_id,
 						institutionName: name,
-					}
-					user.accounts.push(newAccount);
-					user.save(function (err) {
-						if (!err) console.log('Successfully added account!');
-					});
-					return res.json(newAccount);
-				// }
+						accountName: account.name,
+						accountType: account.type,
+						accountSubtype: account.subtype,
+					};
+				});
+				console.log('+++++ newAccounts =====', newAccounts);
+				await newAccounts.map((account) => user.accounts.push(account));
+				user.save(function (err) {
+					if (!err) console.log('Successfully added account!');
+				});
+				return res.json(newAccounts);
 			} catch (err) {
 				console.log('===Mongo Error===', err);
 			}
@@ -233,21 +263,23 @@ router.post('/accounts/add/:id', async (req, res) => {
 });
 */
 
-router.delete('/accounts/:id', (req, res) => {
-	Account.findById(req.params.id).then((account) => {
-		// Delete account
-		account.remove().then(() => res.json({ success: true }));
+router.delete('/accounts/:id', async (req, res) => {
+	console.log('=== THIS IS THE REQ.body ===', req.body);
+	const user = await User.findById(req.params.id);
+	await user.accounts.id(req.body[0]._id).remove();
+	await user.save(function (err) {
+		if (!err) return console.log('the subdocs were removed');
 	});
+	res.json({ success: true });
 });
 
 router.get('/accounts/:id', async (req, res) => {
 	try {
-		const user = await User.findById(req.params.id)
-		let accounts = []
+		const user = await User.findById(req.params.id);
+		let accounts = [];
 		user.accounts.map((account) => {
-			accounts.push(account)
-		})
-		console.log("++++++++++THIS IS THE RETURNED ACCOUNTS+++++", accounts)
+			accounts.push(account);
+		});
 		return res.json(accounts);
 	} catch (err) {
 		console.log(err);
@@ -264,7 +296,7 @@ router.post('/transactions', async (req, res) => {
 	const months = req.body.period;
 	const now = moment();
 	const today = now.format('YYYY-MM-DD');
-	const xMonthsAgo = now.subtract(months, 'months').format('YYYY-MM-DD');
+// 	const xMonthsAgo = now.subtract(months, 'months').format('YYYY-MM-DD');
 	console.log('<---HERE IT IS--->', req.body.plaidData)
 
 	let transactions = [];
@@ -273,18 +305,19 @@ router.post('/transactions', async (req, res) => {
 	if (accounts) {
 		accounts.forEach(async function (account) {
 			const institutionName = account.institutionName;
+			const accountName = account.accountName;
 			const configs = {
 				access_token: String(account.accessToken),
-				start_date: xMonthsAgo,
+				start_date: '1969-01-01',
 				end_date: today,
 				options: {
-					count: 250,
+					count: 500,
 					offset: 0,
 				},
 			};
 			const transactionsResponse = await client.transactionsGet(configs);
 			transactions.push({
-				accountName: institutionName,
+				accountName: institutionName + " - " + accountName,
 				transactions: transactionsResponse.data.transactions,
 			});
 			if (transactions.length === accounts.length) {
