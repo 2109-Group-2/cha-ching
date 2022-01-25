@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const axios = require("axios");
 const Accounts = require("./Account");
+const Saving = require("./Saving");
 
 const SALT_ROUNDS = 5;
 
@@ -28,6 +29,7 @@ const UserSchema = new Schema({
     minlength: 5,
   },
   accounts: [Accounts],
+  savings: [Saving],
   date: {
     type: Date,
     default: Date.now,

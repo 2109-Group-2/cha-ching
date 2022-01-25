@@ -29,6 +29,7 @@ router.post("/login", async (req, res) => {
             name: user.name,
             email: user.email,
             accounts: user.accounts,
+            savings: user.savings,
           };
           req.user = user;
           console.log("this is the user: ", req.user);

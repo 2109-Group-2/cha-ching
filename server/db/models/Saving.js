@@ -39,5 +39,5 @@ const SavingSchema = new Schema({
   },
 });
 
-let Saving = SavingSchema;
+const Saving = SavingSchema;
 module.exports = Saving;

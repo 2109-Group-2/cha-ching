@@ -6,7 +6,7 @@ router.get("/:id", async (req, res) => {
   //to get all savings associated with a particular user
   try {
     const user = await User.findById(req.params.id);
-    console.log(user);
+    console.log('this is the user ', user);
     let savings = [];
     if (user.savings) {
       user.savings.map((goal) => {
