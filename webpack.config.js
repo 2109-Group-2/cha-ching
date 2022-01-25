@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 module.exports = {
 	entry: ['./client/index.js'],
 	output: {
@@ -29,4 +30,9 @@ module.exports = {
 			},
 		],
 	},
+	plugins: [
+    new webpack.DefinePlugin({
+      'process.env.PUBLIC_URL': JSON.stringify(process.env.PUBLIC_URL),
+    })
+],
 };
