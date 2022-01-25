@@ -3,7 +3,7 @@ import { Form, FormGroup, FormControl, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { useContext, useState } from "react";
 
-class UserDetails extends Component {
+class UserSettings extends Component {
   constructor() {
     super();
     this.state = {
@@ -116,4 +116,4 @@ const mapDispatchToProps = (dispatch) => ({
   // addGoal: (goal) => dispatch(addGoal(goal)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(UserSettings);
