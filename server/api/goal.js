@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const Saving = require("../db/models/Saving");
 const User = require("../db/models/User");
+const fileUpload = require("express-fileupload");
+router.use(fileUpload());
 
 router.get("/:id", async (req, res) => {
   //to get all savings associated with a particular user
@@ -46,15 +48,23 @@ router.delete("/:id", async (req, res) => {
 router.post("/:id", async (req, res, next) => {
   console.log("req body ", req.body);
   console.log("req params", req.params);
+  let file;
+  if (!req.file) {
+    file = "/public/user-icon.png";
+  } else {
+    file = req.files.file;
+
+    file.mv(`${__dirname}/public/uploads/${file.name}`);
+  }
 
   const userId = req.params.id;
   try {
     const user = await User.findById(userId);
-    const { title, image, category, currentBalance, goalTarget } = req.body;
+    const { title, category, currentBalance, goalTarget } = req.body;
     const newGoal = {
       userId: userId,
       title: title,
-      image: image,
+      image: file,
       category: category,
       currentBalance: currentBalance,
       goalTarget: goalTarget,

@@ -42,11 +42,16 @@ export const fetchGoals = (id) => {
   };
 };
 
-export const addGoal = (goal, userId) => {
+export const addGoal = (goal, userId, formData) => {
   return async (dispatch) => {
     try {
-      console.log("before", userId);
-      const { data: added } = await axios.post(`api/goal/${userId}`, goal);
+      console.log("****************************formData", formData);
+      console.log("****************************goal", goal);
+      const { data: added } = await axios.post(`api/goal/${userId}`, formData, goal,{
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
       console.log(
         "GHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNC" +
           "this is added store/savingGoals ",
