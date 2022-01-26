@@ -23,15 +23,17 @@ const NavBar = ({ handleClick, auth }) => (
             <Link to="/settings">
               <img
                 src={auth.user.image || "/user-icon.png"}
-                style={{ height: "74px", width: "61px" }}
+                style={{ height: "60px", width: "60px" }}
               />
             </Link>
+            <Link to="/feedback">Feedback</Link>
           </div>
         ) : (
           <div>
             {/* The navbar will show these links before you log in */}
             <Link to="/login">Login</Link>
             <Link to="/signup">Sign Up</Link>
+            <Link to="/feedback">Feedback</Link>
           </div>
         )}
       </nav>

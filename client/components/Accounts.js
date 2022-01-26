@@ -8,21 +8,20 @@ import TransactionsTable from './TransactionsTable';
 import { Accordion, Card, Button } from 'react-bootstrap';
 
 class Accounts extends Component {
-	componentDidMount() {
-		const { accounts } = this.props;
-		// this.props.getTransactions(accounts);
-	}
+	// componentDidMount() {
+	// 	const { accounts } = this.props;
+	// }
 
 	// Add account
-	handleOnSuccess = (token, metadata) => {
-		const { accounts } = this.props;
-		const plaidData = {
-			public_token: token,
-			metadata: metadata,
-			accounts: accounts,
-		};
-		this.props.setItem(plaidData);
-	};
+	// handleOnSuccess = (token, metadata) => {
+	// 	const { accounts } = this.props;
+	// 	const plaidData = {
+	// 		public_token: token,
+	// 		metadata: metadata,
+	// 		accounts: accounts,
+	// 	};
+	// 	this.props.setItem(plaidData);
+	// };
 
 	// Delete account
 	onDeleteClick = (id) => {
@@ -35,10 +34,10 @@ class Accounts extends Component {
 	};
 
 	// Logout
-	onLogoutClick = (e) => {
-		e.preventDefault();
-		this.props.logout();
-	};
+	// onLogoutClick = (e) => {
+	// 	e.preventDefault();
+	// 	this.props.logout();
+	// };
 
 	render() {
 		const { user, accounts } = this.props;

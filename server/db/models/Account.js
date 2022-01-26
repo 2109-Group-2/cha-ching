@@ -36,4 +36,3 @@ const AccountSchema = new Schema({
 })
 const Account = AccountSchema
 module.exports = Account
-

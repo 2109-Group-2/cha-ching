@@ -1,14 +1,15 @@
-import React, { Component, Fragment } from "react";
-import { connect } from "react-redux";
-import { withRouter, Route, Switch, Redirect } from "react-router-dom";
-import { Login, Signup } from "./components/AuthForm";
-import { me } from "./store";
-import PropTypes from "prop-types";
-import Landing from "./components/Landing";
-import store from "./store";
-import { setCurrentUser, logout, setAuthToken } from "./store/auth";
-import Dashboard from "./components/Dashboard";
-import Transactions from "./components/Transactions";
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { Login, Signup } from './components/AuthForm';
+import { me } from './store';
+import PropTypes from 'prop-types';
+import Landing from './components/Landing';
+import store from './store';
+import { setCurrentUser, logout, setAuthToken } from './store/auth';
+import Dashboard from './components/Dashboard';
+import Transactions from './components/Transactions';
+import Feedback from './components/Feedback'
 import Savings from "./components/Savings";
 import AddGoal from "./components/AddGoal";
 import UserSettings from "./components/UserSettings";
@@ -37,12 +38,14 @@ class Routes extends Component {
             <Route path="/savings" component={Savings} />
             <Route path="/addGoal" component={AddGoal} />
             <Route path="/settings" component={UserSettings} />
+              <Route path="/feedback" component={Feedback} />
           </Switch>
         ) : (
           <Switch>
             <Route path="/" exact component={Landing} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
+              <Route path="/feedback" component={Feedback} />
           </Switch>
         )}
       </div>
