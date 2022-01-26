@@ -23,9 +23,9 @@ const SavingSchema = new Schema({
       "Gifts and Shopping",
       "Wedding",
       "Furniture",
-      "Other",
+      "other",
     ],
-    default: "Other",
+    default: "other",
   },
   currentBalance: {
     type: Number,
@@ -33,8 +33,7 @@ const SavingSchema = new Schema({
   },
   goalTarget: {
     type: Number,
-    min: 100,
-    max: 100000000,
+    min: 1,
     required: [true, "Must choose an amount"],
   },
 });

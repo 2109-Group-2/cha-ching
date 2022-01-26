@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 // import { Modal } from "react-responsive-modal";
 import { fetchGoals } from "../store/savingGoals";
 import Swal from "sweetalert2";
+import { Route, Link } from "react-router-dom";
+import AddGoal from "./AddGoal";
 
 // let goals = [
 //   {
@@ -33,14 +35,16 @@ import Swal from "sweetalert2";
 
 class Savings extends Component {
   componentDidMount() {
-    console.log("first ", this.props.auth.user.id);
-    // this.props.fetchGoals(this.props.auth.user.id);
-    // this.props.setUserGoals()
+    console.log("first ", this.props.goal);
+
+    this.props.fetchGoals(this.props.auth.user.id);
     console.log("component did mount goals: ", this.props.auth);
   }
 
   render() {
-    let goals = this.props.auth.user.savings;
+
+    console.log('njdkmfksd');
+    let goals = this.props.goal;
     let totalAmount = 0;
     goals.forEach((goal) => {
       totalAmount += goal.currentBalance;
@@ -56,7 +60,9 @@ class Savings extends Component {
               {numOfGoals <= 0 ? (
                 <>
                   <h2>You have not added any goals. Get started!</h2>
-                  <button className="AddGoalButton">+ add a goal</button>
+                  <button className="AddGoalButton">
+                      <Link to="/addGoal">+ add a goal</Link>
+                  </button>
                 </>
               ) : (
                 <>
@@ -65,13 +71,19 @@ class Savings extends Component {
                       Currently saving ${dollars.toLocaleString()} per month
                       towards {numOfGoals} goals
                     </h2>
-                    <button className="AddGoalButton">+ add a goal</button>
+                    <button
+                      className="AddGoalButton"
+                      // onClick={() => console.log('this runs when clicked')}
+                      // onClick={() => <AddGoal />}
+                    >
+                      <Link to="/addGoal">+ add a goal</Link>
+                    </button>
                   </div>
                   {goals.map((goal) => {
                     return (
-                      <div className="goal" key={goal.id}>
+                      <div className="goal">
                         <div className="goal-left"></div>
-                        <div className="goal-body">
+                        <div className="goal-body" key={goal.id}>
                           <img
                             src={
                               goal.image ||

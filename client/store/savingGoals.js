@@ -7,7 +7,7 @@ const DELETE_GOAL = "DELETE_GOAL";
 
 //action creators
 const setGoal = (goal) => {
-  console.log('third: ', goal);
+  // console.log('third: ', goal);
   return {
     type: SET_GOAL,
     goal,
@@ -15,6 +15,7 @@ const setGoal = (goal) => {
 };
 
 const _addGoal = (goal) => {
+  // console.log('this is goal from _addGoal store/savingGoal: ',goal)
   return {
     type: ADD_GOAL,
     goal,
@@ -33,7 +34,7 @@ export const fetchGoals = (id) => {
   return async (dispatch) => {
     try {
       const { data } = await axios.get(`api/goal/${id}`);
-      console.log('third: this is data', data)
+      // console.log('third: this is data', data)
       dispatch(setGoal(data));
     } catch (error) {
       console.log(error);
@@ -41,16 +42,18 @@ export const fetchGoals = (id) => {
   };
 };
 
-export const addGoal = (goal) => {
+export const addGoal = (goal, userId) => {
   return async (dispatch) => {
     try {
-      const token = window.localStorage.getItem("token");
-      const { data: added } = await axios.post("api/goal", goal, {
-        headers: {
-          authorization: token,
-        },
-      });
+      console.log("before", userId);
+      const { data: added } = await axios.post(`api/goal/${userId}`, goal);
+      console.log(
+        "GHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNC" +
+          "this is added store/savingGoals ",
+        added
+      );
       dispatch(_addGoal(added));
+      //history push maybe
     } catch (error) {
       console.log(error);
     }
@@ -75,10 +78,10 @@ export const deleteGoal = (id) => {
 
 const initialState = [];
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case SET_GOAL:
-      console.log('Fouth: action dot goal =>', action.goal)
+      // console.log('Fouth: action dot goal =>', action.goal)
       return action.goal;
     case DELETE_GOAL:
       return state.filter((goal) => goal.id !== action.goal.id);
