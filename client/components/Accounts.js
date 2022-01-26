@@ -157,6 +157,7 @@ class Accounts extends Component {
 }
 
 Accounts.propTypes = {
+
 	logout: PropTypes.func.isRequired,
 	getTransactions: PropTypes.func.isRequired,
 	setItem: PropTypes.func.isRequired,
@@ -164,10 +165,11 @@ Accounts.propTypes = {
 	accounts: PropTypes.array.isRequired,
 	plaid: PropTypes.object.isRequired,
 	user: PropTypes.object.isRequired,
+
 };
 
 const mapState = (state) => ({
-	plaid: state.plaid,
+  plaid: state.plaid,
 });
 
 const mapDispatch = (dispatch) => ({

@@ -1,50 +1,60 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { logout } from '../store/auth';
-// import logo from './cha-ching.png';
+import React from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { logout } from "../store/auth";
 
+// import logo from './cha-ching.png';
+let image = "/user-icon.png";
 const NavBar = ({ handleClick, auth }) => (
-	<div className="navbar">
-		<img src={'/cha-ching.png'} width={'50px'}/>
-		<h1>   cha-ching</h1>
-		<nav>
-		{auth.isAuthenticated ? (
-			<div>
-				{/* The navbar will show these links after you log in */}
-				<Link to="/dashboard">Dashboard</Link>
-				<Link to="/transactions">Transactions</Link>
-				<a href="/" onClick={handleClick}>
-					Logout
-				</a>
-			</div>
-		) : (
-			<div>
-				{/* The navbar will show these links before you log in */}
-				<Link to="/login">Login</Link>
-				<Link to="/signup">Sign Up</Link>
-			</div>
-		)}
-		</nav>
-		<hr />
-	</div>
+  <>
+    <div className="navbar">
+      <img src={"/cha-ching.png"} width={"50px"} />
+      <h1> cha-ching</h1>
+      <nav>
+        {auth.isAuthenticated ? (
+          <div>
+            {/* The navbar will show these links after you log in */}
+            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/transactions">Transactions</Link>
+            <Link to="/savings">Savings</Link>
+            <a href="/" onClick={handleClick}>
+              Logout
+            </a>
+            <Link to="/settings">
+              <img
+                src={auth.user.image || "/user-icon.png"}
+                style={{ height: "74px", width: "61px" }}
+              />
+            </Link>
+          </div>
+        ) : (
+          <div>
+            {/* The navbar will show these links before you log in */}
+            <Link to="/login">Login</Link>
+            <Link to="/signup">Sign Up</Link>
+          </div>
+        )}
+      </nav>
+      <hr />
+    </div>
+  </>
 );
 
 /**
  * CONTAINER
  */
 const mapState = (state) => {
-	return {
-		auth: state.auth,
-	};
+  return {
+    auth: state.auth,
+  };
 };
 
 const mapDispatch = (dispatch) => {
-	return {
-		handleClick() {
-			dispatch(logout());
-		},
-	};
+  return {
+    handleClick() {
+      dispatch(logout());
+    },
+  };
 };
 
 export default connect(mapState, mapDispatch)(NavBar);
