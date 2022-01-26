@@ -66,6 +66,7 @@ router.post('/create_link_token/:id', async (req, res, next) => {
 		.catch(next);
 });
 
+/*
 router.post('/get_link_token', async (req, res) => {
 	const response = await client.linkTokenGet(linkToken).catch((err) => {
 		if (!linkToken) {
@@ -73,7 +74,139 @@ router.post('/get_link_token', async (req, res) => {
 		}
 	});
 });
+*/
+/*
+router.post('/set_access_token', function (request, response, next) {
+  // PUBLIC_TOKEN = request.body.public_token;
+	let token = request.body.token;
+	console.log(token)
+  Promise.resolve()
+    .then(async function () {
+			console.log('<---en routee--->')
+      const tokenResponse = await client.itemPublicTokenExchange({
+        public_token: token
+      });
+			console.log('<---got second (ACCESS) token--->')
+      // prettyPrintResponse(tokenResponse);
+      ACCESS_TOKEN = tokenResponse.data.access_token;
+      ITEM_ID = tokenResponse.data.item_id;
+      if (PLAID_PRODUCTS.includes('transfer')) {
+        TRANSFER_ID = await authorizeAndCreateTransfer(ACCESS_TOKEN);
+      }
+      response.json({
+        access_token: ACCESS_TOKEN,
+        item_id: ITEM_ID,
+        error: null,
+      });
+    })
+    .catch(next);
+});
+*/
 
+router.post('/set_item', async (request, response, next) => {
+	try {
+		const token = request.body.token;
+		const tokenResponse = await client.itemPublicTokenExchange({
+			public_token: token
+		});
+
+		ACCESS_TOKEN = tokenResponse.data.access_token;
+		ITEM_ID = tokenResponse.data.item_id;
+		if (PLAID_PRODUCTS.includes('transfer')) {
+			TRANSFER_ID = await authorizeAndCreateTransfer(ACCESS_TOKEN);
+		}
+		response.json({
+			access_token: ACCESS_TOKEN,
+			item_id: ITEM_ID,
+			error: null,
+		});
+	} catch(error) {
+		next(error);
+	}
+})
+
+router.get('/budgets/:userId', async (req, res, next) => {
+	try {
+		const user = await User.findById(req.params.userId);
+		console.log('<---THIS IS USER--->', user, '<---THIS IS USER--->')
+		res.send(user.budgets)
+	} catch(error) {
+		console.log('GET Budgets route error')
+	}
+})
+
+router.post('/budgets/add', async (req, res, next) => {
+	try {
+		console.log('<---IN THE ROUTE AND HERES THE ID: ', req.body.userId)
+		const user = await User.findById(req.body.userId);
+		const newBudget = req.body
+		user.budgets.push(newBudget);
+		user.save(function (err) {
+			if (!err) console.log('Successfully added account!');
+		});
+		res.json(newBudget);
+	} catch(error) {
+		console.log('POST Budgets route error')
+	}
+})
+
+router.post('/accounts/add/:id', async (req, res, next) => {
+	try {
+		const userId = req.params.id
+		const user = await User.findById(userId);
+		const institution = req.body.metadata.institution;
+		const { name, institution_id } = institution;
+		console.log('<---in the route--->')
+    let accountsToAdd = await req.body.metadata.accounts.filter((account) => {
+				return (
+					account.subtype === 'checking' ||
+					account.subtype === 'savings' ||
+					account.subtype === 'credit card'
+				);
+			});
+			// Check if account already exists for that specific user using the userId and institutionId
+				const account = await User.find({
+					_id: userId,
+					'accounts.institutionId': institution_id,
+				});
+				const newAccounts = accountsToAdd.map((account) => {
+					return {
+						userId: userId,
+						accessToken: ACCESS_TOKEN,
+						itemId: ITEM_ID,
+						institutionId: institution_id,
+						institutionName: name,
+						accountName: account.name,
+						accountType: account.type,
+						accountSubtype: account.subtype,
+					};
+				});
+				console.log('+++++ newAccounts =====', newAccounts);
+				await newAccounts.map((account) => user.accounts.push(account));
+				user.save(function (err) {
+					if (!err) console.log('Successfully added account!');
+				});
+				return res.json(newAccounts);
+// 		const institution = req.body.metadata.institution;
+// 		const { name, institution_id } = institution;
+// 		const newAccount = {
+// 			userId: req.body.userId,
+// 			accessToken: ACCESS_TOKEN,
+// 			itemId: ITEM_ID,
+// 			institutionId: institution_id,
+// 			institutionName: name,
+// 		}
+// 		user.accounts.push(newAccount);
+// 		user.save(function (err) {
+// 			if (!err) console.log('Successfully added account!');
+// 		});
+// 		return res.json(newAccount);
+	} catch(error) {
+		console.log('<---/accounts/add POST route ERROR--->')
+	}
+})
+
+/*
 router.post('/accounts/add/:id', async (req, res) => {
 	try {
 		const { publicToken } = req.body;
@@ -130,6 +263,7 @@ router.post('/accounts/add/:id', async (req, res) => {
 		console.log('===Plaid Error===', err);
 	}
 });
+*/
 
 router.delete('/accounts/:id', async (req, res) => {
 	console.log('=== THIS IS THE REQ.body ===', req.body);
@@ -155,9 +289,17 @@ router.get('/accounts/:id', async (req, res) => {
 });
 
 router.post('/transactions', async (req, res) => {
+	/*
 	const now = moment();
 	const today = now.format('YYYY-MM-DD');
 	const thirtyDaysAgo = now.subtract(30, 'days').format('YYYY-MM-DD');
+	*/
+	// console.log('<---HERE IT IS--->', req.body.period)
+	// const months = req.body.period;
+	const now = moment();
+	const today = now.format('YYYY-MM-DD');
+// 	const xMonthsAgo = now.subtract(months, 'months').format('YYYY-MM-DD');
+	console.log('<---HERE IT IS--->', req.body)
 
 	let transactions = [];
 	const accounts = req.body;

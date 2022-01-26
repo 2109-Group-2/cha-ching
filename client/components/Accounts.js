@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getTransactions, addAccount, deleteAccount } from '../store/plaid';
+import { setItem, deleteAccount } from '../store/plaid';
 import { logout } from '../store';
 import Link from './Link';
 import TransactionsTable from './TransactionsTable';
@@ -10,7 +10,7 @@ import { Accordion, Card, Button } from 'react-bootstrap';
 class Accounts extends Component {
 	componentDidMount() {
 		const { accounts } = this.props;
-		this.props.getTransactions(accounts);
+		// this.props.getTransactions(accounts);
 	}
 
 	// Add account
@@ -21,7 +21,7 @@ class Accounts extends Component {
 			metadata: metadata,
 			accounts: accounts,
 		};
-		this.props.addAccount(plaidData);
+		this.props.setItem(plaidData);
 	};
 
 	// Delete account
@@ -157,13 +157,15 @@ class Accounts extends Component {
 }
 
 Accounts.propTypes = {
-  logout: PropTypes.func.isRequired,
-  getTransactions: PropTypes.func.isRequired,
-  addAccount: PropTypes.func.isRequired,
-  deleteAccount: PropTypes.func.isRequired,
-  accounts: PropTypes.array.isRequired,
-  plaid: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
+
+	logout: PropTypes.func.isRequired,
+	getTransactions: PropTypes.func.isRequired,
+	setItem: PropTypes.func.isRequired,
+	deleteAccount: PropTypes.func.isRequired,
+	accounts: PropTypes.array.isRequired,
+	plaid: PropTypes.object.isRequired,
+	user: PropTypes.object.isRequired,
+
 };
 
 const mapState = (state) => ({
@@ -171,10 +173,9 @@ const mapState = (state) => ({
 });
 
 const mapDispatch = (dispatch) => ({
-  logout: (userData) => dispatch(logout(userData)),
-  getTransactions: (userData) => dispatch(getTransactions(userData)),
-  addAccount: (userData) => dispatch(addAccount(userData)),
-  deleteAccount: (userData) => dispatch(deleteAccount(userData)),
+	logout: (userData) => dispatch(logout(userData)),
+	setItem: (userData) => dispatch(setItem(userData)),
+	deleteAccount: (userData) => dispatch(deleteAccount(userData)),
 });
 
 export default connect(mapState, mapDispatch)(Accounts);

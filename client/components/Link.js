@@ -1,7 +1,7 @@
 import React, { useEffect, Component } from 'react';
 import { PlaidLink } from 'react-plaid-link';
 import { connect } from 'react-redux';
-import { getAccounts, setLinkToken, setAccessToken } from '../store/plaid';
+import { getAccounts, setLinkToken, setItem } from '../store/plaid';
 
 class Link extends Component {
 	constructor(props) {
@@ -24,7 +24,7 @@ class Link extends Component {
 
 	onSuccess(token, metadata) {
 		console.log('onSuccess', token, metadata);
-		this.props.setAccessToken(token, metadata, this.props.auth.user.id);
+		this.props.setItem(token, this.props.auth.user.id, metadata);
 	}
 
 	componentDidMount() {
@@ -63,8 +63,8 @@ const mapDispatch = (dispatch) => {
 	return {
 		getAccounts: (userData) => dispatch(getAccounts(userData)),
 		setLinkToken: (userId) => dispatch(setLinkToken(userId)),
-		setAccessToken: (publicToken, metadata, userId) =>
-			dispatch(setAccessToken(publicToken, metadata, userId)),
+		setItem: (token, userId, metadata) =>
+			dispatch(setItem(token, userId, metadata)),
 	};
 };
 
