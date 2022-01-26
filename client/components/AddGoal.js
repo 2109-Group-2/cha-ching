@@ -71,7 +71,7 @@ class AddGoal extends Component {
             <FormControl
               type="file"
               placeholder="image"
-              name="image"
+              name={image}
               value={image}
               onChange={(e) => this.onChange(e)}
             />
