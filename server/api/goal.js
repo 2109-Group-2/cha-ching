@@ -8,13 +8,24 @@ router.get("/:id", async (req, res) => {
   //to get all savings associated with a particular user
   try {
     const user = await User.findById(req.params.id);
-    console.log("this is the user ", user);
+    // console.log("this is the user api/goal ", user);
+console.log('this is running!')
+    if (!user.savings.image) {
+      user.savings.image =
+        "https://m.media-amazon.com/images/I/41WPpgz6FYL._AC_SL1200_.jpg";
+    }
+    // user.savings.map((saving) =>
+    //   saving.image
+    //     ? saving.image
+    //     : "https://m.media-amazon.com/images/I/41WPpgz6FYL._AC_SL1200_.jpg"
+    // );
+
     let goals = [];
     if (user.savings) {
       user.savings.map((goal) => {
         goals.push(goal);
       });
-      console.log("second *inside terminal* : ", goals);
+      // console.log("second *inside terminal* : ", goals);
       return res.json(goals);
     }
     return res.json(goals);
@@ -46,15 +57,14 @@ router.delete("/:id", async (req, res) => {
 });
 
 router.post("/:id", async (req, res, next) => {
-  console.log("req body ", req.body);
-  console.log("req params", req.params);
+  console.log("********************************this is req body ", req.body);
+  console.log("********************************this is req params", req.params);
   let file;
   if (!req.file) {
-    file = "/public/user-icon.png";
+    file = "https://m.media-amazon.com/images/I/41WPpgz6FYL._AC_SL1200_.jpg";
   } else {
     file = req.files.file;
-
-    file.mv(`${__dirname}/public/uploads/${file.name}`);
+    file.mv(`/public/uploads/${file.name}`);
   }
 
   const userId = req.params.id;

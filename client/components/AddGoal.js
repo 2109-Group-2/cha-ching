@@ -10,7 +10,8 @@ class AddGoal extends Component {
     this.state = {
       title: "",
       image: "",
-      // category: "other",
+      imageName: "",
+      category: "",
       currentBalance: 0,
       goalTarget: 0,
       // showForm: false,
@@ -28,17 +29,19 @@ class AddGoal extends Component {
 
   onChange(event) {
     this.setState(event.target.files[0]);
+    this.setState(event.target.files[0].name);
   }
   handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('file', this.state.image)
-    this.props.addGoal({ ...this.state }, this.props.auth.user.id, formData );
+    formData.append("file", this.state.image);
+    this.props.addGoal({ ...this.state }, this.props.auth.user.id, formData);
     this.props.fetchGoal(this.props.auth.user.id);
     this.setState({
       title: "",
       image: "",
-      // category: "other",
+      imageName: "",
+      category: "",
       currentBalance: 0,
       goalTarget: 1000,
     });
@@ -50,7 +53,6 @@ class AddGoal extends Component {
     });
   }
   render() {
-    console.log("user id addgoal: ", this.props.auth.user.id);
     let { title, image, category, currentBalance, goalTarget } = this.state;
     return (
       <div className="col s12 accounts-wrapper">
@@ -134,7 +136,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  addGoal: (goal, userId, formData) => dispatch(addGoal(goal, userId, formData)),
+  addGoal: (goal, userId, formData) =>
+    dispatch(addGoal(goal, userId, formData)),
   fetchGoal: (id) => dispatch(fetchGoals(id)),
 });
 
