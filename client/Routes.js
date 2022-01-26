@@ -10,41 +10,47 @@ import { setCurrentUser, logout, setAuthToken } from './store/auth';
 import Dashboard from './components/Dashboard';
 import Transactions from './components/Transactions';
 import Feedback from './components/Feedback'
+import Savings from "./components/Savings";
+import AddGoal from "./components/AddGoal";
+import UserSettings from "./components/UserSettings";
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
-	constructor() {
-		super();
-		this.state = {
-			token: null,
-			access_token: null,
-		};
-	}
+  constructor() {
+    super();
+    this.state = {
+      token: null,
+      access_token: null,
+    };
+  }
 
-	render() {
-		const { auth } = this.props;
+  render() {
+    const { auth } = this.props;
 
-		return (
-			<div className='routes'>
-				{auth.isAuthenticated ? (
-					<Switch>
-						<Route path="/dashboard" component={Dashboard} />
-						<Route path="/transactions" component={Transactions} />
-						<Route path="/feedback" component={Feedback} />
-					</Switch>
-				) : (
-					<Switch>
-						<Route path="/" exact component={Landing} />
-						<Route path="/login" component={Login} />
-						<Route path="/signup" component={Signup} />
-						<Route path="/feedback" component={Feedback} />
-					</Switch>
-				)}
-			</div>
-		);
-	}
+    return (
+      <div className="routes">
+        {auth.isAuthenticated ? (
+          <Switch>
+            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/transactions" component={Transactions} />
+            <Route path="/savings" component={Savings} />
+            <Route path="/addGoal" component={AddGoal} />
+            <Route path="/settings" component={UserSettings} />
+              <Route path="/feedback" component={Feedback} />
+          </Switch>
+        ) : (
+          <Switch>
+            <Route path="/" exact component={Landing} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+              <Route path="/feedback" component={Feedback} />
+          </Switch>
+        )}
+      </div>
+    );
+  }
 }
 
 /**
@@ -52,21 +58,21 @@ class Routes extends Component {
  */
 
 Routes.propTypes = {
-	auth: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapState = (state) => {
-	return {
-		auth: state.auth,
-	};
+  return {
+    auth: state.auth,
+  };
 };
 
 const mapDispatch = (dispatch) => {
-	return {
-		loadInitialData() {
-			dispatch(me());
-		},
-	};
+  return {
+    loadInitialData() {
+      dispatch(me());
+    },
+  };
 };
 
 // The `withRouter` wrapper makes sure that updates are not blocked
