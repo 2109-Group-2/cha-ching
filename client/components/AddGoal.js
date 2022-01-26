@@ -1,77 +1,3 @@
-// import { Form, Button } from "react-bootstrap"
-// import { addGoal } from "../store/savingGoals";
-// import {useContext, useState} from 'react';
-
-// const AddForm = () =>{
-
-//     const {addEmployee} = useContext(EmployeeContext);
-
-//     const [newEmployee, setNewEmployee] = useState({
-//         name:"", email:"", phone:"", address:""
-//     });
-
-//     const onInputChange = (e) => {
-//         setNewEmployee({...newEmployee,[e.target.name]: e.target.value})
-//     }
-
-//     const {name, email, phone, address} = newEmployee;
-
-//     const handleSubmit = (e) => {
-//         e.preventDefault();
-//         addGoal(name, email, phone, address);
-//     }
-
-//      return (
-
-//         <Form onSubmit={handleSubmit}>
-//             <Form.Group>
-//                 <Form.Control
-//                     type="text"
-//                     placeholder="Name *"
-//                     name="name"
-//                     value={name}
-//                     onChange = { (e) => onInputChange(e)}
-//                     required
-//                 />
-//             </Form.Group>
-//             <Form.Group>
-//                 <Form.Control
-//                     type="email"
-//                     placeholder="Email *"
-//                     name="email"
-//                     value={email}
-//                     onChange = { (e) => onInputChange(e)}
-//                     required
-//                 />
-//             </Form.Group>
-//             <Form.Group>
-//                 <Form.Control
-//                     as="textarea"
-//                     placeholder="Address"
-//                     rows={3}
-//                     name="address"
-//                     value={address}
-//                     onChange = { (e) => onInputChange(e)}
-//                 />
-//             </Form.Group>
-//             <Form.Group>
-//                 <Form.Control
-//                     type="text"
-//                     placeholder="Phone"
-//                     name="phone"
-//                     value={phone}
-//                     onChange = { (e) => onInputChange(e)}
-//                 />
-//             </Form.Group>
-//             <Button variant="success" type="submit" block>
-//                 Add New Employee
-//             </Button>
-//         </Form>
-
-//      )
-// }
-
-// export default AddForm;
 
 import React, { Component } from "react";
 import { Form, FormGroup, FormControl, Button } from "react-bootstrap";
@@ -92,7 +18,6 @@ class AddGoal extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.userId = this.userId.bind(this);
   }
 
   handleChange(event) {
@@ -124,6 +49,7 @@ class AddGoal extends Component {
     console.log("user id addgoal: ", this.props.auth.user.id);
     let { title, image, category, currentBalance, goalTarget } = this.state;
     return (
+      <div className="col s12 accounts-wrapper">
       <Form onSubmit={this.handleSubmit}>
         <FormGroup className="mb-3">
           <FormControl
@@ -189,9 +115,10 @@ class AddGoal extends Component {
         </FormGroup>
 
         <Button variant="success" type="submit">
-          dfghjjhtrewswderftgyhtgfd
+          Add Goal
         </Button>
       </Form>
+      </div>
     );
   }
 }

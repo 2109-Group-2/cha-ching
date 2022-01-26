@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-// import { Modal } from "react-responsive-modal";
+import { Form, Button } from "react-bootstrap";
 import { fetchGoals } from "../store/savingGoals";
 import Swal from "sweetalert2";
 import { Route, Link } from "react-router-dom";
@@ -34,16 +34,27 @@ import AddGoal from "./AddGoal";
 // ];
 
 class Savings extends Component {
-  componentDidMount() {
-    console.log("first ", this.props.goal);
+  constructor() {
+    super();
+    this.state = {
+      show: false,
+    };
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+  }
 
+  handleClose() {
+    this.setState({ show: false });
+  }
+
+  handleShow() {
+    this.setState({ show: true });
+  }
+  componentDidMount() {
     this.props.fetchGoals(this.props.auth.user.id);
-    console.log("component did mount goals: ", this.props.auth);
   }
 
   render() {
-
-    console.log('njdkmfksd');
     let goals = this.props.goal;
     let totalAmount = 0;
     goals.forEach((goal) => {
@@ -53,7 +64,7 @@ class Savings extends Component {
     let numOfGoals = goals.length;
     console.log(dollars);
     return (
-      <div>
+      <>
         <div className="flex">
           <div className="app-sidebar">
             <div className="app-sidebar-header">
@@ -61,7 +72,7 @@ class Savings extends Component {
                 <>
                   <h2>You have not added any goals. Get started!</h2>
                   <button className="AddGoalButton">
-                      <Link to="/addGoal">+ add a goal</Link>
+                    <Link to="/addGoal">+ add a goal</Link>
                   </button>
                 </>
               ) : (
@@ -109,7 +120,9 @@ class Savings extends Component {
                             </div>
                           </div>
                         </div>
-                        <button
+                        <Button
+                          className="btn btn-success"
+                          data-toggle="modal"
                           className="view-details-tab"
                           onClick={async () => {
                             const { value: file } = await Swal.fire({
@@ -140,8 +153,9 @@ class Savings extends Component {
                             }
                           }}
                         >
-                          Edit Goal Details
-                        </button>
+                          <i className="material-icons">&#xE147;</i>
+                          <span>Edit Goal</span>
+                        </Button>
                         <div className="goal-right"></div>
                       </div>
                     );
@@ -152,7 +166,20 @@ class Savings extends Component {
             <div className="app-sidebar-goals"></div>
           </div>
         </div>
-      </div>
+        {/* <Modal show={this.show} onHide={this.handleClose()}>
+          <Modal.Header closeButton>
+            <Modal.Title>Add Employee</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <AddForm />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.handleClose}>
+              Close Button
+            </Button>
+          </Modal.Footer>
+        </Modal> */}
+      </>
     );
   }
 }

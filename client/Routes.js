@@ -11,6 +11,7 @@ import Dashboard from "./components/Dashboard";
 import Transactions from "./components/Transactions";
 import Savings from "./components/Savings";
 import AddGoal from "./components/AddGoal";
+import UserSettings from "./components/UserSettings";
 
 /**
  * COMPONENT
@@ -35,6 +36,7 @@ class Routes extends Component {
             <Route path="/transactions" component={Transactions} />
             <Route path="/savings" component={Savings} />
             <Route path="/addGoal" component={AddGoal} />
+            <Route path="/settings" component={UserSettings} />
           </Switch>
         ) : (
           <Switch>
