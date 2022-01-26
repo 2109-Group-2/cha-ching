@@ -9,6 +9,7 @@ import store from './store';
 import { setCurrentUser, logout, setAuthToken } from './store/auth';
 import Dashboard from './components/Dashboard';
 import Transactions from './components/Transactions';
+import Feedback from './components/Feedback'
 
 /**
  * COMPONENT
@@ -31,12 +32,14 @@ class Routes extends Component {
 					<Switch>
 						<Route path="/dashboard" component={Dashboard} />
 						<Route path="/transactions" component={Transactions} />
+						<Route path="/feedback" component={Feedback} />
 					</Switch>
 				) : (
 					<Switch>
 						<Route path="/" exact component={Landing} />
 						<Route path="/login" component={Login} />
 						<Route path="/signup" component={Signup} />
+						<Route path="/feedback" component={Feedback} />
 					</Switch>
 				)}
 			</div>

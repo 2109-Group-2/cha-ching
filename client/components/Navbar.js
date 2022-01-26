@@ -17,12 +17,14 @@ const NavBar = ({ handleClick, auth }) => (
 				<a href="/" onClick={handleClick}>
 					Logout
 				</a>
+				<Link to="/feedback">Feedback</Link>
 			</div>
 		) : (
 			<div>
 				{/* The navbar will show these links before you log in */}
 				<Link to="/login">Login</Link>
 				<Link to="/signup">Sign Up</Link>
+				<Link to="/feedback">Feedback</Link>
 			</div>
 		)}
 		</nav>
