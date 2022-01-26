@@ -11,7 +11,8 @@ const BudgetSchema = new Schema({
     required: true
   },
   category: {
-    type: String
+    type: String,
+    unique: 1
   }
 })
 
