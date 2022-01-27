@@ -78,9 +78,9 @@ router.post('/set_item', async (request, response, next) => {
 	}
 })
 
-router.get('/budgets/:userId', async (req, res) => {
+router.get('/budgets/:id', async (req, res) => {
 	try {
-		const user = await User.findById(req.params.userId);
+		const user = await User.findById(req.params.id);
 		console.log('<---THIS IS USER--->', user, '<---THIS IS USER--->')
 		res.send(user.budgets)
 	} catch(error) {
@@ -88,11 +88,12 @@ router.get('/budgets/:userId', async (req, res) => {
 	}
 })
 
-router.post('/budgets/add', async (req, res) => {
+router.post('/budgets/add/:id', async (req, res) => {
 	try {
-		console.log('<---IN THE ROUTE AND HERES THE ID: ', req.body.userId)
-		const user = await User.findById(req.body.userId);
+		// console.log('<---IN THE ROUTE AND HERES THE ID: ', req.body.userId)
+		const user = await User.findById(req.params.id);
 		const newBudget = req.body
+		console.log('<---NEW BUDGET--->', newBudget)
 		user.budgets.push(newBudget);
 		user.save(function (err) {
 			if (!err) console.log('Successfully added account!');
