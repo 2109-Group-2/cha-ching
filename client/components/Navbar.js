@@ -17,6 +17,7 @@ const NavBar = ({ handleClick, auth }) => (
             <Link to="/dashboard">Dashboard</Link>
             <Link to="/transactions">Transactions</Link>
             <Link to="/savings">Savings</Link>
+            <Link to="/planning">Planning</Link>
             <a href="/" onClick={handleClick}>
               Logout
             </a>
