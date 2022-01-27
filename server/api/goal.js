@@ -57,14 +57,15 @@ router.delete("/:id", async (req, res) => {
 });
 
 router.post("/:id", async (req, res, next) => {
+  //
   console.log("********************************this is req body ", req.body);
-  console.log("********************************this is req params", req.params);
+  // console.log("********************************this is req params", req.body.goal);
   let file;
-  if (!req.file) {
+  if (!req.body.image) {
     file = "https://m.media-amazon.com/images/I/41WPpgz6FYL._AC_SL1200_.jpg";
   } else {
-    file = req.files.file;
-    file.mv(`/public/uploads/${file.name}`);
+    file = req.body.image;
+    file.mv(`/public/images/${req.body.image}`);
   }
 
   const userId = req.params.id;
