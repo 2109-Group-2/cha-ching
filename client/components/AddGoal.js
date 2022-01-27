@@ -29,14 +29,18 @@ class AddGoal extends Component {
 	}
 
 	onChange(e) {
-		this.setState({ [e.target.id]: e.target.files[0] });
-		this.setState({ [e.target.id]: e.target.files[0].imageName });
+		this.setState({ [e.target.name]: e.target.files[0] });
+		// this.setState({ [e.target.id]: e.target.files[0].imageName });
 		console.log('this.state onChange for image --->', this.state);
 	}
 	handleSubmit(event) {
 		event.preventDefault();
 		const formData = new FormData();
 		formData.append('file', this.state.image);
+    formData.append('title', this.state.title)
+    formData.append('category', this.state.category)
+    formData.append('currentBalance', this.state.currentBalance)
+    formData.append('goalTarget', this.state.goalTarget);
 		console.log('******************************component', [
 			...formData.entries(),
 		]);
@@ -85,8 +89,8 @@ class AddGoal extends Component {
 							type="file"
 							placeholder="image"
 							name="image"
-							value={this.fileName}
-							onChange={(e) => this.handleChange(e)}
+							value={this.file}
+							onChange={(e) => this.onChange(e)}
 						/>
 					</FormGroup>
 					<FormGroup className="mb-3">

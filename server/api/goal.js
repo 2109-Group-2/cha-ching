@@ -59,13 +59,13 @@ router.delete("/:id", async (req, res) => {
 router.post("/:id", async (req, res, next) => {
   //
   console.log("********************************this is req body ", req.body);
-  // console.log("********************************this is req params", req.body.goal);
+  console.log("********************************this is req files", req.files);
   let file;
-  if (!req.body.image) {
+  if (!req.files) {
     file = "https://m.media-amazon.com/images/I/41WPpgz6FYL._AC_SL1200_.jpg";
   } else {
-    file = req.body.image;
-    file.mv(`/public/images/${req.body.image}`);
+    file = req.files.file;
+    file.mv(`C:/Users/cdela/Documents/Fullstack-Stuff/cha-ching/public/images/${file.name}`);
   }
 
   const userId = req.params.id;
@@ -75,7 +75,7 @@ router.post("/:id", async (req, res, next) => {
     const newGoal = {
       userId: userId,
       title: title,
-      image: file,
+      image: file.name,
       category: category,
       currentBalance: currentBalance,
       goalTarget: goalTarget,

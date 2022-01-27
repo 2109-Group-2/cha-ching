@@ -50,12 +50,12 @@ export const addGoal = (goal, userId, formData) => {
         ...formData.entries(),
       ]);
       console.log("****************************goal", goal);
-      // const { data: added } = await axios.post(`api/goal/${userId}`, goal, {
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data'
-      //   }
-      // });
-      const { data: added } = await axios.post(`api/goal/${userId}`, goal);
+      const { data: added } = await axios.post(`api/goal/${userId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      // const { data: added } = await axios.post(`api/goal/${userId}`, goal);
       console.log(
         "GHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNCGHJSDFGKJBBADWSFKJBESFDBHNSDJMXNC" +
           "this is added store/savingGoals ",

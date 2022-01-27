@@ -68,7 +68,7 @@ class Savings extends Component {
                         <div className="goal-body" key={goal.id}>
                           <img
                             src={
-                              goal.image ||
+                              "/images/" + goal.image ||
                               "https://m.media-amazon.com/images/I/41WPpgz6FYL._AC_SL1200_.jpg"
                             }
                             style={({ width: "200px" }, { height: "100px" })}
