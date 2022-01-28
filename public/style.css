@@ -160,7 +160,7 @@ a {
 	text-align: center;
 	margin: 10px;
 	border-radius: 5px;
-	width: 24rem;
+	width: 40vw;
 	background-color: #c8ad55;
 	color: white;
 }
@@ -173,6 +173,49 @@ a {
 .accordion-body > p {
 	margin-bottom: 0vw;
 	color: black;
+}
+
+/* Dashboard Component */
+.dashComponent {
+	display: flex;
+}
+
+/* Mini Transactions Component */
+button.btn-primary {
+	color: #fff;
+	background-color: rgb(255, 255, 255);
+	border-color: #0d6efd;
+	padding: 20px;
+	outline: none;
+	background: rgb(255, 255, 255);
+	border: 2px solid rgb(241, 241, 241);
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+button.btn-primary:hover {
+	color: #fff;
+	background-color: rgb(255, 255, 255);
+	border-color: #0d6efd;
+	padding: 20px;
+	outline: none;
+	background: rgb(255, 255, 255);
+	border: 2px solid rgb(241, 241, 241);
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+button.btn-primary > a {
+	font-size: 16px;
+	color: black;
+}
+
+.accountsComponent .table thead tr th {
+	color: #eeeeee;
+}
+
+.table tbody tr {
+	background: white;
 }
 
 @media screen and (max-width: 850px) {
@@ -264,23 +307,24 @@ a {
   border-right: 1px solid #ddd;
  } */
 
-div.goal div.goal-body, div.goal-body div.goal-info {
-  float:none;
+div.goal div.goal-body,
+div.goal-body div.goal-info {
+	float: none;
 }
 
 div.goal-info {
-  width: 400px;
-  padding: 10px;
-} 
+	width: 400px;
+	padding: 10px;
+}
 
 div.goal-body img {
-  float: left;
-  width: 56px;
-  height: 56px;
-  margin: 5px 0;
-  margin: 15px 0 15px 15px;
-  padding: 10px 10px 10px 16px;
-  border-right: 1px solid #c8c8c8;
+	float: left;
+	width: 56px;
+	height: 56px;
+	margin: 5px 0;
+	margin: 15px 0 15px 15px;
+	padding: 10px 10px 10px 16px;
+	border-right: 1px solid #c8c8c8;
 }
 
 /* div.goal {
@@ -292,98 +336,105 @@ div.goal-body img {
 } */
 
 div.goal div.goal-left {
-  left: 10;
+	left: 10;
 }
 
-div.goal div.goal-left, div.goal div.goal-right {
-  display: block;
-  width: 10px;
-  height: 90px;
-  position: absolute;
+div.goal div.goal-left,
+div.goal div.goal-right {
+	display: block;
+	width: 10px;
+	height: 90px;
+	position: absolute;
 }
 
-div.goal div.goal-body, div.goal-body div.goal-info {
-  display: flex;
-  float: right;
+div.goal div.goal-body,
+div.goal-body div.goal-info {
+	display: flex;
+	float: right;
 }
 
 div.goal-body {
-  position: relative;
-  z-index: 23;
+	position: relative;
+	z-index: 23;
 }
 
 div.goal-info {
-  width: 400px;
-  padding: 10px;
+	width: 400px;
+	padding: 10px;
 }
 
 div.goal-info-inner {
-  width: 395px;
+	width: 395px;
 }
 
 .ellipsis {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: block;
 }
 
 div.goal-info p.goal-title {
-  float: left;
-  margin-bottom: 3px;
-  font-size: 15px;
+	float: left;
+	margin-bottom: 3px;
+	font-size: 15px;
 }
 
 div.goal-info p {
-  float: left;
-  line-height: 19px;
+	float: left;
+	line-height: 19px;
 }
 
 div.goal-info p.goal-progress {
-  float: right;
-  font-size: 13px;
-  font-family: "AvenirNext-Regular-Mint","Helvetica Neue",Helvetica,Arial,sans-serif;
+	float: right;
+	font-size: 13px;
+	font-family: 'AvenirNext-Regular-Mint', 'Helvetica Neue', Helvetica, Arial,
+		sans-serif;
 }
 
 div.goal-info div.goal-gui {
-  float: left;
-  width: 400px;
-  height: 35px;
-  position: relative;
+	float: left;
+	width: 400px;
+	height: 35px;
+	position: relative;
 }
 div.goal-gui a.goal-progress-bar {
-  top: 4px;
+	top: 4px;
 }
 
-div.goal-gui a.goal-progress-bar, a.goal-progress-bar span {
-  display: block;
-  float: left;
-  width: 398px;
-  height: 12px;
-  position: absolute;
-  z-index: 110;
-  text-decoration: none;
-  background-color: #ededed;
+div.goal-gui a.goal-progress-bar,
+a.goal-progress-bar span {
+	display: block;
+	float: left;
+	width: 398px;
+	height: 12px;
+	position: absolute;
+	z-index: 110;
+	text-decoration: none;
+	background-color: #ededed;
 }
 
 div.goal-info p.goal-calculated {
-  float: right;
-  font-size: 12px/14px;
-  font-family: "AvenirNext-Regular-Mint","Helvetica Neue",Helvetica,Arial,sans-serif;
-  color: #666;
+	float: right;
+	font-size: 12px/14px;
+	font-family: 'AvenirNext-Regular-Mint', 'Helvetica Neue', Helvetica, Arial,
+		sans-serif;
+	color: #666;
 }
-div.goal div.goal-right, li.hover div.goal div.goal-right {
-  right: 0;
-  background-position: -355px -170px;
-  z-index: 24;
+div.goal div.goal-right,
+li.hover div.goal div.goal-right {
+	right: 0;
+	background-position: -355px -170px;
+	z-index: 24;
 }
 
-div.goal div.goal-left, div.goal div.goal-right {
-  display: block;
-  width: 10px;
-  height: 90px;
-  position: absolute;
-  color:rgb(0, 0, 0)
+div.goal div.goal-left,
+div.goal div.goal-right {
+	display: block;
+	width: 10px;
+	height: 90px;
+	position: absolute;
+	color: rgb(0, 0, 0);
 }
 
 /* div{
@@ -396,91 +447,82 @@ font-size: 100%;
 vertical-align: baseline;
 } */
 
-
-
-
-
-
-
-
-
-
 .app-sidebar-header {
-  /* display: flex; */
-  /* justify-content: space-between;
+	/* display: flex; */
+	/* justify-content: space-between;
   padding: 25px; */
 }
 /* .app-sidebar-header h1 {
   margin: 0;
 } */
-.savings-img{
-  height: calc(20vh - 78px);
+.savings-img {
+	height: calc(20vh - 78px);
 }
 .app-sidebar-goal {
-  height: calc(30vh - 78px);
-  overflow-y: scroll;
+	height: calc(30vh - 78px);
+	overflow-y: scroll;
 }
 .app-sidebar-goal {
-  padding: 25px;
-  cursor: pointer;
+	padding: 25px;
+	cursor: pointer;
 }
 .sidebar-note-goal {
-  /* display: flex; */
-  /* justify-content: space-between; */
+	/* display: flex; */
+	/* justify-content: space-between; */
 }
 .app-sidebar-note button {
-  color: crimson;
+	color: crimson;
 }
 .app-sidebar-goal p {
-  margin: 5px 0;
+	margin: 5px 0;
 }
 .app-sidebar-goal small {
-  display: block;
-  color: #999;
+	display: block;
+	color: #999;
 }
 
 .app-sidebar-goal:hover {
-  background: #ddd;
+	background: #ddd;
 }
 .app-sidebar-goal.active,
 .app-sidebar-goal.active small {
-  background: #08c;
-  color: white;
+	background: #08c;
+	color: white;
 }
 
-.flex{
-  display: flex;
+.flex {
+	display: flex;
 }
 @keyframes customEnterOverlayAnimation {
-  0% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
+	0% {
+		transform: scale(0);
+	}
+	100% {
+		transform: scale(1);
+	}
 }
 @keyframes customLeaveOverlayAnimation {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(0);
-  }
+	0% {
+		transform: scale(1);
+	}
+	100% {
+		transform: scale(0);
+	}
 }
 
 @keyframes customEnterModalAnimation {
-  0% {
-    transform: scale(0.2);
-  }
-  100% {
-    transform: scale(1);
-  }
+	0% {
+		transform: scale(0.2);
+	}
+	100% {
+		transform: scale(1);
+	}
 }
 @keyframes customLeaveModalAnimation {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(0.2);
-  }
+	0% {
+		transform: scale(1);
+	}
+	100% {
+		transform: scale(0.2);
+	}
 }

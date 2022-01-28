@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getAccounts, setItem } from '../store/plaid';
+import { getAccounts, setItem, getTransactions } from '../store/plaid';
 import Accounts from './Accounts';
 import Link from './Link';
 import Transactions from './Transactions';
+import MiniTransaction from './MiniTransaction';
 
 class Dashboard extends Component {
 	componentDidMount() {
 		this.props.getAccounts(this.props.auth.user);
+		this.props.getTransactions(this.props.auth.user);
+		// console.log('<--- Transactions in Dashboard --->', this.props.plaid.transactions)
 	}
 
 	// Add account
@@ -22,37 +25,27 @@ class Dashboard extends Component {
 
 	render() {
 		const { user } = this.props.auth;
-		const { accounts, accountsLoading } = this.props.plaid;
+		const { accounts, transactions } = this.props.plaid;
 		let dashboardContent;
-
-		if (accounts === null) {
-			// this.props.getAccounts()
-		} else if (accounts.length > 0) {
+		if (accounts.length > 0 && transactions.length > 0) {
 			// User has accounts linked
 			dashboardContent = (
-				<>
+				<div className="dashComponent">
 					<Accounts user={user} accounts={accounts} />
-					<Transactions />
-				</>
+					<MiniTransaction transactions={transactions} />
+				</div>
 			);
 		} else {
-			// User has no accounts linked
+			// User has no accounts linked or transactions
 			dashboardContent = (
 				<div>
-					<div>
-						<div>
-							<h4>
-								<b>Welcome,</b> {user.name.split(' ')[0]}
-							</h4>
-							<p className="flow-text grey-text text-darken-1">
-								To get started, link your first bank account below.
-							</p>
-						</div>
-
-						<div className="dashboard-wrapper">
-							<Link />
-						</div>
-					</div>
+					<h4>
+						<b>Welcome,</b> {user.name.split(' ')[0]}
+					</h4>
+					<p className="flow-text grey-text text-darken-1">
+						To get started, link your first bank account below.
+					</p>
+					<Link />
 				</div>
 			);
 		}
@@ -73,6 +66,7 @@ const mapState = (state) => ({
 });
 
 const mapDispatch = (dispatch) => ({
+	getTransactions: (userData) => dispatch(getTransactions(userData)),
 	getAccounts: (userData) => dispatch(getAccounts(userData)),
 	setItem: (userData) => dispatch(setItem(userData)),
 });

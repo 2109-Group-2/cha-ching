@@ -6,6 +6,7 @@ import { logout } from '../store';
 import TransactionsTable from './TransactionsTable';
 import SpendingPieChart from './SpendingPieChart';
 import SpendingBarGraph from './SpendingBarChart';
+import MostSpent from './MostSpent';
 import { Tabs, Tab } from 'react-bootstrap';
 import moment from 'moment';
 
@@ -21,7 +22,6 @@ class Transactions extends Component {
 	componentDidMount() {
 		const { accounts } = this.props.plaid;
 		this.props.getTransactions(accounts);
-		// this.setState({ transactionsByDate: this.props.plaid.transactions });
 	}
 
 	render() {
@@ -129,6 +129,7 @@ class Transactions extends Component {
 						transactionsByDate={transactionsByDate}
 						comparisonData={comparisonData}
 					/>
+					<MostSpent transactionsByDate={transactionsByDate}/>
 					<SpendingPieChart transactionsByDate={transactionsByDate} />
 					<TransactionsTable
 						transactionsByDate={transactionsByDate}
@@ -141,10 +142,7 @@ class Transactions extends Component {
 }
 
 Transactions.propTypes = {
-	logout: PropTypes.func.isRequired,
 	getTransactions: PropTypes.func.isRequired,
-	deleteAccount: PropTypes.func.isRequired,
-	accounts: PropTypes.array.isRequired,
 	plaid: PropTypes.object.isRequired,
 	user: PropTypes.object.isRequired,
 };
