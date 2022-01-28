@@ -178,6 +178,7 @@ a {
 /* Dashboard Component */
 .dashComponent {
 	display: flex;
+	flex-wrap: wrap;
 }
 
 /* Mini Transactions Component */

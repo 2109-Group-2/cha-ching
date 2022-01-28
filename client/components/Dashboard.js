@@ -11,7 +11,6 @@ class Dashboard extends Component {
 	componentDidMount() {
 		this.props.getAccounts(this.props.auth.user);
 		this.props.getTransactions(this.props.auth.user);
-		// console.log('<--- Transactions in Dashboard --->', this.props.plaid.transactions)
 	}
 
 	// Add account

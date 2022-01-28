@@ -22,7 +22,7 @@ export default function MostSpent(props) {
 								<tbody>
 									{firstThree.map((data) => {
 										return (
-											<tr>
+											<tr key={data.id}>
 												<td>{data.account}</td>
 												<td>{data.date}</td>
 												<td>{data.name}</td>
