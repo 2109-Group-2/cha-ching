@@ -3,6 +3,10 @@ import { Form, FormGroup, FormControl, Button, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { useContext, useState } from 'react';
 import { fetchSingleGoal } from '../store/savingGoals';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from 'chart.js';
+import { Pie } from 'react-chartjs-2';
+import moment from 'moment';
+ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
 class EditGoal extends Component {
 	/*
@@ -19,16 +23,16 @@ class EditGoal extends Component {
 		this.handleSelect = this.handleSelect.bind(this);
 	}
 */
-componentDidMount(){
-  console.log(' this.props.fetchGoal: ',this.props.userId, this.props.id)
-  let values = {
-    userId: this.props.userId,
-    id: this.props.id
-  }
-  //this.props.fetchGoal(values);
-}
+	componentDidMount() {
+		console.log(' this.props.fetchGoal: ', this.props.userId, this.props.id);
+		let values = {
+			userId: this.props.userId,
+			id: this.props.id,
+		};
+		this.props.fetchGoal(values);
+	}
 
-/*
+	/*
 	componentDidUpdate(prevProps) {
     if(prevProps._id !== this.props.goal.id){
       this.setState({
@@ -77,48 +81,151 @@ componentDidMount(){
 		console.log('this.state handleSelect for category --->', this.state);
 	}
   */
+
 	render() {
-		/*	let { title, category, currentBalance, goalTarget } = this.state;*/
 		console.log('these are the props from editgoal: ', this.props);
-  
+
+		let { userId, title, category, currentBalance, goalTarget, image, _id } =
+			this.props.goal[0];
+
+		let labels = ['Saved', 'Amount Left'];
+
+		let dataAmount = [currentBalance, goalTarget];
+
+		let data = {
+			labels: labels,
+			datasets: [
+				{
+					label: 'Categories',
+					data: dataAmount,
+					backgroundColor: [
+						'rgba(255, 99, 132, 0.2)',
+						'rgba(54, 162, 235, 0.2)',
+					],
+					borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+					borderWidth: 1,
+				},
+			],
+		};
+
+		let options = {
+			plugins: {
+				title: {
+					display: true,
+					position: 'top',
+					text: 'Total Amount Saved',
+					fontSize: 50,
+				},
+			},
+			animation: {
+				animateScale: true,
+			},
+			layout: {
+				padding: {
+					left: 50,
+					right: 50,
+					top: 50,
+					bottom: 50,
+				},
+			},
+			legend: {
+				display: true,
+				position: 'center',
+			},
+		};
+
 		return (
-			<>
-      <Modal>
-				<Modal.Dialog>
-					<Modal.Header
-						closeButton
+			<Modal
+				show={this.props.show}
+				size="lg"
+				onHide={() => this.props.handleClose()}
+				aria-labelledby="example-modal-sizes-title-lg"
+			>
+				<Modal.Header closeButton>
+					<Modal.Title id="example-modal-sizes-title-lg">
+						<h1>{title}</h1>
+					</Modal.Title>
+				</Modal.Header>
+
+				<Modal.Body>
+					<div id="left">
+						<h6>{category}</h6>
+						<hr />
+						<h4>Saving Goal Target: {goalTarget}</h4>
+						<h4>Current Amount: {currentBalance}</h4>
+					</div>
+					<div id="right">
+						{' '}
+						<div className="pieChart">
+							<Pie options={options} data={data} />
+							/**halfway there... making great progress or almost done
+							currentBalance** */
+							<small></small>
+						</div>
+					</div>
+					<hr />
+					<h5>Saving plan details</h5>
+					<thead>
+						<tr>
+							<th>Saving interval</th>
+							<th>Daily</th>
+							<th>Weekly</th>
+							<th>Bi-Weekly</th>
+							<th>Monthly</th>
+							<th>Yearly</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Enter estimate weekly amount: [100]</td>
+							<td>$14.3</td>
+							<td>$100</td>
+							<td>$200</td>
+							<td>$400</td>
+							<td>4,800</td>
+						</tr>
+					</tbody>
+					<thead>
+						<tr>
+							<th>Time interval</th>
+							<th>Days</th>
+							<th>Weeks</th>
+							<th>Bi-Weeks</th>
+							<th>Months</th>
+							<th>Years</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Time until goal is reached: </td>
+							<td>180</td>
+							<td>26</td>
+							<td>12</td>
+							<td>5</td>
+							<td>0</td>
+						</tr>
+					</tbody>
+				</Modal.Body>
+
+				<Modal.Footer>
+					<Button
+						variant="secondary"
 						onClick={() => {
 							this.props.handleClose();
 						}}
 					>
-						<Modal.Title>Modal title</Modal.Title>
-					</Modal.Header>
-
-					<Modal.Body>
-						<p>Modal body text goes here.</p>
-					</Modal.Body>
-
-					<Modal.Footer>
-						<Button
-							variant="secondary"
-							onClick={() => {
-								this.props.handleClose();
-							}}
-						>
-							Close
-						</Button>
-						<Button
-							variant="primary"
-							onClick={() => {
-								this.props.handleClose();
-							}}
-						>
-							Save changes
-						</Button>
-					</Modal.Footer>
-				</Modal.Dialog>
-        </Modal>
-			</>
+						Close
+					</Button>
+					<Button
+						variant="primary"
+						onClick={() => {
+							this.props.handleClose();
+						}}
+					>
+						Save changes
+					</Button>
+				</Modal.Footer>
+			</Modal>
 			/*
 			<div className="col s12 accounts-wrapper">
 				<Form onSubmit={this.handleSubmit}>
