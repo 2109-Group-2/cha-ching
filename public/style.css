@@ -76,17 +76,113 @@ form div {
 .transactionsTabs {
 	background-color: white;
 	color: #c8ad55;
+	border: 2px solid #c8ad55;
 }
 .transactionsTabs li.nav-item > button.nav-link:hover {
 	background-color: #c8ad558a;
+	border: 2px solid #c8ad55;
 }
 
 /* Active tab */
+.nav-link{
+	color: #327d41;
+}
+
+.nav-link:hover {
+	color: #327d41;
+}
+
 .transactionsTabs li.nav-item > button.nav-link.active,
 .transactionsTabs li.nav-item > button.nav-link.active:hover,
 .transactionsTabs li.nav-item > button.nav-link.active:focus {
 	background-color: #c8ad55;
 	color: white;
+	border: 2px solid #c8ad55;
+}
+
+.pieChart button.btn-primary {
+	color: #fff;
+	background-color: #c8ad55;
+	border-color: #c8ad5583;
+	padding: 20px;
+	outline: none;
+	background: #c8ad55;
+	border: 2px solid rgb(241, 241, 241);
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.pieChart button.btn-primary:hover {
+	color: #fff;
+	background-color: #c8ad55;
+	border-color: #c8ad5583;
+	padding: 20px;
+	outline: none;
+	background: #c8ad55;
+	border: 2px solid rgb(241, 241, 241);
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.pieChart button.btn-primary > a {
+	font-size: 16px;
+	color: black;
+}
+
+.modal-body button.btn-primary {
+	color: #fff;
+	background-color: #c8ad55;
+	border-color: #c8ad5583;
+	padding: 20px;
+	outline: none;
+	background: #c8ad55;
+	border: 2px solid rgb(241, 241, 241);
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.modal-body button.btn-primary:hover {
+	color: #fff;
+	background-color: #c8ad55;
+	border-color: #c8ad5583;
+	padding: 20px;
+	outline: none;
+	background: #c8ad55;
+	border: 2px solid rgb(241, 241, 241);
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.modal-body button.btn-primary > a {
+	font-size: 16px;
+	color: black;
+}
+
+.pieChart button.btn-danger {
+	color: #fff;
+	background-color: #dc3545;
+	/* margin-top: 8px; */
+}
+
+.pieChart button.btn-danger:hover {
+	color: #fff;
+	background-color: #dc35468e;
+}
+
+.pieChart button.btn-danger > a {
+	font-size: 16px;
+	color: black;
+}
+
+table {
+	text-align: center;
+}
+
+tr {
+	vertical-align: middle;
+}
+tr > button {
+	vertical-align: middle;
 }
 
 /* NavBar Component */

@@ -1,16 +1,16 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
+import moment from 'moment';
 
 export default function MostSpent(props) {
   const mostExpensive = props.transactionsByDate.sort((a, b) => {
     return b.amount - a.amount
   })
   let firstThree = mostExpensive.slice(0, 3)
-  console.log("Most Expensive --->", firstThree)
 
   return <div className='pieChart'>
     <h6>Most Expensive Transactions:</h6>
-    <Table hover>
+    <Table responsive="sm" hover>
 								<thead>
 									<tr>
 										<th>Account</th>
@@ -22,9 +22,9 @@ export default function MostSpent(props) {
 								<tbody>
 									{firstThree.map((data) => {
 										return (
-											<tr key={data.id}>
+											<tr key={data._id}>
 												<td>{data.account}</td>
-												<td>{data.date}</td>
+												<td>{moment(data.date).format('M/d/YYYY')}</td>
 												<td>{data.name}</td>
 												<td>${data.amount}</td>
 											</tr>

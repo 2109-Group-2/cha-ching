@@ -12,6 +12,9 @@ const SET_AUTH = "SET_AUTH";
 export const GET_ERRORS = "GET_ERRORS";
 export const USER_LOADING = "USER_LOADING";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
+const GET_SUBSCRIPTIONS = "GET_SUBSCRIPTIONS"
+const DELETE_SUBSCRIPTION = "DELETE_SUBSCRIPTION"
+const ADD_SUBSCRIPTION = "ADD_SUBSCRIPTION"
 
 /**
  * ACTION CREATORS
@@ -143,6 +146,63 @@ export const editUser = (formData) => async (dispatch) => {
   }
 };
 
+export const getSubscriptions = (userData) => (dispatch) => {
+  axios
+    .get(`/api/user/subscriptions/${userData.id}`)
+    .then((res) =>
+      dispatch({
+        type: GET_SUBSCRIPTIONS,
+        payload: res.data,
+      })
+    )
+    .catch((err) =>
+      dispatch({
+        type: GET_SUBSCRIPTIONS,
+        payload: null,
+      })
+    );
+};
+
+export const deleteSubscription = (subscriptionData) => async (dispatch) => {
+  try {
+    if (window.confirm("Are you sure you want to remove this subscription?")) {
+      console.log("=== USER DATA IN DELETE THUNK ===", subscriptionData);
+
+      const id = subscriptionData.id;
+      const newSubscription = await subscriptionData.subscriptions.filter(
+        (subscription) => subscription._id === id
+      );
+      console.log("=== ACCOUNT DATA TO BE DELETED ===", newSubscription);
+      const userId = newSubscription[0].userId;
+      console.log("newSubscription.userId", newSubscription[0].userId);
+
+      axios.delete(`/api/user/subscriptions/${userId}`, { data: newSubscription });
+      dispatch({
+        type: DELETE_SUBSCRIPTION,
+        payload: id,
+      });
+      newSubscription ? dispatch(getSubscriptions(newSubscription)) : null;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const addSubscription = (userId, subscriptionData) => async (dispatch) => {
+	try {
+		// Add Acount
+		const res = await axios.post(`/api/user/subscriptions/${userId}`, 
+			subscriptionData
+		);
+		dispatch({
+			type: ADD_SUBSCRIPTION,
+			payload: res.data,
+		});
+	} catch (error) {
+		console.log('<---add subscription thunk error--->', error);
+	}
+};
+
 /**
  * REDUCER
  */
@@ -161,6 +221,23 @@ export default function (state = {}, action) {
       };
     case SET_AUTH:
       return action.auth;
+    case GET_SUBSCRIPTIONS:
+			return {
+				...state,
+				subscriptions: action.payload,
+			};
+      case DELETE_SUBSCRIPTION:
+        return {
+          ...state,
+          subscriptions: state.subscriptions.filter(
+            (subscription) => subscription._id !== action.payload
+          ),
+        };
+        case ADD_SUBSCRIPTION:
+          return {
+            ...state,
+            subscriptions: [...state.subscriptions, action.payload],
+          };
     default:
       return state;
   }

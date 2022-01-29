@@ -7,6 +7,7 @@ import TransactionsTable from './TransactionsTable';
 import SpendingPieChart from './SpendingPieChart';
 import SpendingBarGraph from './SpendingBarChart';
 import MostSpent from './MostSpent';
+import Subscriptions from './Subscriptions';
 import { Tabs, Tab } from 'react-bootstrap';
 import moment from 'moment';
 
@@ -19,7 +20,7 @@ class Transactions extends Component {
 		};
 	}
 
-	componentDidMount () {
+	componentDidMount() {
 		this.props.getAccounts(this.props.auth.user);
 		this.props.getTransactions(this.props.auth.user);
 	}
@@ -115,27 +116,29 @@ class Transactions extends Component {
 
 				<h2>Transactions Breakdown</h2>
 
-				{!transactions ? (
-					<></>
+				{!transactionsData.length > 0 ? (
+					<h4>You have not made any transactions</h4>
 				) : (
+					<>
 					<h4>
 						You have <b>{transactionsByDate.length}</b> transactions from your
 						<b> {accounts.length}</b> linked
 						{accounts.length > 1 ? ' accounts' : ' account'}
 					</h4>
-				)}
-				<div className="chartsAndTables">
+					<div className="chartsAndTables">
 					<SpendingBarGraph
 						transactionsByDate={transactionsByDate}
 						comparisonData={comparisonData}
 					/>
-					<MostSpent transactionsByDate={transactionsByDate}/>
+					<MostSpent transactionsByDate={transactionsByDate} />
+					<Subscriptions transactionsData={transactionsData}/>
 					<SpendingPieChart transactionsByDate={transactionsByDate} />
-					<TransactionsTable
-						transactionsByDate={transactionsByDate}
-						transactionsLoading={transactionsLoading}
-					/>
+					<TransactionsTable transactionsByDate={transactionsByDate} />
 				</div>
+					</>
+					
+				)}
+				
 			</div>
 		);
 	}

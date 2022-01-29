@@ -4,8 +4,6 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 
 export default function MiniTransaction(props) {
-	// console.log('<--- Transactions --->', props.transactions);
-
 	let transactionsData = [];
 
 	props.transactions.forEach(function (account) {
@@ -34,7 +32,7 @@ export default function MiniTransaction(props) {
 					<Card.Text>
 						<div className="recent-transactions">
 							<h6>Most Recent Transactions:</h6>
-							<Table hover>
+							<Table responsive="sm" hover>
 								<thead>
 									<tr>
 										<th>Account</th>
@@ -48,7 +46,7 @@ export default function MiniTransaction(props) {
 										return (
 											<tr>
 												<td>{data.account}</td>
-												<td>{data.date}</td>
+												<td>{moment(data.date).format('M/d/YYYY')}</td>
 												<td>{data.name}</td>
 												<td>${data.amount}</td>
 											</tr>
