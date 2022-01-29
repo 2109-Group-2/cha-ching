@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import browserHistory from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
-import { fetchGoals } from '../store/savingGoals';
+import { fetchGoals, deleteGoal } from '../store/savingGoals';
 import Swal from 'sweetalert2';
 import { Route, Link } from 'react-router-dom';
 import AddGoal from './AddGoal';
@@ -13,10 +14,11 @@ class Savings extends Component {
 		super();
 		this.state = {
 			show: false,
-      currentGoalId: ''
+			currentGoalId: '',
 		};
 		this.handleShow = this.handleShow.bind(this);
 		this.handleClose = this.handleClose.bind(this);
+		this.handleDelete = this.handleDelete.bind(this);
 	}
 
 	handleClose() {
@@ -24,12 +26,19 @@ class Savings extends Component {
 	}
 
 	handleShow(id) {
- 
-    this.setState({ show: true, currentGoalId: id });
-
+		this.setState({ show: true, currentGoalId: id });
 	}
 	componentDidMount() {
 		this.props.fetchGoals(this.props.auth.user.id);
+	}
+
+	handleDelete(id) {
+		let values = {
+			userId: this.props.auth.user.id,
+			id,
+		};
+		this.props.deleteGoal(values);
+		browserHistory.push('/savings');
 	}
 
 	render() {
@@ -94,21 +103,28 @@ class Savings extends Component {
 														</div>
 													</div>
 												</div>
-                        <Button
-										onClick={() => {
-											this.handleShow(goal._id);
-										}}
-									>
-										Edit Goal
-									</Button>
+												<Button
+													onClick={() => {
+														this.handleShow(goal._id);
+													}}
+												>
+													Edit Goal
+												</Button>{' '}
+												<Button
+													onClick={() => {
+														this.handleDelete(goal._id);
+													}}
+												>
+													Delete Goal
+												</Button>
 												<div className="goal-right"></div>
 											</div>
 										);
 									})}
 									{this.state.show && (
 										<EditGoal
-                    id={this.state.currentGoalId}
-                    userId={this.props.auth.user.id} 
+											id={this.state.currentGoalId}
+											userId={this.props.auth.user.id}
 											show={this.state.show}
 											handleClose={this.handleClose}
 										/>
@@ -129,8 +145,9 @@ const mapState = (state) => ({
 	goal: state.goal,
 });
 
-const mapDispatch = (dispatch) => ({
+const mapDispatch = (dispatch, { history }) => ({
 	fetchGoals: (userId) => dispatch(fetchGoals(userId)),
+	deleteGoal: (userData) => dispatch(deleteGoal(userData, history)),
 	// addAccount: (userData) => dispatch(addAccount(userData)),
 });
 

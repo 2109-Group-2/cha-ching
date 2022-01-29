@@ -52,11 +52,10 @@ export const fetchGoals = (id) => {
 
 export const fetchSingleGoal = (values) => {
 	return async (dispatch) => {
-
-    try {
-      console.log('this ran inside try savinggoals component store', values)
-      let id1 = values.userId;
-      let id2 = values.id;
+		try {
+			console.log('this ran inside try savinggoals component store', values);
+			let id1 = values.userId;
+			let id2 = values.id;
 			const { data } = await axios.get(`api/goal/${id1}/${id2}`);
 			console.log('third: this is data', data);
 			dispatch(setSingleGoal(data));
@@ -92,16 +91,17 @@ export const addGoal = (goal, userId, formData) => {
 	};
 };
 
-export const deleteGoal = (id) => {
-	return async (dispatch) => {
+export const deleteGoal = (values) => {
+	return async (dispatch, history) => {
 		try {
-			const token = window.localStorage.getItem('token');
-			const { data: user } = await axios.delete(`api/goal/${id}`, {
-				headers: {
-					authorization: token,
-				},
-			});
-			dispatch(_deleteGoal(user));
+			console.log('this ran inside try savinggoals component store', values);
+			let id1 = values.userId;
+			let id2 = values.id;
+
+			const { data } = await axios.delete(`api/goal/${id1}/${id2}`);
+			console.log('third: this is data', data);
+			dispatch(_deleteGoal(data));
+			dispatch(fetchGoals(id1));
 		} catch (error) {
 			console.log(error);
 		}

@@ -25,7 +25,7 @@ componentDidMount(){
     userId: this.props.userId,
     id: this.props.id
   }
-  this.props.fetchGoal(values);
+  //this.props.fetchGoal(values);
 }
 
 /*
@@ -83,6 +83,7 @@ componentDidMount(){
   
 		return (
 			<>
+      <Modal>
 				<Modal.Dialog>
 					<Modal.Header
 						closeButton
@@ -116,6 +117,7 @@ componentDidMount(){
 						</Button>
 					</Modal.Footer>
 				</Modal.Dialog>
+        </Modal>
 			</>
 			/*
 			<div className="col s12 accounts-wrapper">
@@ -203,8 +205,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-	addGoal: (goal, userId, formData) =>
-		dispatch(addGoal(goal, userId, formData)),
 	fetchGoal: (id) => dispatch(fetchSingleGoal(id)),
 });
 
