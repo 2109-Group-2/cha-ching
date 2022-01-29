@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import { connect } from "react-redux";
 import BudgetContainer from "./BudgetContainer";
 import { setBudgets } from '../store/plaid'
+import ModalContainer from "./ModalContainer";
 
 class Planning extends Component {
   constructor(props) {
@@ -20,6 +21,7 @@ class Planning extends Component {
     transactions.forEach(function (account) {
       account.transactions.forEach(function (listByAccount) {
         transactionsData.push({
+          transactionId: listByAccount.transaction_id,
           account: account.accountName,
           date: listByAccount.date,
           category: listByAccount.category[0],
@@ -32,6 +34,7 @@ class Planning extends Component {
     return (
       <div>
         <h1>Financial Planning</h1>
+        <ModalContainer budgets={budgets} transactions={transactionsData} user={user} />
         {!transactions ? (
           <></>
           ) : (
