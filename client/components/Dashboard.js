@@ -26,25 +26,34 @@ class Dashboard extends Component {
 		const { user } = this.props.auth;
 		const { accounts, transactions } = this.props.plaid;
 		let dashboardContent;
-		if (accounts.length > 0 && transactions.length > 0) {
+		if (accounts === null) {
+			// this.props.getAccounts()
+		} else if (accounts.length > 0) {
 			// User has accounts linked
 			dashboardContent = (
-				<div className="dashComponent">
+				<>
 					<Accounts user={user} accounts={accounts} />
 					<MiniTransaction transactions={transactions} />
-				</div>
+				</>
 			);
 		} else {
-			// User has no accounts linked or transactions
+			// User has no accounts linked
 			dashboardContent = (
 				<div>
-					<h4>
-						<b>Welcome,</b> {user.name.split(' ')[0]}
-					</h4>
-					<p className="flow-text grey-text text-darken-1">
-						To get started, link your first bank account below.
-					</p>
-					<Link />
+					<div>
+						<div>
+							<h4>
+								<b>Welcome,</b> {user.name.split(' ')[0]}
+							</h4>
+							<p className="flow-text grey-text text-darken-1">
+								To get started, link your first bank account below.
+							</p>
+						</div>
+
+						<div className="dashboard-wrapper">
+							<Link />
+						</div>
+					</div>
 				</div>
 			);
 		}
