@@ -2,7 +2,16 @@ import React, { Component } from 'react';
 import browserHistory from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Form, Button } from 'react-bootstrap';
+import {
+	Form,
+	FormGroup,
+	FormControl,
+	Button,
+	FloatingLabel,
+	Modal,
+	OverlayTrigger,
+	Tooltip,
+} from 'react-bootstrap';
 import { fetchGoals, deleteGoal } from '../store/savingGoals';
 import Swal from 'sweetalert2';
 import { Route, Link } from 'react-router-dom';
@@ -52,89 +61,107 @@ class Savings extends Component {
 		let numOfGoals = goals.length;
 		return (
 			<>
-				<div className="flex">
-					<div className="app-sidebar">
-						<div className="app-sidebar-header">
-							{numOfGoals <= 0 ? (
-								<>
-									<h2>You have not added any goals. Get started!</h2>
-									<button className="AddGoalButton">
-										<Link to="/addGoal">+ add a goal</Link>
-									</button>
-								</>
-							) : (
-								<>
-									<div className="flex">
-										<h2>
-											Currently saving ${dollars.toLocaleString()} per month
-											towards {numOfGoals} goals
-										</h2>
-										<button className="AddGoalButton">
-											<Link to="/addGoal">+ add a goal</Link>
-										</button>
-									</div>
-									{goals.map((goal) => {
-										return (
-											<div className="goal">
-												<div className="goal-left"></div>
-												<div className="goal-body" key={goal._id}>
-													<img
-														src={
-															'/images/' + goal.image ||
-															'https://m.media-amazon.com/images/I/41WPpgz6FYL._AC_SL1200_.jpg'
-														}
-														style={({ width: '200px' }, { height: '100px' })}
-													/>
-													<div className="goal-info">
-														<div className="goal-info-inner">
-															<p className="goal-title ellipsis">
-																{goal.title}
-															</p>
-															<p className="goal-progress adjust-hide">
-																<strong className="goal-current-currentBalance">
-																	${goal.currentBalance}
-																</strong>{' '}
-																of{' '}
-																<strong className="goal-target-currentBalance">
-																	${goal.goalTarget}
-																</strong>
-															</p>
-															<p className="goal-calculated adjust-only"></p>
-														</div>
-													</div>
-												</div>
-												<Button
-													onClick={() => {
-														this.handleShow(goal._id);
-													}}
-												>
-													Edit Goal
-												</Button>{' '}
-												<Button
-													onClick={() => {
-														this.handleDelete(goal._id);
-													}}
-												>
-													Delete Goal
-												</Button>
-												<div className="goal-right"></div>
-											</div>
-										);
-									})}
-									{this.state.show && (
-										<EditGoal
-											id={this.state.currentGoalId}
-											userId={this.props.auth.user.id}
-											show={this.state.show}
-											handleClose={this.handleClose}
-										/>
-									)}
-								</>
+      <div className='middle'>
+					{numOfGoals <= 0 ? (
+						<>
+							<h2>You have not added any goals. Get started!</h2>
+							<button
+								onClick={() => {
+									this.handleShow();
+								}}
+							>
+								View Goal
+							</button>
+							{this.state.show && (
+								<AddGoal
+									show={this.state.show}
+									handleClose={this.handleClose}
+								/>
+							)}
+						</>
+					) : (
+						<div className="flex">
+							<h2 >
+								Currently saving ${dollars.toLocaleString()} per month towards{' '}
+								{numOfGoals} goals
+							</h2>
+							<button
+								onClick={() => {
+									this.handleShow();
+								}}
+							>
+								Add Goal
+							</button>
+							{this.state.show && (
+								<AddGoal
+									show={this.state.show}
+									handleClose={this.handleClose}
+								/>
 							)}
 						</div>
-						<div className="app-sidebar-goals"></div>
-					</div>
-				</div>
+					)}
+					<table className="table table-striped table-hover">
+						<thead>
+							<tr>
+								<th>Image</th>
+								<th>Title</th>
+								<th>Category</th>
+								<th>Goal Target</th>
+								<th>Currently Saved</th>
+							</tr>
+						</thead>
+						<tbody>
+							{goals.map((goal) => (
+								<tr key={goal._id}>
+									<td>
+										<img src={goal.image} height={'60px'} width={'60px'} />
+									</td>
+									<td>{goal.title}</td>
+									<td>{goal.category}</td>
+									<td>{goal.goalTarget}</td>
+									<td>{goal.currentBalance}</td>
+									<td>
+										<OverlayTrigger
+											overlay={
+												<Tooltip id={`tooltip-top`}>Click to view</Tooltip>
+											}
+										>
+											<button
+												onClick={() => {
+													this.handleShow(goal._id);
+												}}
+												className="btn btn-succes"
+												data-toggle="modal"
+											>
+												<i className="material-icons">&#xe8ff;</i>
+											</button>
+										</OverlayTrigger>
+										{this.state.show && (
+											<EditGoal
+												id={this.state.currentGoalId}
+												userId={this.props.auth.user.id}
+												show={this.state.show}
+												handleClose={this.handleClose}
+											/>
+										)}
+										<OverlayTrigger
+											overlay={<Tooltip id={`tooltip-top`}>Delete</Tooltip>}
+										>
+											<button
+												className="btn btn-succes"
+												data-toggle="modal"
+												onClick={() => this.handleDelete(goal._id)}
+											>
+												<i className="material-icons">&#xE872;</i>
+											</button>
+										</OverlayTrigger>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+					)
+          </div>
 			</>
 		);
 	}

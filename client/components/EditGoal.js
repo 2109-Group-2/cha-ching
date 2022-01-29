@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, FormGroup, FormControl, Button, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { useContext, useState } from 'react';
-import { fetchSingleGoal } from '../store/savingGoals';
+import { fetchSingleGoal, deleteGoal } from '../store/savingGoals';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import moment from 'moment';
@@ -18,12 +18,13 @@ class EditGoal extends Component {
 			monthly: 0,
 			yearly: 0,
 			days: 0,
-
 			biWeeks: 0,
 			months: 0,
 			years: 0,
 		};
 		this.handleChange = this.handleChange.bind(this);
+		this.handleDelete = this.handleDelete.bind(this);
+		this.refreshPage = this.refreshPage.bind(this);
 	}
 
 	componentDidMount() {
@@ -45,11 +46,17 @@ class EditGoal extends Component {
 			biWeekly: val * 2,
 			monthly: val * 4,
 			yearly: val * 12 < 0 ? 0 : val * 12,
-			days: Math.round((goalTarget / (val / 7)) * 100) / 100,
-			weeks: goalTarget / val,
-			biWeeks: goalTarget / (val * 2),
-			months: goalTarget / (val * 4),
-			years: goalTarget / (val * 12),
+			days: (Math.round((goalTarget / (val / 7)) * 100) / 100).toLocaleString(),
+			weeks: (Math.round((goalTarget / val) * 100) / 100).toLocaleString(),
+			biWeeks: (
+				Math.round((goalTarget / (val * 2)) * 100) / 100
+			).toLocaleString(),
+			months: (
+				Math.round((goalTarget / (val * 4)) * 100) / 100
+			).toLocaleString(),
+			years: (
+				Math.round((goalTarget / (val * 12)) * 100) / 100
+			).toLocaleString(),
 		});
 		/*
 		const savedGoal = localStorage.getItem(
@@ -57,6 +64,18 @@ class EditGoal extends Component {
 		localStorage.setItem('calculate', JSON.stringify(savedGoal));
     */
 		console.log('this.state --->', this.state);
+	}
+	handleDelete(id) {
+		let values = {
+			userId: this.props.auth.user.id,
+			id,
+		};
+		this.props.deleteGoal(values);
+		this.refreshPage();
+	}
+
+	refreshPage() {
+		window.location.reload(false);
 	}
 
 	render() {
@@ -111,7 +130,7 @@ class EditGoal extends Component {
 				position: 'center',
 			},
 		};
-
+		console.log('this is image', '../public/images/' + image);
 		return (
 			<Modal
 				show={this.props.show}
@@ -119,9 +138,13 @@ class EditGoal extends Component {
 				onHide={() => this.props.handleClose()}
 				aria-labelledby="example-modal-sizes-title-lg"
 			>
-				<Modal.Header closeButton>
+				<Modal.Header closeButton onClick={() => this.refreshPage()}>
 					<Modal.Title id="example-modal-sizes-title-lg">
-						<img src="$/{image}" />
+						<img
+							src={
+								'..publicimagespiggy-bank-icon-piggy-bank-icon-round-11553435294hb8eufsqin.png'
+							}
+						/>
 						<h1>{title}</h1>
 					</Modal.Title>
 				</Modal.Header>
@@ -130,17 +153,27 @@ class EditGoal extends Component {
 					<div id="left">
 						<h6>{category}</h6>
 						<hr />
-						<h4>Saving Goal Target: {goalTarget}</h4>
-						<h4>Current Amount: {currentBalance}</h4>
+						<h4>Saving Goal Target: {goalTarget.toLocaleString()}</h4>
+						<h4>Current Amount: {currentBalance.toLocaleString()}</h4>
 					</div>
 					<div id="right">
 						{' '}
-						<div className="pieChart">
+						<div
+							style={
+								({ marginLeft: 'auto' },
+								{ marginRight: 'auto' },
+								{ width: '20em' },
+								{ display: 'flex' },
+								{ displayItems: 'center' })
+							}
+							className="pieChart"
+						>
 							<Pie options={options} data={data} />
 							{currentBalance > 0 ? (
 								<small>
-									You've saved {currentBalance} out of {goalTarget}, only{' '}
-									{goalTarget - currentBalance} to go!
+									You've saved {currentBalance.toLocaleString()} out of{' '}
+									{goalTarget.toLocaleString()}, only{' '}
+									{(goalTarget - currentBalance).toLocaleString()} to go!
 								</small>
 							) : (
 								<small>Start saving now</small>
@@ -176,11 +209,20 @@ class EditGoal extends Component {
 									}}
 								></input>
 							</td>
-							<td>${Math.round(this.state.daily * 100) / 100}</td>
-							<td>${Math.round(this.state.weekly || 0)}</td>
-							<td>${Math.round(this.state.biWeekly * 100) / 100}</td>
-							<td>${Math.round(this.state.monthly * 100) / 100}</td>
-							<td>${Math.round(this.state.yearly * 100) / 100}</td>
+							<td>
+								${(Math.round(this.state.daily * 100) / 100).toLocaleString()}
+							</td>
+							<td>${Math.round(this.state.weekly || 0).toLocaleString()}</td>
+							<td>
+								$
+								{(Math.round(this.state.biWeekly * 100) / 100).toLocaleString()}
+							</td>
+							<td>
+								${(Math.round(this.state.monthly * 100) / 100).toLocaleString()}
+							</td>
+							<td>
+								${(Math.round(this.state.yearly * 100) / 100).toLocaleString()}
+							</td>
 						</tr>
 					</tbody>
 					<thead>
@@ -196,31 +238,28 @@ class EditGoal extends Component {
 					<tbody>
 						<tr>
 							<td>Time until goal is reached: </td>
-							<td>{this.state.days}</td>
-							<td>{this.state.weeks}</td>
-							<td>{this.state.biWeeks}</td>
-							<td>{this.state.months}</td>
-							<td>{this.state.years}</td>
+							<td>{this.state.days || 0}</td>
+							<td>{this.state.weeks || 0}</td>
+							<td>{this.state.biWeeks || 0}</td>
+							<td>{this.state.months || 0}</td>
+							<td>{this.state.years || 0}</td>
 						</tr>
 					</tbody>
 				</Modal.Body>
-
 				<Modal.Footer>
 					<Button
-						variant="secondary"
 						onClick={() => {
-							this.props.handleClose();
+							this.handleDelete(_id);
+						}}
+					>
+						Delete
+					</Button>
+					<Button
+						onClick={() => {
+							this.refreshPage();
 						}}
 					>
 						Close
-					</Button>
-					<Button
-						variant="primary"
-						onClick={() => {
-							this.props.handleClose();
-						}}
-					>
-						Save changes
 					</Button>
 				</Modal.Footer>
 			</Modal>
@@ -237,6 +276,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
 	fetchGoal: (id) => dispatch(fetchSingleGoal(id)),
+	deleteGoal: (userData) => dispatch(deleteGoal(userData, history)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditGoal);
