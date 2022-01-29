@@ -1,110 +1,125 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { addBudget } from "../store/plaid"
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from 'chart.js';
-import { Doughnut } from 'react-chartjs-2';
 import moment from 'moment';
 import BudgetItem from "./BudgetItem";
-import transitions from "@material-ui/core/styles/transitions";
-ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
+const BudgetContainer = (props) => {
 
-class BudgetContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      category: '',
-      amount: 0
-    }
+  let { user, budgets, transactions } = props;
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+  const today = moment().format('YYYY-MM-DD');
+  const isActive = (end) => moment(today).isBefore(end);
+  budgets = budgets.filter(budget => isActive(budget.endDate))
 
-  }
+  return (
+    <div className="chartsAndTables">
 
-  handleChange(e) {
-		e.preventDefault();
-		this.setState({
-			[e.target.name]: e.target.value
-		})
-	}
+      {budgets.length ?
+        <>
+          {/* <ModalContainer budgets={budgets} transactions={transactions} user={user} /> */}
+          {budgets.map(budget => {
+            return (
+              <>
+                <BudgetItem budget={budget} transactions={transactions} />
+              </>
+            )
+          })}
+        </>
+        :
+        <>
+          {/* <ModalContainer budgets={budgets} transactions={transactions} user={user} /> */}
+        </>
+      }
+    </div>
+  )
 
-  handleSubmit(e) {
-		e.preventDefault();
-    this.props.addBudget(this.props.user.id, this.state.category, this.state.amount)
-
-	}
-
-  render() {
-    const { transactions, budgets, user } = this.props;
-    let budgetCategories = transactions
-      .map(transaction => transaction.category)
-      .sort()
-      .filter((category, idx, arr) => !idx || category != arr[idx - 1])
-
-    /*
-    budgets.forEach(budget => {
-      transactions.forEach(item => {
-          if (item.category === budget.category) items.push(item.amount);
-      });
-      totalSpent = items.reduce((acc, cur) => {
-        return acc += cur;
-      })
-      amountRemaining = budget.amount - totalSpent;
-    })
-    const startDate = moment().subtract(30, 'days').format('YYYY-MM-DD');
-    const endDate = moment().format('YYYY-MM-DD');
-    */
-
-
-
-    return (
-      <div>
-        {/* <h1>Budget Container</h1> */}
-        {budgets.length ?
-          <div className="budget-container">
-            {budgets.map(budget => {
-              return (
-                <div>
-                {/* <Doughnut options={options} data={data} /> */}
-                  <BudgetItem budget={budget} transactions={transactions} />
-
-                </div>
-              )
-            })}
-            <h2>Set A Budget!</h2>
-              <h3>Category:</h3>
-              <form onSubmit={this.handleSubmit}>
-                <select name="category" value={this.state.category} onChange={this.handleChange}>
-                  {budgetCategories.map(category => <option>{category}</option>)}
-                </select>
-                <input name="amount" type="number" onChange={this.handleChange}/>
-                <button type="submit">Set Budget</button>
-              </form>
-          </div>
-          :
-          <div>
-            <h2>Set Your First Budget!</h2>
-            <h3>Category:</h3>
-            <form onSubmit={this.handleSubmit}>
-              <select name="category" value={this.state.category} onChange={this.handleChange}>
-                {transactions.map(transaction => <option>{transaction.category}</option>)}
-              </select>
-              <input name="amount" type="number" onChange={this.handleChange}/>
-              <button type="submit">Set Budget</button>
-            </form>
-
-          </div>
-        }
-
-
-      </div>
-    )
-  }
 }
 
-const mapDispatch = (dispatch) => ({
-	addBudget: (userId, category, amount) => dispatch(addBudget(userId, category, amount)),
-});
+export default BudgetContainer
 
-export default connect(null, mapDispatch)(BudgetContainer);
+/*
+import React, { Component } from "react";
+import moment from 'moment';
+import BudgetItem from "./BudgetItem";
+import ModalContainer from './ModalContainer'
+
+const BudgetContainer = (props) => {
+
+  let { user, budgets, transactions } = props;
+
+  const today = moment().format('YYYY-MM-DD');
+  const isActive = (end) => moment(today).isBefore(end);
+  budgets = budgets.filter(budget => isActive(budget.endDate))
+
+  return (
+    <div className="budget-container">
+      {budgets.length ?
+        <>
+          <ModalContainer budgets={budgets} transactions={transactions} user={user} />
+          {budgets.map(budget => {
+            return (
+              <div id='budget-item'>
+                <BudgetItem budget={budget} transactions={transactions} />
+              </div>
+            )
+          })}
+        </>
+        :
+        <>
+          <ModalContainer budgets={budgets} transactions={transactions} user={user} />
+        </>
+      }
+    </div>
+  )
+
+}
+
+export default BudgetContainer;
+*/
+
+/*
+import { Grid } from 'semantic-ui-react'
+import React, { Component } from "react";
+import moment from 'moment';
+import BudgetItem from "./BudgetItem";
+import ModalContainer from './ModalContainer'
+
+const BudgetContainer = (props) => {
+
+  let { user, budgets, transactions } = props;
+
+  const today = moment().format('YYYY-MM-DD');
+  const isActive = (end) => moment(today).isBefore(end);
+  budgets = budgets.filter(budget => isActive(budget.endDate))
+
+  return (
+    <div className="budget-container">
+
+
+
+      {budgets.length ?
+        <>
+          <ModalContainer budgets={budgets} transactions={transactions} user={user} />
+          <div className="budgets">
+            <Grid columns={3}>
+              {budgets.map(budget => {
+                return (
+                  <>
+                    <BudgetItem budget={budget} transactions={transactions} />
+                  </>
+                )
+              })}
+            </Grid>
+          </div>
+        </>
+        :
+        <>
+          <ModalContainer budgets={budgets} transactions={transactions} user={user} />
+        </>
+      }
+    </div>
+  )
+
+}
+
+export default BudgetContainer
+*/
