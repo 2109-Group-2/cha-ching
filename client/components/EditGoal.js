@@ -9,20 +9,23 @@ import moment from 'moment';
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
 class EditGoal extends Component {
-	/*
+	constructor() {
+		super();
 		this.state = {
-			title: this.props.goal.title || '',
-			image: this.props.goal.image || '',
-			category: this.props.goal.category || '',
-			currentBalance: this.props.goal.currentBalance || 0,
-			goalTarget: this.props.goal.goalTarget || 0,
-			// showForm: false,
+			calculate: 0,
+			daily: 0,
+			biWeekly: 0,
+			monthly: 0,
+			yearly: 0,
+			days: 0,
+
+			biWeeks: 0,
+			months: 0,
+			years: 0,
 		};
 		this.handleChange = this.handleChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleSelect = this.handleSelect.bind(this);
 	}
-*/
+
 	componentDidMount() {
 		console.log(' this.props.fetchGoal: ', this.props.userId, this.props.id);
 		let values = {
@@ -32,62 +35,37 @@ class EditGoal extends Component {
 		this.props.fetchGoal(values);
 	}
 
-	/*
-	componentDidUpdate(prevProps) {
-    if(prevProps._id !== this.props.goal.id){
-      this.setState({
-        title: this.props.goal.title || '',
-        image: this.props.goal.image || '',
-        category: this.props.goal.category || '',
-        currentBalance: this.props.goal.currentBalance || 0,
-        goalTarget: this.props.goal.goalTarget || 0,
-
-      })
-    }
-  }
-
-	handleChange(event) {
+	handleChange(event, id) {
+		let { currentBalance, goalTarget } = this.props.goal[0];
+		let val = event.target.value;
 		this.setState({
-			[event.target.name]: event.target.value,
+			[event.target.name]: val,
+			daily: val / 7,
+			weekly: val,
+			biWeekly: val * 2,
+			monthly: val * 4,
+			yearly: val * 12 < 0 ? 0 : val * 12,
+			days: Math.round((goalTarget / (val / 7)) * 100) / 100,
+			weeks: goalTarget / val,
+			biWeeks: goalTarget / (val * 2),
+			months: goalTarget / (val * 4),
+			years: goalTarget / (val * 12),
 		});
+		/*
+		const savedGoal = localStorage.getItem(
+			'calculate') ? JSON.parse(localStorage.getItem('calculate')) : [];
+		localStorage.setItem('calculate', JSON.stringify(savedGoal));
+    */
 		console.log('this.state --->', this.state);
 	}
 
-	onChange(e) {
-		this.setState({ [e.target.name]: e.target.files[0] });
-		// this.setState({ [e.target.id]: e.target.files[0].imageName });
-		console.log('this.state onChange for image --->', this.state);
-	}
-	handleSubmit(event) {
-		event.preventDefault();
-		const formData = new FormData();
-		formData.append('file', this.state.image);
-		formData.append('title', this.state.title);
-		formData.append('category', this.state.category);
-		formData.append('currentBalance', this.state.currentBalance);
-		formData.append('goalTarget', this.state.goalTarget);
-		console.log('******************************component', [
-			...formData.entries(),
-		]);
-		this.props.updateGoal({ ...this.state }, this.props.auth.user.id, formData);
-
-
-	}
-
-	handleSelect(event) {
-		this.setState({
-			category: event.target.value,
-		});
-		console.log('this.state handleSelect for category --->', this.state);
-	}
-  */
-
 	render() {
+		console.log('the value of daily outside: ', this.daily);
 		console.log('these are the props from editgoal: ', this.props);
 
 		let { userId, title, category, currentBalance, goalTarget, image, _id } =
 			this.props.goal[0];
-
+		let calculate = this.state.calculate;
 		let labels = ['Saved', 'Amount Left'];
 
 		let dataAmount = [currentBalance, goalTarget];
@@ -143,6 +121,7 @@ class EditGoal extends Component {
 			>
 				<Modal.Header closeButton>
 					<Modal.Title id="example-modal-sizes-title-lg">
+						<img src="$/{image}" />
 						<h1>{title}</h1>
 					</Modal.Title>
 				</Modal.Header>
@@ -158,13 +137,20 @@ class EditGoal extends Component {
 						{' '}
 						<div className="pieChart">
 							<Pie options={options} data={data} />
-							/**halfway there... making great progress or almost done
-							currentBalance** */
-							<small></small>
+							{currentBalance > 0 ? (
+								<small>
+									You've saved {currentBalance} out of {goalTarget}, only{' '}
+									{goalTarget - currentBalance} to go!
+								</small>
+							) : (
+								<small>Start saving now</small>
+							)}
 						</div>
 					</div>
 					<hr />
-					<h5>Saving plan details</h5>
+					<h5>
+						<strong>Saving plan details</strong>
+					</h5>
 					<thead>
 						<tr>
 							<th>Saving interval</th>
@@ -177,12 +163,24 @@ class EditGoal extends Component {
 					</thead>
 					<tbody>
 						<tr>
-							<td>Enter estimate weekly amount: [100]</td>
-							<td>$14.3</td>
-							<td>$100</td>
-							<td>$200</td>
-							<td>$400</td>
-							<td>4,800</td>
+							<td>
+								Enter estimate weekly amount:{' '}
+								<input
+									type="number"
+									name="calculate"
+									value={calculate}
+									placeholder="enter amount"
+									max={goalTarget}
+									onChange={(e) => {
+										this.handleChange(e);
+									}}
+								></input>
+							</td>
+							<td>${Math.round(this.state.daily * 100) / 100}</td>
+							<td>${Math.round(this.state.weekly || 0)}</td>
+							<td>${Math.round(this.state.biWeekly * 100) / 100}</td>
+							<td>${Math.round(this.state.monthly * 100) / 100}</td>
+							<td>${Math.round(this.state.yearly * 100) / 100}</td>
 						</tr>
 					</tbody>
 					<thead>
@@ -198,11 +196,11 @@ class EditGoal extends Component {
 					<tbody>
 						<tr>
 							<td>Time until goal is reached: </td>
-							<td>180</td>
-							<td>26</td>
-							<td>12</td>
-							<td>5</td>
-							<td>0</td>
+							<td>{this.state.days}</td>
+							<td>{this.state.weeks}</td>
+							<td>{this.state.biWeeks}</td>
+							<td>{this.state.months}</td>
+							<td>{this.state.years}</td>
 						</tr>
 					</tbody>
 				</Modal.Body>
@@ -226,80 +224,6 @@ class EditGoal extends Component {
 					</Button>
 				</Modal.Footer>
 			</Modal>
-			/*
-			<div className="col s12 accounts-wrapper">
-				<Form onSubmit={this.handleSubmit}>
-					<FormGroup className="mb-3">
-						<FormControl
-							type="text"
-							placeholder="title"
-							name="title"
-							value={title}
-							onChange={(e) => this.handleChange(e)}
-							required
-						/>
-					</FormGroup>
-					<FormGroup className="mb-3">
-						<FormControl
-							type="file"
-							placeholder="image"
-							name="image"
-							value={this.file}
-							onChange={(e) => this.onChange(e)}
-						/>
-					</FormGroup>
-					<FormGroup className="mb-3">
-						<Form.Label>Saving Goal?</Form.Label>
-						<Form.Select
-							defaultValue="Other"
-							aria-label="category"
-							onChange={(e) => this.handleSelect(e)}
-						>
-							<option value="Babies and Kids">Babies and Kids</option>
-							<option value="Bills and Taxes">Bills and Taxes</option>
-							<option value="Electronics">Electronics</option>
-							<option value="Gifts and Shopping">Gifts and Shopping</option>
-							<option value="Wedding">Wedding</option>
-							<option value="Furniture">Furniture</option>
-							<option Default value="Other">
-								Other
-							</option>
-						</Form.Select>
-					</FormGroup>
-
-					<FormGroup className="mb-3">
-						<Form.Label>Current Amount Saved</Form.Label>
-						<Form.Control
-							type="number"
-							placeholder="Balace"
-							name="currentBalance"
-							value={currentBalance}
-							onChange={(e) => this.handleChange(e)}
-						/>
-					</FormGroup>
-					<FormGroup className="mb-3">
-						<Form.Label>Goal Target</Form.Label>
-						<Form.Control
-							type="number"
-							placeholder={1000}
-							min={10}
-							name="goalTarget"
-							value={goalTarget || 1000}
-							onChange={(e) => this.handleChange(e)}
-							required
-						/>
-						<Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-						<Form.Control.Feedback type="invalid">
-							Please provide a valid zip.
-						</Form.Control.Feedback>
-					</FormGroup>
-
-					<Button variant="success" type="submit">
-						Add Goal
-					</Button>
-				</Form>
-			</div>
-      */
 		);
 	}
 }
