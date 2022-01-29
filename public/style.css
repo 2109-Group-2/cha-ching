@@ -84,7 +84,7 @@ form div {
 }
 
 /* Active tab */
-.nav-link{
+.nav-link {
 	color: #327d41;
 }
 
@@ -191,7 +191,7 @@ a {
 	color: #c8ad55;
 }
 
-.navbar {
+.navbar .container-fluid {
 	color: #c8ad55;
 	text-decoration: #c8ad55;
 	background-color: white;
@@ -204,6 +204,17 @@ a {
 	padding-bottom: 0.5vw;
 	width: 100vw;
 	font-size: 8vw;
+}
+
+button.navbarToggle.navbar-toggler.collapsed {
+	position: fixed;
+	right: 3vw;
+}
+
+.navbar-light .navbar-brand {
+	font-size: 30px;
+	color: #c8ad55;
+	margin: 2px;
 }
 
 .landing {
