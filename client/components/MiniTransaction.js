@@ -16,10 +16,13 @@ export default function MiniTransaction(props) {
 			});
 		});
 	});
+	console.log('<--- Transactions in mini --->', transactionsData);
 
 	const tenDays = moment().subtract(10, 'days').format('YYYY-MM-DD');
-	const mostRecent = transactionsData.filter((data, i) => {
-		return String(data.date) === String(tenDays);
+	console.log('<--- Ten days ago --->', tenDays);
+
+	const mostRecent = transactionsData.filter((data) => {
+		return moment(data.date).isSameOrAfter(tenDays);
 	});
 	console.log('<--- Most Recent --->', mostRecent);
 	return (
@@ -32,28 +35,32 @@ export default function MiniTransaction(props) {
 					<Card.Text>
 						<div className="recent-transactions">
 							<h6>Most Recent Transactions:</h6>
-							<Table responsive="sm" hover>
-								<thead>
-									<tr>
-										<th>Account</th>
-										<th>Date</th>
-										<th>Name</th>
-										<th>Amount</th>
-									</tr>
-								</thead>
-								<tbody>
-									{mostRecent.map((data) => {
-										return (
-											<tr>
-												<td>{data.account}</td>
-												<td>{moment(data.date).format('M/d/YYYY')}</td>
-												<td>{data.name}</td>
-												<td>${data.amount}</td>
-											</tr>
-										);
-									})}
-								</tbody>
-							</Table>
+							{mostRecent.length > 0 ? (
+								<Table responsive="sm" hover>
+									<thead>
+										<tr>
+											<th>Account</th>
+											<th>Date</th>
+											<th>Name</th>
+											<th>Amount</th>
+										</tr>
+									</thead>
+									<tbody>
+										{mostRecent.map((data) => {
+											return (
+												<tr>
+													<td>{data.account}</td>
+													<td>{moment(data.date).format('M/d/YYYY')}</td>
+													<td>{data.name}</td>
+													<td>${data.amount}</td>
+												</tr>
+											);
+										})}
+									</tbody>
+								</Table>
+							) : (
+								<h6>You have no transactions from the last 10 days</h6>
+							)}
 						</div>
 					</Card.Text>
 					<Button>

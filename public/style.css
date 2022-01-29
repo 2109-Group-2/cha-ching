@@ -207,7 +207,7 @@ a {
 }
 
 button.navbarToggle.navbar-toggler.collapsed {
-	position: fixed;
+	position: absolute;
 	right: 3vw;
 }
 
@@ -216,6 +216,16 @@ button.navbarToggle.navbar-toggler.collapsed {
 	color: #c8ad55;
 	margin: 2px;
 }
+
+.offcanvas-end{
+	width: 230px;
+}
+
+.navbar-nav {
+	align-items: flex-start;
+}
+
+/* Landing Component */
 
 .landing {
 	display: flex;
