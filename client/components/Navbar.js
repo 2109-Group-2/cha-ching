@@ -73,14 +73,30 @@ const NavieBar = ({ handleClick, auth }) => {
 										{'    '}Transactions
 									</Nav.Link>
 									<NavDropdown title="Planning" id="offcanvasNavbarDropdown">
-										<NavDropdown.Item as={Link} to="/savings">
+										<NavDropdown.Item
+											as={Link}
+											to="/savings"
+											onClick={() =>
+												setTimeout(() => {
+													setExpanded(false);
+												}, 150)
+											}
+										>
 											<img
 												src={'/icons/icons8-savings-50-3.png'}
 												width={'20px'}
 											/>
 											{'    '}Savings Calculator
 										</NavDropdown.Item>
-										<NavDropdown.Item as={Link} to="/budget">
+										<NavDropdown.Item
+											as={Link}
+											to="/budget"
+											onClick={() =>
+												setTimeout(() => {
+													setExpanded(false);
+												}, 150)
+											}
+										>
 											<img
 												src={'/icons/icons8-savings-50.png'}
 												width={'20px'}
@@ -124,8 +140,8 @@ const NavieBar = ({ handleClick, auth }) => {
 			) : (
 				<div className="navbar guest">
 					{/* The navbar will show these links before you log in */}
-          <img src={'/cha-ching.png'} width={'50px'} />
-						<h1>chaa-ching</h1>
+					<img src={'/cha-ching.png'} width={'50px'} />
+					<h1>chaa-ching</h1>
 					<nav>
 						<Link to="/login">Login</Link>
 						<Link to="/signup">Sign Up</Link>
