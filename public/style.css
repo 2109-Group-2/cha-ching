@@ -217,12 +217,19 @@ button.navbarToggle.navbar-toggler.collapsed {
 	margin: 2px;
 }
 
-.offcanvas-end{
+.offcanvas-end {
 	width: 230px;
 }
 
 .navbar-nav {
 	align-items: flex-start;
+}
+
+.navbar.guest  {
+	justify-content: start;
+	font-size: 30px;
+	color: #c8ad55;
+	margin: 2px;
 }
 
 /* Landing Component */

@@ -103,17 +103,34 @@ const NavieBar = ({ handleClick, auth }) => {
 										/>
 										{'    '}Tell Us What You Think
 									</Nav.Link>
+									<Nav.Link
+										onClick={() =>
+											setTimeout(() => {
+												handleClick();
+												setExpanded(false);
+											}, 150)
+										}
+										as={Link}
+										to="/"
+									>
+										<img src={'/icons/icons8-logout-64.png'} width={'20px'} />
+										{'    '}Logout
+									</Nav.Link>
 								</Nav>
 							</Offcanvas.Body>
 						</Navbar.Offcanvas>
 					</Container>
 				</Navbar>
 			) : (
-				<div>
+				<div className="navbar guest">
 					{/* The navbar will show these links before you log in */}
-					<Link to="/login">Login</Link>
-					<Link to="/signup">Sign Up</Link>
-					<Link to="/feedback">Feedback</Link>
+          <img src={'/cha-ching.png'} width={'50px'} />
+						<h1>chaa-ching</h1>
+					<nav>
+						<Link to="/login">Login</Link>
+						<Link to="/signup">Sign Up</Link>
+						<Link to="/feedback">Feedback</Link>
+					</nav>
 				</div>
 			)}
 		</>
