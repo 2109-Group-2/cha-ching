@@ -11,7 +11,6 @@ class BudgetGraph extends Component {
 
   componentDidMount() {
 		const ctx = this.chartRef.current.getContext("2d");
-    // const ctx = document.getElementById("myChart");
 
 		new ChartJS(ctx, {
 			type: "doughnut",
@@ -20,22 +19,23 @@ class BudgetGraph extends Component {
 				datasets: [{
 					data: [this.props.totalSpent, this.props.amountRemaining],
 					label: "Spent",
-					borderColor: "#3e95cd",
-					backgroundColor: "#7bb6dd",
+					borderColor: ['#c14953', 'green'],
+					backgroundColor: [
+						'#c14953',
+						'green'
+					],
+					hoverBorderWidth: 2,
 					fill: false
 				}
 				]
-			}
+			},
 		})
 	}
 
   render() {
-    // const { budget, transactions } = this.props;
-
     return (
-      <div className="pieChart">
-        {/* <Doughnut options={options} data={data} /> */}
-        <canvas ref={this.chartRef} width="200" height="200"></canvas>
+      <div className="budget-graph">
+        <canvas ref={this.chartRef}></canvas>
       </div>
     )
   }
