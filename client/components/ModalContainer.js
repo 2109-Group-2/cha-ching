@@ -4,7 +4,11 @@ import Modal from './AddBudget';
 const Trigger = ({ triggerText, buttonRef, showModal }) => {
   return (
     <button
-      className="btn btn-lg btn-danger center modal-button"
+      className="btn-lg btn-danger modal-button "
+      // className="btn btn-lg btn-danger"
+      // className="btn-lg btn-danger modal-button trigger"
+
+
       ref={buttonRef}
       onClick={showModal}
     >
@@ -52,11 +56,16 @@ class ModalContainer extends Component {
     const { budgets, transactions, user } = this.props
     return (
       <React.Fragment>
-        <Trigger
-          showModal={this.showModal}
-          buttonRef={(n) => (this.Trigger = n)}
-          triggerText='Add Budget'
-        />
+        <div className="modal-container">
+          <Trigger
+            showModal={this.showModal}
+            buttonRef={(n) => (this.Trigger = n)}
+            triggerText='Track New Budget'
+            // className="trigger"
+            className="trigger"
+          />
+        </div>
+
         {this.state.isShown ? (
           <Modal
             budgets={budgets}

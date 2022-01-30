@@ -19,10 +19,10 @@ class BudgetGraph extends Component {
 				datasets: [{
 					data: [this.props.totalSpent, this.props.amountRemaining],
 					label: "Spent",
-					borderColor: ['#c14953', 'green'],
+					borderColor: '#327d41',
 					backgroundColor: [
-						'#c14953',
-						'green'
+						'#f9c74f',
+						'#c32530'
 					],
 					hoverBorderWidth: 2,
 					fill: false
@@ -34,9 +34,10 @@ class BudgetGraph extends Component {
 
   render() {
     return (
-      <div className="budget-graph">
+			// <div className="budget-graph"></div>
+      <>
         <canvas ref={this.chartRef}></canvas>
-      </div>
+      </>
     )
   }
 }

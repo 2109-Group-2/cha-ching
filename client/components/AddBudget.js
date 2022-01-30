@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { addBudget } from "../store/plaid"
 import { connect } from "react-redux";
 import { setBudgets } from '../store/plaid'
+import { Tabs, Tab } from 'react-bootstrap';
 
 import ReactDOM from 'react-dom';
 import FocusTrap from 'focus-trap-react';
@@ -13,18 +14,29 @@ class AddBudget extends Component {
       category: '',
       amount: 0,
       startDate: '',
-      endDate: ''
+      endDate: '',
+      custom: false
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
 
+  handleClick(eventKey) {
+    if (eventKey === 'fromTransactions') {
+      this.setState({
+        custom: false
+      });
+    } else if (eventKey === 'custom') {
+      this.setState({
+        custom: true
+      });
+    }
   }
 
   handleChange(e) {
 		e.preventDefault();
-    console.log(e.target.value);
-    console.log(typeof e.target.value);
 		this.setState({
 			[e.target.name]: e.target.value
 		})
@@ -47,27 +59,45 @@ class AddBudget extends Component {
     }
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        <h3>Category:</h3>
-        <select name="category" value={this.state.category} onChange={this.handleChange}>
-          {budgetCategories && budgetCategories.map(category => <option>{category}</option>)}
-          {/* <option>Here</option> */}
-        </select>
-        {/* <Dropdown placeholder='Category' search selection options={budgetCategories} /> */}
-        <h3>Amount:</h3>
-        <input name="amount" type="number" value={this.state.amount} onChange={this.handleChange} />
-        {/* <DatePicker name="startDate" onChange={this.handleChange} value={this.state.startDate} /> */}
-        {/* <DatePicker name="endDate" onChange={this.handleChange} value={this.state.startDate} /> */}
-        <h3>Start Date:</h3>
-        <input name="startDate" type="date" value={this.state.startDate} onChange={this.handleChange} />
-        <h3>End Date:</h3>
-        <input name="endDate" type="date" value={this.state.endDate} onChange={this.handleChange} />
-        <button type="submit">Set Budget</button>
-      </form>
+      <div className="modal-popup">
+        <Tabs
+          defaultActiveKey="fromTransactions"
+          id="uncontrolled-tab-example"
+          onSelect={(eventKey) => {
+            this.handleClick(eventKey);
+          }}
+          className="mb-2 modal-tabs"
+        >
+          <Tab className="budgets-from" eventKey="fromTransactions" title="Transaction Categories"></Tab>
+          <Tab className="budgets-from-tab" eventKey="custom" title="Custom"></Tab>
+
+        </Tabs>
+
+        <form className="modal-form" onSubmit={this.handleSubmit}>
+          <h3>Category:</h3>
+          {this.state.custom ?
+            <input name="category" type="text" value={this.state.category} onChange={this.handleChange} />
+            :
+            <select name="category" value={this.state.category} onChange={this.handleChange}>
+              {budgetCategories && budgetCategories.map(category => <option>{category}</option>)}
+          </select>
+          }
+          <h3>Amount:</h3>
+          <input name="amount" type="number" value={this.state.amount} onChange={this.handleChange} />
+          <h3>Start Date:</h3>
+          <input name="startDate" type="date" value={this.state.startDate} onChange={this.handleChange} />
+          <h3>End Date:</h3>
+          <input name="endDate" type="date" value={this.state.endDate} onChange={this.handleChange} />
+          <div>
+            <button className="btn btn-danger budget-submit-button" type="submit">Set Budget</button>
+          </div>
+        </form>
+      </div>
     )
   }
 
 }
+
 
 const mapDispatch = (dispatch) => ({
 	addBudget: (userId, category, amount, startDate, endDate) => dispatch(addBudget(userId, category, amount, startDate, endDate)),

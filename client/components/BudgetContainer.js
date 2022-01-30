@@ -1,40 +1,88 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
+import { connect } from "react-redux";
 import moment from 'moment';
+import { setBudgets } from '../store/plaid'
 import BudgetItem from "./BudgetItem";
+import ModalContainer from "./ModalContainer";
+import MiniBudgets from "./MiniBudgets";
 
-const BudgetContainer = (props) => {
+class BudgetContainer extends Component {
+  constructor(props) {
+    super(props);
+  }
 
-  let { user, budgets, transactions } = props;
+  componentDidMount() {
+    this.props.setBudgets(this.props.auth.user);
+  }
 
-  const today = moment().format('YYYY-MM-DD');
-  const isActive = (end) => moment(today).isBefore(end);
-  budgets = budgets.filter(budget => isActive(budget.endDate))
 
-  return (
-    <div className="chartsAndTables">
 
-      {budgets.length ?
-        <>
-          {/* <ModalContainer budgets={budgets} transactions={transactions} user={user} /> */}
-          {budgets.map(budget => {
-            return (
-              <>
-                <BudgetItem budget={budget} transactions={transactions} />
-              </>
-            )
-          })}
-        </>
-        :
-        <>
-          {/* <ModalContainer budgets={budgets} transactions={transactions} user={user} /> */}
-        </>
-      }
-    </div>
-  )
+  render() {
+    const { user } = this.props.auth;
+    let  { budgets, transactions } = this.props.plaid;
+
+    let transactionsData = [];
+
+    transactions.forEach(function (account) {
+      account.transactions.forEach(function (listByAccount) {
+        transactionsData.push({
+          transactionId: listByAccount.transaction_id,
+          account: account.accountName,
+          date: listByAccount.date,
+          category: listByAccount.category[0],
+          name: listByAccount.name,
+          amount: listByAccount.amount,
+        });
+      });
+    });
+
+
+    const today = moment().format('YYYY-MM-DD');
+    const isActive = (end) => moment(today).isBefore(end);
+    budgets = budgets.filter(budget => isActive(budget.endDate));
+
+
+
+    return (
+      <div className="budgets-container">
+        <div className="top-of-budgets">
+          <MiniBudgets transactions={transactionsData} />
+          <ModalContainer budgets={budgets} transactions={transactionsData} user={user} />
+        </div>
+        <div className="bottom-of-budgets">
+          {budgets.length ?
+            <>
+              {budgets.map(budget => {
+                return (
+                  <>
+                    <BudgetItem budget={budget} transactions={transactions} />
+                  </>
+                )
+              })}
+            </>
+            :
+            <>
+              {/* <ModalContainer budgets={budgets} transactions={transactions} user={user} /> */}
+            </>
+          }
+        </div>
+      </div>
+    )
+  }
 
 }
 
-export default BudgetContainer
+const mapState = (state) => ({
+	auth: state.auth,
+	plaid: state.plaid,
+});
+
+const mapDispatch = (dispatch) => ({
+  setBudgets: (user) => dispatch(setBudgets(user))
+})
+
+export default connect(mapState, mapDispatch)(BudgetContainer);
+
 
 /*
 import React, { Component } from "react";
