@@ -16,7 +16,7 @@ function SubscriptionTable(props) {
 	};
 	return (
 		<div>
-			<Table responsive="sm" hover>
+			<Table hover>
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -52,24 +52,6 @@ function SubscriptionTable(props) {
 		</div>
 	);
 }
-
-// import React, { Component } from 'react';
-
-// export default class SubscriptionTable extends Component {
-
-//   render() {
-//     const { subscriptions } = this.props;
-//   const onDeleteClick = (id) => {
-// 		const { subscriptions } = this.props.auth;
-// 		const subscriptionData = {
-// 			id: id,
-// 			subscriptions: subscriptions,
-// 		};
-// 		this.props.deleteSubscription(subscriptionData);
-// 	};
-//     return <div></div>;
-//   }
-// }
 
 const mapState = (state) => ({
 	auth: state.auth,

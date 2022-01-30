@@ -10,7 +10,7 @@ export default function MostSpent(props) {
 
   return <div className='pieChart'>
     <h6>Most Expensive Transactions:</h6>
-    <Table responsive="sm" hover>
+    <Table hover>
 								<thead>
 									<tr>
 										<th>Account</th>

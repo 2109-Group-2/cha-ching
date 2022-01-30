@@ -74,8 +74,9 @@ router.post('/:id', async (req, res, next) => {
 		file = 'https://m.media-amazon.com/images/I/41WPpgz6FYL._AC_SL1200_.jpg';
 	} else {
 		file = req.files.file;
+		console.log("File path --->", process.cwd() + `/public/images/${file.name}`)
 		file.mv(
-			`C:/Users/cdela/Documents/Fullstack-Stuff/cha-ching/public/images/${file.name}`
+			process.cwd() + `/public/images/${file.name}`
 		);
 	}
 

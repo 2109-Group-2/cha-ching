@@ -2,13 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getAccounts, setItem, getTransactions } from '../store/plaid';
+import { setCurrentUser } from '../store';
 import Accounts from './Accounts';
 import Link from './Link';
 import Transactions from './Transactions';
 import MiniTransaction from './MiniTransaction';
+import jwtDecode from 'jwt-decode'
+
+const token = localStorage.getItem('token');
+const decoded = jwtDecode(token);
 
 class Dashboard extends Component {
 	componentDidMount() {
+		this.props.loadInitialData(decoded)
 		this.props.getAccounts(this.props.auth.user);
 		this.props.getTransactions(this.props.auth.user);
 	}
@@ -77,6 +83,8 @@ const mapDispatch = (dispatch) => ({
 	getTransactions: (userData) => dispatch(getTransactions(userData)),
 	getAccounts: (userData) => dispatch(getAccounts(userData)),
 	setItem: (userData) => dispatch(setItem(userData)),
+	loadInitialData: (token) => 
+		dispatch(setCurrentUser(token)),
 });
 
 export default connect(mapState, mapDispatch)(Dashboard);
