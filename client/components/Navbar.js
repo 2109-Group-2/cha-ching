@@ -17,6 +17,7 @@ import {
 let image = '/user-icon.png';
 const NavieBar = ({ handleClick, auth }) => {
 	const [expanded, setExpanded] = useState(false);
+	console.log('from nav ', auth);
 	return (
 		<>
 			{auth.isAuthenticated ? (
@@ -44,6 +45,18 @@ const NavieBar = ({ handleClick, auth }) => {
 							</Offcanvas.Header>
 							<Offcanvas.Body>
 								<Nav className="justify-content-end flex-grow-1 pe-3">
+									<Nav.Link
+										onClick={() =>
+											setTimeout(() => {
+												setExpanded(false);
+											}, 150)
+										}
+										as={Link}
+										to="/settings"
+									>
+										<img src={image} width={'30px'} />
+										{auth.user.name}
+									</Nav.Link>
 									<Nav.Link
 										onClick={() =>
 											setTimeout(() => {
@@ -104,22 +117,6 @@ const NavieBar = ({ handleClick, auth }) => {
 											{'    '}Budget Planner
 										</NavDropdown.Item>
 									</NavDropdown>
-<Nav.Link
-										onClick={() =>
-											setTimeout(() => {
-												setExpanded(false);
-											}, 150)
-										}
-										as={Link}
-										to="/settings"
-									>
-										<img
-											src={'/icons/icons8-feedback-50-2.png'}
-											width={'20px'}
-										/>
-										{'    '}Change User Settings
-									</Nav.Link>
-
 									<Nav.Link
 										onClick={() =>
 											setTimeout(() => {
