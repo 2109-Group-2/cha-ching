@@ -1,3 +1,25 @@
+table,
+th,
+td {
+	border: 1px solid rgb(255, 255, 255);
+	width: 10%;
+	text-align: center;
+}
+
+.middle {
+	padding-top: 10rem;
+	padding-bottom: 10rem;
+	font-family: sans-serif;
+
+}
+.flex {
+	display: flex;
+	justify-content: space-evenly;
+}
+.modalEdit{
+font-family: monospace;
+}
+
 /* body {
   font-family: sans-serif;
 } */
@@ -745,7 +767,9 @@ vertical-align: baseline;
 
 .flex {
 	display: flex;
+	justify-content: space-around;
 }
+
 @keyframes customEnterOverlayAnimation {
 	0% {
 		transform: scale(0);

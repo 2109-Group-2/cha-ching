@@ -168,7 +168,6 @@ const NavieBar = ({ handleClick, auth }) => {
 		</>
 	);
 };
-
 /**
  * CONTAINER
  */
