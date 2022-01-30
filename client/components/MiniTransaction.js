@@ -16,15 +16,15 @@ export default function MiniTransaction(props) {
 			});
 		});
 	});
-	console.log('<--- Transactions in mini --->', transactionsData);
+	//console.log('<--- Transactions in mini --->', transactionsData);
 
 	const tenDays = moment().subtract(10, 'days').format('YYYY-MM-DD');
-	console.log('<--- Ten days ago --->', tenDays);
+//	console.log('<--- Ten days ago --->', tenDays);
 
 	const mostRecent = transactionsData.filter((data) => {
 		return moment(data.date).isSameOrAfter(tenDays);
 	});
-	console.log('<--- Most Recent --->', mostRecent);
+//	console.log('<--- Most Recent --->', mostRecent);
 	return (
 		<div>
 			<Card className="accountsComponent">

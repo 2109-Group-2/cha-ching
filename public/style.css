@@ -6,6 +6,24 @@ td {
 	text-align: center;
 }
 
+.miniSavingsCard{
+	background-color: #c8ad55;
+	color: white;
+}
+.savingsMini{
+	background-color: white;
+	
+}
+
+.savingsMiniImg{
+	height: 100px;
+	width: 100px;
+	display: block;
+	margin-left: auto;
+	margin-right: right;
+
+}
+
 .middle {
 	padding-top: 10rem;
 	padding-bottom: 10rem;
