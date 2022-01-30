@@ -84,7 +84,7 @@ router.get('/budgets/:id', async (req, res) => {
 		console.log('<---THIS IS USER--->', user, '<---THIS IS USER--->')
 		res.send(user.budgets)
 	} catch(error) {
-		console.log('GET Budgets route error')
+		console.log('GET Budgets route error', error)
 	}
 })
 
@@ -100,7 +100,7 @@ router.post('/budgets/add/:id', async (req, res) => {
 		});
 		res.json(newBudget);
 	} catch(error) {
-		console.log('POST Budgets route error')
+		console.log('POST Budgets route error', error)
 	}
 })
 

@@ -62,7 +62,7 @@ class Savings extends Component {
 		let goals = this.props.goal;
 		let totalAmount = 0;
 		goals.forEach((goal) => {
-			totalAmount += goal.currentBalance;
+			totalAmount += Number(goal.currentBalance);
 		});
 		let dollars = totalAmount;
 		let numOfGoals = goals.length;

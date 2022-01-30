@@ -10,7 +10,7 @@ class Planning extends Component {
   }
 
   componentDidMount() {
-    this.props.setBudgets(this.props.auth.user);
+    this.props.setBudgets(this.props.auth.user.id);
   }
 
   render() {

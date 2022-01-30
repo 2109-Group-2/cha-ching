@@ -2,13 +2,21 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getAccounts, setItem, getTransactions } from '../store/plaid';
+import { setCurrentUser } from '../store';
 import Accounts from './Accounts';
 import Link from './Link';
 import Transactions from './Transactions';
 import MiniTransaction from './MiniTransaction';
+import jwtDecode from 'jwt-decode';
+import { Carousel, Row, Col } from 'react-bootstrap';
+import MiniSavings from './MiniSavings';
+
+// const token = localStorage.getItem('token');
+// const decoded = jwtDecode(token);
 
 class Dashboard extends Component {
 	componentDidMount() {
+		// this.props.loadInitialData(decoded)
 		this.props.getAccounts(this.props.auth.user);
 		this.props.getTransactions(this.props.auth.user);
 	}
@@ -32,8 +40,17 @@ class Dashboard extends Component {
 			// User has accounts linked
 			dashboardContent = (
 				<>
-					<Accounts user={user} accounts={accounts} />
-					<MiniTransaction transactions={transactions} />
+					<Row xs={1} md={2} className="g-4">
+						<Col>
+							<Accounts user={user} accounts={accounts} />
+						</Col>
+						<Col>
+							<MiniSavings />
+						</Col>
+						<Col>
+							<MiniTransaction transactions={transactions} />
+						</Col>
+					</Row>
 				</>
 			);
 		} else {
@@ -49,7 +66,6 @@ class Dashboard extends Component {
 								To get started, link your first bank account below.
 							</p>
 						</div>
-
 						<div className="dashboard-wrapper">
 							<Link />
 						</div>
@@ -77,6 +93,7 @@ const mapDispatch = (dispatch) => ({
 	getTransactions: (userData) => dispatch(getTransactions(userData)),
 	getAccounts: (userData) => dispatch(getAccounts(userData)),
 	setItem: (userData) => dispatch(setItem(userData)),
+	loadInitialData: (token) => dispatch(setCurrentUser(token)),
 });
 
 export default connect(mapState, mapDispatch)(Dashboard);

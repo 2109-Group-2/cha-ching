@@ -6,6 +6,16 @@ td {
 	text-align: center;
 }
 
+
+.savingsMiniImg{
+	height: 100px;
+	width: 100px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+
+}
+
 .middle {
 	padding-top: 10rem;
 	padding-bottom: 10rem;
