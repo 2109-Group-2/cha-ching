@@ -1,7 +1,7 @@
 import React, { useEffect, Component } from 'react';
 import { PlaidLink } from 'react-plaid-link';
 import { connect } from 'react-redux';
-import { getAccounts, setLinkToken, setItem } from '../store/plaid';
+import { getAccounts, setLinkToken, setItem, getTransactions } from '../store/plaid';
 
 class Link extends Component {
 	constructor(props) {
@@ -16,9 +16,10 @@ class Link extends Component {
 	}
 
 	onEvent(eventName, metadata) {
-		console.log('onEvent metadata eentname', metadata.link_session_id);
+		console.log('onEvent ', eventName, metadata.link_session_id);
 		if (eventName === 'HANDOFF') {
 			this.props.getAccounts(this.props.auth.user);
+			this.props.getTransactions(this.props.plaid.accounts);
 		}
 	}
 
@@ -54,7 +55,6 @@ class Link extends Component {
 const mapState = (state) => {
 	return {
 		auth: state.auth,
-		orders: state.orders,
 		plaid: state.plaid,
 	};
 };
@@ -65,6 +65,7 @@ const mapDispatch = (dispatch) => {
 		setLinkToken: (userId) => dispatch(setLinkToken(userId)),
 		setItem: (token, userId, metadata) =>
 			dispatch(setItem(token, userId, metadata)),
+			getTransactions: (userData) => dispatch(getTransactions(userData)),
 	};
 };
 

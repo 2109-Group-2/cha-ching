@@ -173,10 +173,9 @@ router.get('/accounts/:id', async (req, res) => {
 router.post('/transactions', async (req, res) => {
 	const now = moment();
 	const today = now.format('YYYY-MM-DD');
-	console.log('<---HERE IT IS--->', req.body)
 
 	let transactions = [];
-	const accounts = req.body;
+	const accounts = req.body.accounts;
 
 	if (accounts) {
 		accounts.forEach(async function (account) {
