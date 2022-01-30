@@ -90,7 +90,7 @@ const NavieBar = ({ handleClick, auth }) => {
 										</NavDropdown.Item>
 										<NavDropdown.Item
 											as={Link}
-											to="/budget"
+											to="/planning"
 											onClick={() =>
 												setTimeout(() => {
 													setExpanded(false);
@@ -104,6 +104,22 @@ const NavieBar = ({ handleClick, auth }) => {
 											{'    '}Budget Planner
 										</NavDropdown.Item>
 									</NavDropdown>
+<Nav.Link
+										onClick={() =>
+											setTimeout(() => {
+												setExpanded(false);
+											}, 150)
+										}
+										as={Link}
+										to="/settings"
+									>
+										<img
+											src={'/icons/icons8-feedback-50-2.png'}
+											width={'20px'}
+										/>
+										{'    '}Change User Settings
+									</Nav.Link>
+
 									<Nav.Link
 										onClick={() =>
 											setTimeout(() => {
