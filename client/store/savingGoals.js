@@ -15,7 +15,7 @@ const setGoal = (goal) => {
 	};
 };
 const setSingleGoal = (goal) => {
-	console.log('third: ', goal);
+	//console.log('third: ', goal);
 	return {
 		type: SET_SINGLE_GOAL,
 		goal,

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, FormGroup, FormControl, Button, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { useContext, useState } from 'react';
-import { fetchSingleGoal, deleteGoal } from '../store/savingGoals';
+import { fetchGoals, fetchSingleGoal, deleteGoal } from '../store/savingGoals';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import moment from 'moment';
@@ -75,7 +75,9 @@ class EditGoal extends Component {
 	}
 
 	refreshPage() {
-		window.location.reload(false);
+		this.props.handleClose();
+		this.props.fetchGoals(this.props.auth.user.id);
+		//	window.location.reload(false);
 	}
 
 	render() {
@@ -133,23 +135,23 @@ class EditGoal extends Component {
 		console.log('this is image', '../public/images/' + image);
 		return (
 			<Modal
+				backdrop="static"
 				show={this.props.show}
 				size="lg"
 				onHide={() => this.props.handleClose()}
 				aria-labelledby="example-modal-sizes-title-lg"
+				id="modalEdit"
 			>
 				<Modal.Header closeButton onClick={() => this.refreshPage()}>
-					<Modal.Title id="example-modal-sizes-title-lg">
-						<img
-							src={
-								'..publicimagespiggy-bank-icon-piggy-bank-icon-round-11553435294hb8eufsqin.png'
-							}
-						/>
-						<h1>{title}</h1>
+					<Modal.Title id="example-modal-sizes-title-lg contained-modal-title-vcenter">
+						<div className="flex">
+							<img src={`/images/${image}`} height={'60px'} width={'60px'} />
+							<h1>{title}</h1>
+						</div>
 					</Modal.Title>
 				</Modal.Header>
 
-				<Modal.Body>
+				<Modal.Body id="contained-modal-title-vcenter">
 					<div id="left">
 						<h6>{category}</h6>
 						<hr />
@@ -276,6 +278,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
 	fetchGoal: (id) => dispatch(fetchSingleGoal(id)),
+	fetchGoals: (id) => dispatch(fetchGoals(id)),
 	deleteGoal: (userData) => dispatch(deleteGoal(userData, history)),
 });
 

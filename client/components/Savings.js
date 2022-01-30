@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import browserHistory from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -22,20 +21,29 @@ class Savings extends Component {
 	constructor() {
 		super();
 		this.state = {
-			show: false,
+			showEdit: false,
+			showAdd: false,
 			currentGoalId: '',
 		};
-		this.handleShow = this.handleShow.bind(this);
-		this.handleClose = this.handleClose.bind(this);
+		this.handleAddShow = this.handleAddShow.bind(this);
+		this.handleEditShow = this.handleEditShow.bind(this);
+		this.handleEditClose = this.handleEditClose.bind(this);
+		this.handleAddClose = this.handleAddClose.bind(this);
 		this.handleDelete = this.handleDelete.bind(this);
 	}
 
-	handleClose() {
-		this.setState({ show: false });
+	handleEditClose() {
+		this.setState({ showEdit: false });
+	}
+	handleAddClose() {
+		this.setState({ showAdd: false });
 	}
 
-	handleShow(id) {
-		this.setState({ show: true, currentGoalId: id });
+	handleEditShow(id) {
+		this.setState({ showEdit: true, currentGoalId: id });
+	}
+	handleAddShow() {
+		this.setState({ showAdd: true });
 	}
 	componentDidMount() {
 		this.props.fetchGoals(this.props.auth.user.id);
@@ -47,7 +55,6 @@ class Savings extends Component {
 			id,
 		};
 		this.props.deleteGoal(values);
-		browserHistory.push('/savings');
 	}
 
 	render() {
@@ -61,41 +68,53 @@ class Savings extends Component {
 		let numOfGoals = goals.length;
 		return (
 			<>
-      <div className='middle'>
+				<div className="transactionsComponent">
 					{numOfGoals <= 0 ? (
 						<>
 							<h2>You have not added any goals. Get started!</h2>
-							<button
-								onClick={() => {
-									this.handleShow();
-								}}
+							<OverlayTrigger
+								overlay={<Tooltip id={`tooltip-top`}>Add Goal</Tooltip>}
 							>
-								View Goal
-							</button>
-							{this.state.show && (
+								<button
+									onClick={() => {
+										this.handleAddShow();
+									}}
+									className="btn btn-succes"
+									data-toggle="modal"
+								>
+									<i className="material-icons">&#xe8ff;</i>
+								</button>
+							</OverlayTrigger>
+							{this.state.showAdd && (
 								<AddGoal
-									show={this.state.show}
-									handleClose={this.handleClose}
+									show={this.state.showAdd}
+									handleClose={this.handleAddClose}
 								/>
 							)}
 						</>
 					) : (
 						<div className="flex">
-							<h2 >
+							<h2>
 								Currently saving ${dollars.toLocaleString()} per month towards{' '}
 								{numOfGoals} goals
-							</h2>
-							<button
-								onClick={() => {
-									this.handleShow();
-								}}
+							</h2>{' '}
+							<OverlayTrigger
+								overlay={<Tooltip id={`tooltip-top`}>Add Goal</Tooltip>}
 							>
-								Add Goal
-							</button>
-							{this.state.show && (
+								<button
+									onClick={() => {
+										this.handleAddShow();
+									}}
+									className="btn btn-succes"
+									data-toggle="modal"
+								>
+									<i className="material-icons">&#xe146;</i>
+								</button>
+							</OverlayTrigger>
+							{this.state.showAdd && (
 								<AddGoal
-									show={this.state.show}
-									handleClose={this.handleClose}
+									show={this.state.showAdd}
+									handleClose={this.handleAddClose}
 								/>
 							)}
 						</div>
@@ -114,7 +133,11 @@ class Savings extends Component {
 							{goals.map((goal) => (
 								<tr key={goal._id}>
 									<td>
-										<img src={goal.image} height={'60px'} width={'60px'} />
+										<img
+											src={`/images/${goal.image}`}
+											height={'60px'}
+											width={'60px'}
+										/>
 									</td>
 									<td>{goal.title}</td>
 									<td>{goal.category}</td>
@@ -128,7 +151,7 @@ class Savings extends Component {
 										>
 											<button
 												onClick={() => {
-													this.handleShow(goal._id);
+													this.handleEditShow(goal._id);
 												}}
 												className="btn btn-succes"
 												data-toggle="modal"
@@ -136,12 +159,12 @@ class Savings extends Component {
 												<i className="material-icons">&#xe8ff;</i>
 											</button>
 										</OverlayTrigger>
-										{this.state.show && (
+										{this.state.showEdit && (
 											<EditGoal
 												id={this.state.currentGoalId}
 												userId={this.props.auth.user.id}
-												show={this.state.show}
-												handleClose={this.handleClose}
+												show={this.state.showEdit}
+												handleClose={this.handleEditClose}
 											/>
 										)}
 										<OverlayTrigger
@@ -160,8 +183,7 @@ class Savings extends Component {
 							))}
 						</tbody>
 					</table>
-					)
-          </div>
+				</div>
 			</>
 		);
 	}

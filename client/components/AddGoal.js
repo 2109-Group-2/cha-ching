@@ -17,9 +17,9 @@ class AddGoal extends Component {
 		this.state = {
 			title: '',
 			image: '',
-			category: '',
+			category: 'Other',
 			currentBalance: 0,
-			goalTarget: 0,
+			goalTarget: 1000,
 			// showForm: false,
 		};
 		this.handleChange = this.handleChange.bind(this);
@@ -53,7 +53,6 @@ class AddGoal extends Component {
 			...formData.entries(),
 		]);
 		this.props.addGoal({ ...this.state }, this.props.auth.user.id, formData);
-		this.props.fetchGoal(this.props.auth.user.id);
 		const newGoal = {
 			name: this.state.name,
 			image: this.state.image,
@@ -69,10 +68,12 @@ class AddGoal extends Component {
 			currentBalance: 0,
 			goalTarget: 1000,
 		});
+		this.refreshPage();
 	}
 
 	refreshPage() {
-		window.location.reload(false);
+		this.props.handleClose();
+		//window.location.reload(false);
 	}
 
 	handleSelect(event) {
@@ -174,8 +175,13 @@ class AddGoal extends Component {
 						</FormGroup>
 
 						<Modal.Footer>
-							<Button variant="success" type="submit"
-							onClick={()=>{this.refreshPage}}>
+							<Button
+								variant="success"
+								type="submit"
+								onClick={() => {
+									this.refreshPage;
+								}}
+							>
 								Add Goal
 							</Button>
 						</Modal.Footer>
