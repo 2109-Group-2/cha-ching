@@ -117,8 +117,7 @@ export const setBudgets = (user) => async (dispatch) => {
 // Add Budget
 export const addBudget = (userId, category, amount) => async (dispatch) => {
 	try {
-		const res = await axios.post('/api/plaid/budgets/add', {
-			userId,
+		const res = await axios.post(`/api/plaid/budgets/add/${userId}`, {
 			category,
 			amount,
 		});

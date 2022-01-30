@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getTransactions, deleteAccount } from '../store/plaid';
+import { getTransactions, getAccounts } from '../store/plaid';
 import { logout } from '../store';
 import TransactionsTable from './TransactionsTable';
 import SpendingPieChart from './SpendingPieChart';
 import SpendingBarGraph from './SpendingBarChart';
+import MostSpent from './MostSpent';
+import Subscriptions from './Subscriptions';
 import { Tabs, Tab } from 'react-bootstrap';
 import moment from 'moment';
 
@@ -19,9 +21,8 @@ class Transactions extends Component {
 	}
 
 	componentDidMount() {
-		const { accounts } = this.props.plaid;
-		this.props.getTransactions(accounts);
-		// this.setState({ transactionsByDate: this.props.plaid.transactions });
+		this.props.getAccounts(this.props.auth.user);
+		this.props.getTransactions(this.props.auth.user);
 	}
 
 	render() {
@@ -115,36 +116,36 @@ class Transactions extends Component {
 
 				<h2>Transactions Breakdown</h2>
 
-				{!transactions ? (
-					<></>
+				{!transactionsData.length > 0 ? (
+					<h4>You have not made any transactions</h4>
 				) : (
+					<>
 					<h4>
 						You have <b>{transactionsByDate.length}</b> transactions from your
 						<b> {accounts.length}</b> linked
 						{accounts.length > 1 ? ' accounts' : ' account'}
 					</h4>
-				)}
-				<div className="chartsAndTables">
+					<div className="chartsAndTables">
 					<SpendingBarGraph
 						transactionsByDate={transactionsByDate}
 						comparisonData={comparisonData}
 					/>
+					<MostSpent transactionsByDate={transactionsByDate} />
+					<Subscriptions transactionsData={transactionsData}/>
 					<SpendingPieChart transactionsByDate={transactionsByDate} />
-					<TransactionsTable
-						transactionsByDate={transactionsByDate}
-						transactionsLoading={transactionsLoading}
-					/>
+					<TransactionsTable transactionsByDate={transactionsByDate} />
 				</div>
+					</>
+					
+				)}
+				
 			</div>
 		);
 	}
 }
 
 Transactions.propTypes = {
-	logout: PropTypes.func.isRequired,
 	getTransactions: PropTypes.func.isRequired,
-	deleteAccount: PropTypes.func.isRequired,
-	accounts: PropTypes.array.isRequired,
 	plaid: PropTypes.object.isRequired,
 	user: PropTypes.object.isRequired,
 };
@@ -155,9 +156,8 @@ const mapState = (state) => ({
 });
 
 const mapDispatch = (dispatch) => ({
-	logout: (userData) => dispatch(logout(userData)),
 	getTransactions: (userData) => dispatch(getTransactions(userData)),
-	deleteAccount: (userData) => dispatch(deleteAccount(userData)),
+	getAccounts: (userData) => dispatch(getAccounts(userData)),
 });
 
 export default connect(mapState, mapDispatch)(Transactions);

@@ -13,6 +13,7 @@ import Feedback from './components/Feedback'
 import Savings from "./components/Savings";
 import AddGoal from "./components/AddGoal";
 import UserSettings from "./components/UserSettings";
+import Planning from "./components/Planning";
 
 /**
  * COMPONENT
@@ -35,6 +36,7 @@ class Routes extends Component {
           <Switch>
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/transactions" component={Transactions} />
+            <Route path="/planning" component={Planning} />
             <Route path="/savings" component={Savings} />
             <Route path="/addGoal" component={AddGoal} />
             <Route path="/settings" component={UserSettings} />

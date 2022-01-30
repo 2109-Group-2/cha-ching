@@ -98,17 +98,113 @@ form div {
 .transactionsTabs {
 	background-color: white;
 	color: #c8ad55;
+	border: 2px solid #c8ad55;
 }
 .transactionsTabs li.nav-item > button.nav-link:hover {
 	background-color: #c8ad558a;
+	border: 2px solid #c8ad55;
 }
 
 /* Active tab */
+.nav-link {
+	color: #327d41;
+}
+
+.nav-link:hover {
+	color: #327d41;
+}
+
 .transactionsTabs li.nav-item > button.nav-link.active,
 .transactionsTabs li.nav-item > button.nav-link.active:hover,
 .transactionsTabs li.nav-item > button.nav-link.active:focus {
 	background-color: #c8ad55;
 	color: white;
+	border: 2px solid #c8ad55;
+}
+
+.pieChart button.btn-primary {
+	color: #fff;
+	background-color: #c8ad55;
+	border-color: #c8ad5583;
+	padding: 20px;
+	outline: none;
+	background: #c8ad55;
+	border: 2px solid rgb(241, 241, 241);
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.pieChart button.btn-primary:hover {
+	color: #fff;
+	background-color: #c8ad55;
+	border-color: #c8ad5583;
+	padding: 20px;
+	outline: none;
+	background: #c8ad55;
+	border: 2px solid rgb(241, 241, 241);
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.pieChart button.btn-primary > a {
+	font-size: 16px;
+	color: black;
+}
+
+.modal-body button.btn-primary {
+	color: #fff;
+	background-color: #c8ad55;
+	border-color: #c8ad5583;
+	padding: 20px;
+	outline: none;
+	background: #c8ad55;
+	border: 2px solid rgb(241, 241, 241);
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.modal-body button.btn-primary:hover {
+	color: #fff;
+	background-color: #c8ad55;
+	border-color: #c8ad5583;
+	padding: 20px;
+	outline: none;
+	background: #c8ad55;
+	border: 2px solid rgb(241, 241, 241);
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.modal-body button.btn-primary > a {
+	font-size: 16px;
+	color: black;
+}
+
+.pieChart button.btn-danger {
+	color: #fff;
+	background-color: #dc3545;
+	/* margin-top: 8px; */
+}
+
+.pieChart button.btn-danger:hover {
+	color: #fff;
+	background-color: #dc35468e;
+}
+
+.pieChart button.btn-danger > a {
+	font-size: 16px;
+	color: black;
+}
+
+table {
+	text-align: center;
+}
+
+tr {
+	vertical-align: middle;
+}
+tr > button {
+	vertical-align: middle;
 }
 
 /* NavBar Component */
@@ -117,7 +213,7 @@ a {
 	color: #c8ad55;
 }
 
-.navbar {
+.navbar .container-fluid {
 	color: #c8ad55;
 	text-decoration: #c8ad55;
 	background-color: white;
@@ -131,6 +227,34 @@ a {
 	width: 100vw;
 	font-size: 8vw;
 }
+
+button.navbarToggle.navbar-toggler.collapsed {
+	position: absolute;
+	right: 3vw;
+}
+
+.navbar-light .navbar-brand {
+	font-size: 30px;
+	color: #c8ad55;
+	margin: 2px;
+}
+
+.offcanvas-end {
+	width: 230px;
+}
+
+.navbar-nav {
+	align-items: flex-start;
+}
+
+.navbar.guest  {
+	justify-content: start;
+	font-size: 30px;
+	color: #c8ad55;
+	margin: 2px;
+}
+
+/* Landing Component */
 
 .landing {
 	display: flex;
@@ -182,7 +306,7 @@ a {
 	text-align: center;
 	margin: 10px;
 	border-radius: 5px;
-	width: 24rem;
+	width: 40vw;
 	background-color: #c8ad55;
 	color: white;
 }
@@ -195,6 +319,178 @@ a {
 .accordion-body > p {
 	margin-bottom: 0vw;
 	color: black;
+}
+
+.budgets {
+	text-align: center;
+	margin: 10px;
+	border-radius: 5px;
+	/* width: 24rem; */
+	background-color: #c8ad55;
+	color: white;
+}
+
+.budget-graph {
+	margin: 0;
+	width: 300px;
+	height: 300px;
+}
+
+.budget-item {
+	text-align: center;
+	margin: 10px;
+	border-radius: 5px;
+	width: 24rem;
+	background-color: #c8ad55;
+	color: white;
+}
+
+/* MODAL */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.App {
+  width: 90%;
+  max-width: 700px;
+  margin: 2em auto;
+}
+p.lorem-text {
+  text-align: justify;
+}
+
+.modal-cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  transform: translateZ(0);
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-area {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 2.5em 1.5em 1.5em 1.5em;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media screen and (min-width: 500px) {
+  /* Center the Modal! */
+  .modal-area {
+    left: 50%;
+    top: 50%;
+    height: auto;
+    transform: translate(-50%, -50%);
+    max-width: 30em;
+    max-height: calc(100% - 1em);
+  }
+}
+
+._modal-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5em;
+  line-height: 1;
+  background: #f6f6f7;
+  border: 0;
+  box-shadow: 0;
+  cursor: pointer;
+}
+
+._modal-close-icon {
+  width: 25px;
+  height: 25px;
+  fill: transparent;
+  stroke: black;
+  stroke-linecap: round;
+  stroke-width: 2;
+}
+
+.modal-body {
+  padding-top: 0.25em;
+}
+._hide-visual {
+  border: 0 !important;
+  clip: rect(0 0 0 0) !important;
+  height: 1px !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  position: absolute !important;
+  width: 1px !important;
+  white-space: nowrap !important;
+}
+
+.scroll-lock {
+  overflow: hidden;
+  margin-right: 17px;
+}
+
+/* Dashboard Component */
+.dashComponent {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+/* Mini Transactions Component */
+button.btn-primary {
+	color: #fff;
+	background-color: rgb(255, 255, 255);
+	border-color: #0d6efd;
+	padding: 20px;
+	outline: none;
+	background: rgb(255, 255, 255);
+	border: 2px solid rgb(241, 241, 241);
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+button.btn-primary:hover {
+	color: #fff;
+	background-color: rgb(255, 255, 255);
+	border-color: #0d6efd;
+	padding: 20px;
+	outline: none;
+	background: rgb(255, 255, 255);
+	border: 2px solid rgb(241, 241, 241);
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+button.btn-primary > a {
+	font-size: 16px;
+	color: black;
+}
+
+.accountsComponent .table thead tr th {
+	color: #eeeeee;
+}
+
+.table tbody tr {
+	background: white;
 }
 
 @media screen and (max-width: 850px) {
@@ -473,6 +769,7 @@ vertical-align: baseline;
 	display: flex;
 	justify-content: space-around;
 }
+
 @keyframes customEnterOverlayAnimation {
 	0% {
 		transform: scale(0);
@@ -506,3 +803,4 @@ vertical-align: baseline;
 		transform: scale(0.2);
 	}
 }
+

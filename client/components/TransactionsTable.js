@@ -2,7 +2,7 @@ import React from 'react';
 import MaterialTable from 'material-table';
 
 export default function TransactionsTable(props) {
-	const { transactionsByDate, transactionsLoading } = props;
+	const { transactionsByDate } = props;
 	
 	const transactionsColumns = [
 		{ title: 'Account', field: 'account' },
@@ -14,7 +14,7 @@ export default function TransactionsTable(props) {
 
 	return (
 		<div className="transactionsTable">
-			{transactionsLoading ? (
+			{!transactionsByDate ? (
 				<p className="grey-text text-darken-1">Fetching transactions...</p>
 			) : (
 				<>

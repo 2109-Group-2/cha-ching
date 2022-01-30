@@ -8,21 +8,6 @@ import TransactionsTable from './TransactionsTable';
 import { Accordion, Card, Button } from 'react-bootstrap';
 
 class Accounts extends Component {
-	// componentDidMount() {
-	// 	const { accounts } = this.props;
-	// }
-
-	// Add account
-	// handleOnSuccess = (token, metadata) => {
-	// 	const { accounts } = this.props;
-	// 	const plaidData = {
-	// 		public_token: token,
-	// 		metadata: metadata,
-	// 		accounts: accounts,
-	// 	};
-	// 	this.props.setItem(plaidData);
-	// };
-
 	// Delete account
 	onDeleteClick = (id) => {
 		const { accounts } = this.props;
@@ -32,13 +17,6 @@ class Accounts extends Component {
 		};
 		this.props.deleteAccount(accountData);
 	};
-
-	// Logout
-	// onLogoutClick = (e) => {
-	// 	e.preventDefault();
-	// 	this.props.logout();
-	// };
-
 	render() {
 		const { user, accounts } = this.props;
 		const { transactions, transactionsLoading } = this.props.plaid;
@@ -105,15 +83,16 @@ class Accounts extends Component {
 							<Card.Title>
 								<h2>Accounts</h2>
 							</Card.Title>
-							<Card.Text>
+							<Card.Text >
 								<div className="linked-accounts">
-									<h6>Your Linked Accounts:</h6>
+									Your Linked Accounts:
 									<Accordion className="accountsAccordion">
 										<Accordion.Item eventKey="0">
 											<Accordion.Header as="p">Checkings</Accordion.Header>
 											<Accordion.Body>
 												{accounts.some(
-													(account) => account.accountSubtype === 'checking') ? (
+													(account) => account.accountSubtype === 'checking'
+												) ? (
 													<p>{checkingAccountItems}</p>
 												) : (
 													<Link />
@@ -124,7 +103,8 @@ class Accounts extends Component {
 											<Accordion.Header as="p">Credit</Accordion.Header>
 											<Accordion.Body>
 												{accounts.some(
-													(account) => account.accountSubtype === 'credit card') ? (
+													(account) => account.accountSubtype === 'credit card'
+												) ? (
 													<p>{creditAccountItems}</p>
 												) : (
 													<Link />
@@ -156,23 +136,19 @@ class Accounts extends Component {
 }
 
 Accounts.propTypes = {
-
-	logout: PropTypes.func.isRequired,
 	getTransactions: PropTypes.func.isRequired,
 	setItem: PropTypes.func.isRequired,
 	deleteAccount: PropTypes.func.isRequired,
 	accounts: PropTypes.array.isRequired,
 	plaid: PropTypes.object.isRequired,
 	user: PropTypes.object.isRequired,
-
 };
 
 const mapState = (state) => ({
-  plaid: state.plaid,
+	plaid: state.plaid,
 });
 
 const mapDispatch = (dispatch) => ({
-	logout: (userData) => dispatch(logout(userData)),
 	setItem: (userData) => dispatch(setItem(userData)),
 	deleteAccount: (userData) => dispatch(deleteAccount(userData)),
 });

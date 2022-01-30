@@ -5,6 +5,8 @@ const bcrypt = require("bcrypt");
 const axios = require("axios");
 const Accounts = require("./Account");
 const Saving = require("./Saving");
+const Budgets = require("./Budget");
+const Subscription = require("./Subscription");
 
 const SALT_ROUNDS = 5;
 
@@ -35,6 +37,9 @@ const UserSchema = new Schema({
   },
   accounts: [Accounts],
   savings: [Saving],
+  budgets: [Budgets],
+  subscriptions:[Subscription],
+  
   date: {
     type: Date,
     default: Date.now,
