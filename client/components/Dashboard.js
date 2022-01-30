@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getAccounts, setItem } from '../store/plaid';
+import { getAccounts, setItem, getTransactions } from '../store/plaid';
 import Accounts from './Accounts';
 import Link from './Link';
 import Transactions from './Transactions';
+import MiniTransaction from './MiniTransaction';
 
 class Dashboard extends Component {
 	componentDidMount() {
 		this.props.getAccounts(this.props.auth.user);
+		this.props.getTransactions(this.props.auth.user);
 	}
 
 	// Add account
@@ -22,9 +24,8 @@ class Dashboard extends Component {
 
 	render() {
 		const { user } = this.props.auth;
-		const { accounts, accountsLoading } = this.props.plaid;
+		const { accounts, transactions } = this.props.plaid;
 		let dashboardContent;
-
 		if (accounts === null) {
 			// this.props.getAccounts()
 		} else if (accounts.length > 0) {
@@ -32,7 +33,7 @@ class Dashboard extends Component {
 			dashboardContent = (
 				<>
 					<Accounts user={user} accounts={accounts} />
-					<Transactions />
+					<MiniTransaction transactions={transactions} />
 				</>
 			);
 		} else {
@@ -73,6 +74,7 @@ const mapState = (state) => ({
 });
 
 const mapDispatch = (dispatch) => ({
+	getTransactions: (userData) => dispatch(getTransactions(userData)),
 	getAccounts: (userData) => dispatch(getAccounts(userData)),
 	setItem: (userData) => dispatch(setItem(userData)),
 });
