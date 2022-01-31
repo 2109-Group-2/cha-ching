@@ -115,19 +115,20 @@ export const setBudgets = (user) => async (dispatch) => {
 };
 
 // Add Budget
-export const addBudget = (userId, category, amount) => async (dispatch) => {
+export const addBudget = (userId, category, amount, startDate, endDate) => async (dispatch) => {
 	try {
 		const res = await axios.post(`/api/plaid/budgets/add/${userId}`, {
 			category,
 			amount,
+			startDate,
+			endDate
 		});
 		dispatch({
 			type: ADD_BUDGET,
 			payload: res.data,
 		});
 	} catch (error) {
-		console.log('Error in the addBudget thunk');
-		console.log(error);
+		console.log('Error in the addBudget thunk', error);
 	}
 };
 

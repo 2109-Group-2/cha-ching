@@ -814,3 +814,382 @@ vertical-align: baseline;
 	}
 }
 
+
+
+
+
+
+
+/* / ADDIS / */
+
+/* PLanning Container */
+/* .planning-container {
+} */
+
+.budgets-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	/* flex-wrap: wrap; */
+	align-items: center;
+}
+
+.budgets-card-item {
+
+}
+
+.top-of-budgets {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.bottom-of-budgets {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	flex-wrap: wrap;
+	/* background-color: #fff; */
+	border-radius: 5px;
+	/* border: 5px solid #fff; */
+}
+
+/*  */
+/* MiniBudget Component */
+/*  */
+.mini-budgets-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	margin: 1px;
+	border-radius: 5px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	font-size: 4vw;
+	width: 45vw;
+}
+
+.mini-budgets-tabs-container {
+	display:flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	background-color: white;
+	border-radius: 5px;
+	border-bottom-right-radius: 0;
+}
+
+.mini-budgets-tabs-container {
+	/* flex-basis: auto; */
+	/* height: 100%; */
+	/* width: 100%; */
+	/* background-color: white; */
+	/* color: #c8ad55; */
+}
+
+.mini-budgets-tabs-container li.nav-item > button.nav-link:hover {
+	background-color: #c8ad558a;
+}
+
+.mini-budgets-tabs-container li.nav-item > button.nav-link.active,
+.mini-budgets-tabs-container li.nav-item > button.nav-link.active:hover,
+.mini-budgets-tabs-container li.nav-item > button.nav-link.active:focus {
+	background-color: #c8ad55;
+	color: white;
+}
+
+.mini-budgets-card-item {
+	text-align: left;
+	/* margin: 10px; */
+	border-radius: 5px;
+	/* width: 40vw; */
+	background-color: #c8ad55;
+	color: black;
+}
+
+.mini-budgets-card-body {
+	display: flex;
+	flex-direction: column;
+	padding: 0;
+	margin: 0;
+	border: red;
+}
+
+.graph-title {
+	text-align: center;
+}
+
+.spent {
+	color: #c32530;
+}
+
+.remaining {
+	color: #327d41;
+}
+/*  */
+/* MiniBudget Component */
+/*  */
+
+canvas {
+	height: 300px;
+	width: 300px;
+	/* width: 42.5vw; */
+}
+.budget-graph {
+	/* width: 300px;
+	height: 300px;
+	background-color: white;
+	border-radius: 5px;
+	border: 2px solid #7577741c;
+	margin: 5px;
+	padding: 10px;
+	width: 42.5vw;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	color: black; */
+}
+
+.budget-item {
+	text-align: center;
+	margin: 6.5px;
+	border-radius: 5px;
+	width: 24rem;
+	background-color: #c8ad55;
+	color: white;
+}
+
+/*  */
+/* Modal Component */
+/*  */
+.modal-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 20vw;
+	height: 6vw;
+	background-color: #c8ad55;
+	margin: 10px;
+	border-radius: 5px;
+}
+
+.modal-popup {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	border-radius: 5px;
+	background-color: #c8ad55;
+}
+
+.modal-tabs {
+	display: flex;
+	justify-content: flex-start;
+	background-color: white;
+	/* align-content: stretch; */
+}
+
+.modal-tabs li.nav-item > button.nav-link:hover {
+	background-color: #c8ad558a;
+}
+
+.modal-tabs li.nav-item > button.nav-link.active,
+.modal-tabs li.nav-item > button.nav-link.active:hover,
+.modal-tabs li.nav-item > button.nav-link.active:focus {
+	background-color: #c8ad55;
+	color: white;
+}
+
+/* .budgets-from {
+	flex-basis: 50%;
+	flex-grow: 1;
+} */
+
+.budgets-from-tab {
+
+	width: 189px;
+}
+
+.modal-form {
+	/* align-self: center; */
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal-form h3 {
+
+}
+
+.budget-submit-button {
+	/* display: inline-block; */
+}
+/*  */
+/* Modal Component */
+/*  */
+
+.horizontal-divider {
+	/* width: 15vw;
+	height: 35px; */
+	/* background-color: black; */
+}
+
+.trigger {
+	align-self: flex-end;
+	box-shadow: 0 0 30px #fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* MODAL */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.App {
+  width: 90%;
+  max-width: 700px;
+  margin: 2em auto;
+}
+p.lorem-text {
+  text-align: justify;
+}
+
+.modal-cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  transform: translateZ(0);
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-area {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+	border-radius: 5px;
+  padding: 2.5em 1.5em 1.5em 1.5em;
+	padding: 0;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media screen and (min-width: 500px) {
+  /* Center the Modal! */
+  .modal-area {
+    left: 50%;
+    top: 50%;
+    height: auto;
+    transform: translate(-50%, -50%);
+    max-width: 30em;
+    max-height: calc(100% - 1em);
+  }
+}
+
+._modal-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5em;
+  line-height: 1;
+  background: #f6f6f7;
+  border: 0;
+  box-shadow: 0;
+  cursor: pointer;
+}
+
+._modal-close-icon {
+  width: 25px;
+  height: 25px;
+  fill: transparent;
+  stroke: black;
+  stroke-linecap: round;
+  stroke-width: 2;
+}
+
+.modal-body {
+  /* padding-top: 0.25em; */
+	padding: 0;
+}
+._hide-visual {
+  border: 0 !important;
+  clip: rect(0 0 0 0) !important;
+  height: 1px !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  position: absolute !important;
+  width: 1px !important;
+  white-space: nowrap !important;
+}
+
+.scroll-lock {
+  overflow: hidden;
+  margin-right: 17px;
+}
+/* MODAL */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* / ADDIS / */

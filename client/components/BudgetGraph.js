@@ -12,6 +12,7 @@ class BudgetGraph extends Component {
   componentDidMount() {
 		const ctx = this.chartRef.current.getContext("2d");
 
+		console.log(this.props.totalSpent, this.props.amountRemaining)
 		new ChartJS(ctx, {
 			type: "doughnut",
 			data: {
@@ -21,11 +22,12 @@ class BudgetGraph extends Component {
 					label: "Spent",
 					borderColor: '#327d41',
 					backgroundColor: [
-						'#f9c74f',
-						'#c32530'
+						'#c32530',
+						'#f9c74f'
+
 					],
-					hoverBorderWidth: 2,
-					fill: false
+					// hoverBorderWidth: 2,
+					// fill: false
 				}
 				]
 			},

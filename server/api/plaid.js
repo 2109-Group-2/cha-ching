@@ -93,7 +93,6 @@ router.post('/budgets/add/:id', async (req, res) => {
 		// console.log('<---IN THE ROUTE AND HERES THE ID: ', req.body.userId)
 		const user = await User.findById(req.params.id);
 		const newBudget = req.body
-		console.log('<---NEW BUDGET--->', newBudget)
 		user.budgets.push(newBudget);
 		user.save(function (err) {
 			if (!err) console.log('Successfully added account!');

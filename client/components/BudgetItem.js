@@ -27,6 +27,11 @@ const BudgetItem = (props) => {
     amountRemaining = amount > 0 ? amount : 0;
   }
 
+  console.log(totalSpent)
+  console.log(amountRemaining)
+  console.log('Item', transactions)
+
+
   return (
       <Card className="budget-item">
         <Card.Body>
@@ -37,8 +42,8 @@ const BudgetItem = (props) => {
             <h6>Amount: {budget.amount}</h6>
             <h6>Date: {moment(budget.startDate).format('M/d/YYYY')} - {moment(budget.endDate).format('M/d/YYYY')}</h6>
             <BudgetGraph budget={budget} totalSpent={totalSpent} amountRemaining={amountRemaining} />
-            <h6 className="spent">Spent: {totalSpent} </h6>
-            <h6 className="remaining">Remaining: {amountRemaining > 0 ? amountRemaining : 'Over Budget!'} </h6>
+            <h6 className="spent">Spent: {(Math.round(totalSpent)).toLocaleString()} </h6>
+            <h6 className="remaining">Remaining: {amountRemaining > 0 ? (Math.round(amountRemaining)).toLocaleString() : 'Over Budget!'} </h6>
           </Card.Text>
         </Card.Body>
       </Card>

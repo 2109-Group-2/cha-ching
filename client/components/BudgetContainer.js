@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import { connect } from "react-redux";
 import moment from 'moment';
-import { setBudgets } from '../store/plaid'
+import { setBudgets, getTransactions } from '../store/plaid'
 import BudgetItem from "./BudgetItem";
 import ModalContainer from "./ModalContainer";
 import MiniBudgets from "./MiniBudgets";
@@ -13,6 +13,7 @@ class BudgetContainer extends Component {
 
   componentDidMount() {
     this.props.setBudgets(this.props.auth.user);
+    this.props.getTransactions(this.props.auth.user);
   }
 
 
@@ -20,7 +21,6 @@ class BudgetContainer extends Component {
   render() {
     const { user } = this.props.auth;
     let  { budgets, transactions } = this.props.plaid;
-
     let transactionsData = [];
 
     transactions.forEach(function (account) {
@@ -37,10 +37,10 @@ class BudgetContainer extends Component {
     });
 
 
+
     const today = moment().format('YYYY-MM-DD');
     const isActive = (end) => moment(today).isBefore(end);
     budgets = budgets.filter(budget => isActive(budget.endDate));
-
 
 
     return (
@@ -55,7 +55,7 @@ class BudgetContainer extends Component {
               {budgets.map(budget => {
                 return (
                   <>
-                    <BudgetItem budget={budget} transactions={transactions} />
+                    <BudgetItem budget={budget} transactions={transactionsData} />
                   </>
                 )
               })}
@@ -78,7 +78,8 @@ const mapState = (state) => ({
 });
 
 const mapDispatch = (dispatch) => ({
-  setBudgets: (user) => dispatch(setBudgets(user))
+  setBudgets: (user) => dispatch(setBudgets(user)),
+  getTransactions: (userData) => dispatch(getTransactions(userData)),
 })
 
 export default connect(mapState, mapDispatch)(BudgetContainer);
