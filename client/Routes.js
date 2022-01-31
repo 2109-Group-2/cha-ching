@@ -13,7 +13,8 @@ import Feedback from './components/Feedback'
 import Savings from "./components/Savings";
 import AddGoal from "./components/AddGoal";
 import UserSettings from "./components/UserSettings";
-import Planning from "./components/Planning";
+// import Planning from "./components/Planning";
+import BudgetContainer from './components/BudgetContainer';
 
 /**
  * COMPONENT
@@ -34,9 +35,10 @@ class Routes extends Component {
       <div className="routes">
         {auth.isAuthenticated ? (
           <Switch>
+            <Route path="/" exact component={Dashboard} />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/transactions" component={Transactions} />
-            <Route path="/planning" component={Planning} />
+            <Route path="/budgets" component={BudgetContainer} />
             <Route path="/savings" component={Savings} />
             <Route path="/addGoal" component={AddGoal} />
             <Route path="/settings" component={UserSettings} />
