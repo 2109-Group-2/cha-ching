@@ -103,7 +103,7 @@ const NavieBar = ({ handleClick, auth }) => {
 										</NavDropdown.Item>
 										<NavDropdown.Item
 											as={Link}
-											to="/planning"
+											to="/budgets"
 											onClick={() =>
 												setTimeout(() => {
 													setExpanded(false);

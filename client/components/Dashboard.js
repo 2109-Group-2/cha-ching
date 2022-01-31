@@ -10,6 +10,7 @@ import MiniTransaction from './MiniTransaction';
 import jwtDecode from 'jwt-decode';
 import { Carousel, Row, Col } from 'react-bootstrap';
 import MiniSavings from './MiniSavings2';
+import MiniBudgets from './MiniBudgets';
 
 
 class Dashboard extends Component {
@@ -30,6 +31,22 @@ class Dashboard extends Component {
 	render() {
 		const { user } = this.props.auth;
 		const { accounts, transactions } = this.props.plaid;
+
+		let transactionsData = [];
+
+		transactions.forEach(function (account) {
+      account.transactions.forEach(function (listByAccount) {
+        transactionsData.push({
+          transactionId: listByAccount.transaction_id,
+          account: account.accountName,
+          date: listByAccount.date,
+          category: listByAccount.category[0],
+          name: listByAccount.name,
+          amount: listByAccount.amount,
+        });
+      });
+    });
+
 		let dashboardContent;
 		if (accounts === null) {
 			// this.props.getAccounts()
@@ -46,6 +63,9 @@ class Dashboard extends Component {
 						</Col>
 						<Col>
 							<MiniTransaction transactions={transactions} />
+						</Col>
+						<Col>
+							<MiniBudgets transactions={transactionsData} />
 						</Col>
 					</Row>
 				</>
