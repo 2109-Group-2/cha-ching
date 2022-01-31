@@ -12,7 +12,6 @@ import { Carousel, Row, Col } from 'react-bootstrap';
 import MiniSavings from './MiniSavings2';
 import MiniBudgets from './MiniBudgets';
 
-
 class Dashboard extends Component {
 	componentDidMount() {
 		this.props.getAccounts(this.props.auth.user);
@@ -34,18 +33,20 @@ class Dashboard extends Component {
 
 		let transactionsData = [];
 
-		transactions.forEach(function (account) {
-      account.transactions.forEach(function (listByAccount) {
-        transactionsData.push({
-          transactionId: listByAccount.transaction_id,
-          account: account.accountName,
-          date: listByAccount.date,
-          category: listByAccount.category[0],
-          name: listByAccount.name,
-          amount: listByAccount.amount,
-        });
-      });
-    });
+		if (transactions.length > 0) {
+			transactions.forEach(function (account) {
+				account.transactions.forEach(function (listByAccount) {
+					transactionsData.push({
+						transactionId: listByAccount.transaction_id,
+						account: account.accountName,
+						date: listByAccount.date,
+						category: listByAccount.category[0],
+						name: listByAccount.name,
+						amount: listByAccount.amount,
+					});
+				});
+			});
+		}
 
 		let dashboardContent;
 		if (accounts === null) {
