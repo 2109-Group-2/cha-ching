@@ -9,7 +9,7 @@ import Transactions from './Transactions';
 import MiniTransaction from './MiniTransaction';
 import jwtDecode from 'jwt-decode';
 import { Carousel, Row, Col } from 'react-bootstrap';
-import MiniSavings from './MiniSavings';
+import MiniSavings from './MiniSavings2';
 
 
 class Dashboard extends Component {
