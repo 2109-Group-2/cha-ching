@@ -9,14 +9,11 @@ import Transactions from './Transactions';
 import MiniTransaction from './MiniTransaction';
 import jwtDecode from 'jwt-decode';
 import { Carousel, Row, Col } from 'react-bootstrap';
-import MiniSavings from './MiniSavings';
+import MiniSavings from './MiniSavings2';
 
-// const token = localStorage.getItem('token');
-// const decoded = jwtDecode(token);
 
 class Dashboard extends Component {
 	componentDidMount() {
-		// this.props.loadInitialData(decoded)
 		this.props.getAccounts(this.props.auth.user);
 		this.props.getTransactions(this.props.auth.user);
 	}
