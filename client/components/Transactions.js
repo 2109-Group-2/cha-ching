@@ -30,17 +30,20 @@ class Transactions extends Component {
 		const { transactionsByDate, comparisonData } = this.state;
 		let transactionsData = [];
 
-		transactions.forEach(function (account) {
-			account.transactions.forEach(function (transaction) {
-				transactionsData.push({
-					account: account.accountName,
-					date: transaction.date,
-					category: transaction.category[0],
-					name: transaction.name,
-					amount: transaction.amount,
+		if (transactions.length > 0) {
+			transactions.forEach(function (account) {
+				account.transactions.forEach(function (listByAccount) {
+					transactionsData.push({
+						transactionId: listByAccount.transaction_id,
+						account: account.accountName,
+						date: listByAccount.date,
+						category: listByAccount.category[0],
+						name: listByAccount.name,
+						amount: listByAccount.amount,
+					});
 				});
 			});
-		});
+		}
 
 		const today = moment().format('YYYY-MM-DD');
 		const monthAgo = moment().subtract(1, 'months').format('YYYY-MM-DD');
