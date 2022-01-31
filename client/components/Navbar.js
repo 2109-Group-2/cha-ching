@@ -54,7 +54,7 @@ const NavieBar = ({ handleClick, auth }) => {
 										as={Link}
 										to="/settings"
 									>
-										<img src={image} width={'30px'} />
+										<img src={'/images/9c5e06008ffc81e33fb7d0b0cf28f552.png'} width={'30px'} />
 										{auth.user.name}
 									</Nav.Link>
 									<Nav.Link

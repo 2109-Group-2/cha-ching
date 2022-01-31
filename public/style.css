@@ -190,6 +190,10 @@ form div {
 	color: black;
 }
 
+.modal-footer > button.btn.btn-primary {
+	background-color: #c8ad55;
+}
+
 .pieChart button.btn-danger {
 	color: #fff;
 	background-color: #dc3545;
