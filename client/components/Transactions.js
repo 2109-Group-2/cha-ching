@@ -29,20 +29,21 @@ class Transactions extends Component {
 		const { transactions, transactionsLoading, accounts } = this.props.plaid;
 		const { transactionsByDate, comparisonData } = this.state;
 		let transactionsData = [];
-
-		if (transactions.length > 0) {
-			transactions.forEach(function (account) {
-				account.transactions.forEach(function (listByAccount) {
-					transactionsData.push({
-						transactionId: listByAccount.transaction_id,
-						account: account.accountName,
-						date: listByAccount.date,
-						category: listByAccount.category[0],
-						name: listByAccount.name,
-						amount: listByAccount.amount,
+		if (transactions) {
+			if (transactions.length > 0) {
+				transactions.forEach(function (account) {
+					account.transactions.forEach(function (listByAccount) {
+						transactionsData.push({
+							transactionId: listByAccount.transaction_id,
+							account: account.accountName,
+							date: listByAccount.date,
+							category: listByAccount.category[0],
+							name: listByAccount.name,
+							amount: listByAccount.amount,
+						});
 					});
 				});
-			});
+			}
 		}
 
 		const today = moment().format('YYYY-MM-DD');
@@ -123,25 +124,23 @@ class Transactions extends Component {
 					<h4>You have not made any transactions</h4>
 				) : (
 					<>
-					<h4>
-						You have <b>{transactionsByDate.length}</b> transactions from your
-						<b> {accounts.length}</b> linked
-						{accounts.length > 1 ? ' accounts' : ' account'}
-					</h4>
-					<div className="chartsAndTables">
-					<SpendingBarGraph
-						transactionsByDate={transactionsByDate}
-						comparisonData={comparisonData}
-					/>
-					<MostSpent transactionsByDate={transactionsByDate} />
-					<Subscriptions transactionsData={transactionsData}/>
-					<SpendingPieChart transactionsByDate={transactionsByDate} />
-					<TransactionsTable transactionsByDate={transactionsByDate} />
-				</div>
+						<h4>
+							You have <b>{transactionsByDate.length}</b> transactions from your
+							<b> {accounts.length}</b> linked
+							{accounts.length > 1 ? ' accounts' : ' account'}
+						</h4>
+						<div className="chartsAndTables">
+							<SpendingBarGraph
+								transactionsByDate={transactionsByDate}
+								comparisonData={comparisonData}
+							/>
+							<MostSpent transactionsByDate={transactionsByDate} />
+							<Subscriptions transactionsData={transactionsData} />
+							<SpendingPieChart transactionsByDate={transactionsByDate} />
+							<TransactionsTable transactionsByDate={transactionsByDate} />
+						</div>
 					</>
-					
 				)}
-				
 			</div>
 		);
 	}
