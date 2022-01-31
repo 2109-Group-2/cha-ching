@@ -5,6 +5,8 @@ import { getAccounts, setItem } from '../store/plaid';
 import Accounts from './Accounts';
 import Link from './Link';
 import Transactions from './Transactions';
+import moment from 'moment';
+import MiniBudgets from './MiniBudgets';
 
 class Dashboard extends Component {
 	componentDidMount() {
@@ -33,6 +35,7 @@ class Dashboard extends Component {
 				<>
 					<Accounts user={user} accounts={accounts} />
 					<Transactions />
+					<MiniBudgets />
 				</>
 			);
 		} else {
